@@ -1,0 +1,12 @@
+<div class="phx-hero">
+  <h2>SEMAT Essence Kernel</h2>
+  <div id="mount"></div>
+  <table>
+    <%= for alpha <- @alphas do %>
+      <tr>
+        <td><strong><%= alpha.name %></strong></td>
+        <td><%= alpha.description %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
