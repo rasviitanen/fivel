@@ -1,0 +1,1 @@
+const api_addr = "localhost:4000/api/"
