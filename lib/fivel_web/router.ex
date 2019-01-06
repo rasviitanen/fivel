@@ -13,6 +13,10 @@ defmodule FivelWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug Fivel.Pipeline
+  end
+
   scope "/", FivelWeb do
     pipe_through :browser
 
@@ -24,8 +28,15 @@ defmodule FivelWeb.Router do
 
   scope "/api", FivelWeb do
     pipe_through :api
+    post "/sessions", SessionController, :create
+    resources "/users", UserController, only: [:create]
+
+    pipe_through :auth
 
     resources "/alphas", AlphaController, except: [:new, :edit]
     resources "/states", StateController, except: [:new, :edit]
+
+    delete "/sessions", SessionController, :delete
+    post "/sessions/refresh", SessionController, :refresh
   end
 end

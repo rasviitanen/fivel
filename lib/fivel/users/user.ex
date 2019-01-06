@@ -1,21 +1,22 @@
 defmodule Fivel.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
-
+  import Ecto.Query
 
   schema "users" do
     field :email, :string
     field :password_hash, :string
     field :username, :string
-
+    field :password, :string, virtual: true
+    
     timestamps()
   end
 
   @doc false
-  def changeset(user, attrs) do
+  def changeset(user, attrs  \\ %{}) do
     user
-    |> cast(attrs, [:username, :email, :password_hash])
-    |> validate_required([:username, :email, :password_hash])
+    |> cast(attrs, [:username, :email])
+    |> validate_required([:username, :email])
     |> unique_constraint(:username)
     |> unique_constraint(:email)
   end

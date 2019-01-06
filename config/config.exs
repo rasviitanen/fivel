@@ -25,6 +25,10 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+config :fivel, Fivel.Guardian,
+  secret_key: "4oFcbU/uBL6SlPUQA6GiB9ZYyrW7mdgPqor4/mLM6P4PblCO8zVSrKNTGz3Dh0ae",
+  issuer: "fivel"
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
