@@ -35,9 +35,9 @@ defmodule FivelWeb.SessionController do
     def refresh(conn, _params) do
       user = Guardian.Plug.current_resource(conn)
       jwt = Guardian.Plug.current_token(conn)
-  
+
       case Guardian.refresh(jwt, ttl: {30, :days}) do
-        {:ok, new_jwt, _new_claims} ->
+        {:ok, _, {new_jwt, _new_claims}} ->
           conn
           |> put_status(:ok)
           |> render("show.json", user: user, jwt: new_jwt)
