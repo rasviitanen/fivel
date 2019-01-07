@@ -1,9 +1,26 @@
 import { reset } from 'redux-form';
+import { Socket } from 'phoenix';
 import api from '../api';
+import { fetchUserRooms } from './rooms';
+
+const WEBSOCKET_URL = 'ws://localhost:4000'
+
+// new function
+function connectToSocket(dispatch) {
+  const token = JSON.parse(localStorage.getItem('token'));
+  const socket = new Socket(`${WEBSOCKET_URL}/socket`, {
+    params: { token },
+    logger: (kind, msg, data) => { console.log("Socket Logger:" + `${kind}: ${msg}`, data); }
+  });
+  socket.connect();
+  dispatch({ type: 'SOCKET_CONNECTED', socket });
+}
 
 function setCurrentUser(dispatch, response) {
   localStorage.setItem('token', JSON.stringify(response.meta.token));
   dispatch({ type: 'AUTHENTICATION_SUCCESS', response });
+  dispatch(fetchUserRooms(response.data.id));
+  connectToSocket(dispatch);
 }
 
 export function login(data, router) {

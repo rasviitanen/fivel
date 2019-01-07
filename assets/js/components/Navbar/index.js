@@ -1,15 +1,25 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { css, StyleSheet } from 'aphrodite';
+import { logout } from '../../actions/session';
+
+type Props = {
+  logout: () => void,
+  currentUser: Object,
+  isAuthenticated: boolean,
+}
 
 const styles = StyleSheet.create({
   navbar: {
     display: 'flex',
     alignItems: 'center',
     padding: '0 1rem',
-    height: '70px',
+    height: '50px',
     background: '#fff',
+    justifyContent: 'space-between',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
   },
 
@@ -26,9 +36,42 @@ const styles = StyleSheet.create({
   },
 });
 
-const Navbar = () =>
-  <nav className={css(styles.navbar)}>
-    <Link to="/" className={css(styles.link)}>Sling</Link>
-  </nav>;
+class NavBar extends Component {
+  static contextTypes = {
+    router: PropTypes.object,
+  }
 
-export default Navbar;
+  props: Props
+
+  handleLogout = () => this.props.logout(this.context.router);
+
+  render() {
+    const { currentUser, isAuthenticated } = this.props;
+
+      return (
+        <div className={css(styles.navbar)}>
+          <nav>
+            <Link to="/" className={css(styles.link)}>Fivel Essence</Link>
+          </nav>
+
+          {isAuthenticated &&
+            <nav>
+              <span style={{ marginRight: "15px" }}>{currentUser.username}</span>
+              <div type="button" onClick={this.handleLogout}
+              className="btn btn-outline-danger btn-sm">
+                <i className="fa fa-sign-out"></i> Sign Out
+              </div>
+            </nav>
+          }
+        </div>
+      );
+  }
+}
+
+export default connect(
+  state => ({
+    isAuthenticated: state.session.isAuthenticated,
+    currentUser: state.session.currentUser,
+  }),
+  { logout }
+)(NavBar);

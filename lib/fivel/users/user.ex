@@ -9,6 +9,8 @@ defmodule Fivel.Users.User do
     field :username, :string
     field :password, :string, virtual: true
     
+    many_to_many :rooms, Fivel.Rooms.Room, join_through: "user_rooms"
+
     timestamps()
   end
 

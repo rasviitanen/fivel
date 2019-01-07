@@ -32,7 +32,9 @@ class LoginForm extends Component {
         className={`card ${css(styles.card)}`}
         onSubmit={handleSubmit(this.handleSubmit)}
       >
-        <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Login to Sling</h3>
+        <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>
+          <i className="fa fa-sign-in"></i> Fivel Essence
+        </h3>
         <Field name="email" type="text" component={Input} placeholder="Email" />
         <Field name="password" type="password" component={Input} placeholder="Password" />
         <button
@@ -40,7 +42,7 @@ class LoginForm extends Component {
           disabled={submitting}
           className="btn btn-block btn-primary"
         >
-          {submitting ? 'Logging in...' : 'Login'}
+          {submitting ? 'Signing in...' : 'Sign In'}
         </button>
         <hr style={{ margin: '2rem 0' }} />
         <Link to="/signup" className="btn btn-block btn-secondary">
