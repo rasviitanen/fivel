@@ -1,11 +1,9 @@
 defmodule FivelWeb.UserSocket do
   use Phoenix.Socket
-
-  alias Fivel.Guardian
+  
   ## Channels
   # channel "room:*", FivelWeb.RoomChannel
 
-  channel "users:*", FivelWeb.UserChannel
   channel "rooms:*", FivelWeb.BoardChannel
 
   # Socket params are passed from the client and can
@@ -20,17 +18,16 @@ defmodule FivelWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
 
-  def connect(%{"token" => token}, socket) do
-    case Guardian.decode_and_verify(token) do
-      {:ok, claims} ->
-        case Guardian.resource_from_claims(claims["sub"]) do
-          {:ok, user} ->
-            {:ok, assign(socket, :current_user, user)}
-          {:error, _reason} ->
-            :error
-        end
-      {:error, _reason} ->
-        :error
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case Guardian.Phoenix.Socket.authenticate(socket, Fivel.Guardian, token) do
+      {:ok, authed_socket} ->
+        {:ok, authed_socket}
+
+        user = Guardian.Phoenix.Socket.current_resource(authed_socket)
+        {:ok, assign(authed_socket, :current_user, user)}
+
+      
+      {:error, _} -> :error
     end
   end
 
@@ -46,5 +43,5 @@ defmodule FivelWeb.UserSocket do
   #     FivelWeb.Endpoint.broadcast("user_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
-  def id(socket), do: "users_socket:#{socket.assigns.current_user.id}"
+  def id(socket), do: "users_socket:#{Guardian.Phoenix.Socket.current_resource(socket).id}"
 end
