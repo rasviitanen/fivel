@@ -1,17 +1,15 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { connectToChannel, leaveChannel } from '../../actions/room';
-
-type RoomType = {
-  id: number,
-  name: string,
-}
+import {
+  connectToChannel,
+  leaveChannel,
+} from '../../actions/room';
 
 type Props = {
   socket: any,
   channel: any,
-  room: RoomType,
+  room: Object,
   params: {
     id: number,
   },
@@ -42,13 +40,17 @@ class Room extends Component {
 
   render() {
     return (
-      <div>{this.props.room.name}</div>
+      <div style={{ display: 'flex', height: '100vh', flex: '1' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
+          asdajsdjasjd
+        </div>
+      </div>
     );
   }
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     room: state.room.currentRoom,
     socket: state.session.socket,
     channel: state.room.channel,

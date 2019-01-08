@@ -1,16 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authenticate, unauthenticate } from '../../actions/session';
 import Home from '../Home';
-import NotFound from '../../components/NotFound';
 import Login from '../Login';
 import Signup from '../Signup';
+import Project from '../Project'
 import MatchAuthenticated from '../../components/MatchAuthenticated';
 import RedirectAuthenticated from '../../components/RedirectAuthenticated';
 import Sidebar from '../../components/Sidebar';
-import Room from '../Room';
 
 
 type Props = {
@@ -46,10 +45,12 @@ class App extends Component {
                   rooms={currentUserRooms}
                 />
           }
-          <MatchAuthenticated exact path="/" component={Home} {...authProps} />
-          <RedirectAuthenticated path="/login" component={Login} {...authProps} />
-          <RedirectAuthenticated path="/signup" component={Signup} {...authProps} />
-          <MatchAuthenticated path="/r/:id" component={Room} {...authProps} />
+          <Switch>
+            <MatchAuthenticated exact path="/" component={Home} {...authProps} />
+            <RedirectAuthenticated path="/login" component={Login} {...authProps} />
+            <RedirectAuthenticated path="/signup" component={Signup} {...authProps} />
+            <MatchAuthenticated path="/r/:id" component={Project} {...authProps} />
+          </Switch>
         </div>
       </BrowserRouter>
     );

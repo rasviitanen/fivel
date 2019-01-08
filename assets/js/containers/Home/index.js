@@ -6,7 +6,6 @@ import Navbar from '../../components/Navbar';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchRooms, createRoom, joinRoom } from '../../actions/rooms';
 import NewRoomForm from '../../components/NewRoomForm';
-import RoomListItem from '../../components/RoomListItem';
 
 const styles = StyleSheet.create({
   card: {
@@ -44,31 +43,13 @@ class Home extends Component {
 
   handleRoomJoin = roomId => this.props.joinRoom(roomId, this.context.router);
 
-  renderRooms() {
-    const currentUserRoomIds = [];
-    this.props.currentUserRooms.map(room => currentUserRoomIds.push(room.id));
-
-    return this.props.rooms.map(room =>
-      <RoomListItem
-        key={room.id}
-        room={room}
-        onRoomJoin={this.handleRoomJoin}
-        currentUserRoomIds={currentUserRoomIds}
-      />
-    );
-  }
-
   render() {
     return (
       <div style={{ flex: '1' }}>
         <Navbar />
         <div className={`card ${css(styles.card)}`}>
-          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Create a new room</h3>
+          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Create a new project room</h3>
           <NewRoomForm onSubmit={this.handleNewRoomSubmit} />
-        </div>
-        <div className={`card ${css(styles.card)}`}>
-          <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Join a room</h3>
-          {this.renderRooms()}
         </div>
       </div>
     );

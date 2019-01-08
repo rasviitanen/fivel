@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
 import { css, StyleSheet } from 'aphrodite';
 
@@ -8,6 +9,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     background: 'rgb(38,28,37)',
+    height: '100vh'
   },
 
   link: {
@@ -63,13 +65,13 @@ type RoomLinkProps = {
 const RoomLink = ({ room }: RoomLinkProps) =>
   <NavLink to={`/r/${room.id}`} className={css(styles.link)} activeClassName={css(styles.activeLink)}>
     <div className={css(styles.badge)}>
-      <span>{room.name.charAt(0)}</span>
+      <span>{room.name.slice(0, 2)}</span>
     </div>
   </NavLink>;
 
 type Props = {
   rooms: Array<Room>,
-  router: Object,
+  router: PropTypes.router,
 }
 
 const Sidebar = ({ rooms, router }: Props) =>
@@ -85,9 +87,6 @@ const Sidebar = ({ rooms, router }: Props) =>
       </div>
     </NavLink>
     <div style={{ flex: '1' }} />
-      <div className={css(styles.badge)}>
-        <span className="fa fa-sign-out" />
-      </div>
   </div>;
 
 export default Sidebar;
