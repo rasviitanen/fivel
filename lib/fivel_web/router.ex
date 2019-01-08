@@ -36,6 +36,9 @@ defmodule FivelWeb.Router do
     resources "/alphas", AlphaController, except: [:new, :edit]
     resources "/states", StateController, except: [:new, :edit]
 
+    resources "/essence_alphas", EssenceAlphaController, except: [:new, :edit]
+    resources "/essence_states", EssenceStateController, except: [:new, :edit]
+
     delete "/sessions", SessionController, :delete
     post "/sessions/refresh", SessionController, :refresh
 

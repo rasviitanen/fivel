@@ -17,7 +17,7 @@ defmodule Fivel.EssenceAlphas do
       [%EssenceAlpha{}, ...]
 
   """
-  def list_essence_alpha do
+  def list_essence_alphas do
     Repo.all(EssenceAlpha)
   end
 

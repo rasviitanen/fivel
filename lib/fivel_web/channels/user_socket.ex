@@ -4,7 +4,7 @@ defmodule FivelWeb.UserSocket do
   ## Channels
   # channel "room:*", FivelWeb.RoomChannel
 
-  channel "rooms:*", FivelWeb.BoardChannel
+  channel "rooms:*", FivelWeb.RoomChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
