@@ -8,7 +8,7 @@ defmodule Fivel.Rooms.Room do
     field :topic, :string
 
     many_to_many :users, Fivel.Users.User, join_through: "user_rooms"
-    has_many :essence_alphas, Fivel.EssenceAlphas.EssenceAlpha
+    has_many :essence_alphas, Fivel.EssenceAlphas.EssenceAlpha, on_replace: :delete
 
     timestamps()
   end

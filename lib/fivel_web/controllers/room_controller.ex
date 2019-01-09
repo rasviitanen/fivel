@@ -17,6 +17,16 @@ defmodule FivelWeb.RoomController do
     render(conn, "index.json", rooms: rooms)
   end
 
+  def add_kernel_alpha(%{"id" => room_id, "essence_alpha" => essence_alpha_params}) do
+    room = Repo.get(Fivel.Rooms.Room, room_id)
+      
+    essence_alpha = %EssenceAlpha{}
+      |> EssenceAlpha.changeset(essence_alpha_params || %{})
+      |> Ecto.Changeset.change
+      |> Ecto.Changeset.put_assoc(:room, room)
+      |> Repo.insert!
+  end
+
   def create(conn, params) do
     current_user = Fivel.Guardian.Plug.current_resource(conn)
     changeset = Room.changeset(%Room{}, params)
@@ -28,6 +38,14 @@ defmodule FivelWeb.RoomController do
           %{user_id: current_user.id, room_id: room.id}
         )
         Repo.insert(assoc_changeset)
+        
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Opportunity", "description" => "The set of circumstances that makes it appropriate to develop or change a software system."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Stakeholders", "description" => "The people, groups, or organizations who affect or are affected by a software system."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Requirements", "description" => "What the software system must do to address the opportunity and satisfy the stakeholders."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Software System", "description" => "A system made up of software, hardware, and data that provides its primary value by the execution of the software."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Work", "description" => "Activity involving mental or physical effort done in order to achieve a result."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Team", "description" => " A group of people actively engaged in the development, maintenance, delivery, or support of a specific software system."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Way-of-Working", "description" => "The tailored set of practices and tools used by a team to guide and support their work."}})
 
         conn
         |> put_status(:created)
@@ -61,18 +79,18 @@ defmodule FivelWeb.RoomController do
   end
 
   def add_alpha(conn, %{"id" => room_id, "essence_alpha" => essence_alpha_params}) do
-    with {:ok, %EssenceAlpha{} = essence_alpha} <- EssenceAlphas.create_essence_alpha(essence_alpha_params) do
       room = Repo.get(Fivel.Rooms.Room, room_id)
-        |> Repo.preload(:essence_alphas)
-        |> Room.changeset(%{})
-        |> Ecto.Changeset.put_assoc(:essence_alphas, [essence_alpha])
-        |> Repo.update!
+      
+      essence_alpha = %EssenceAlpha{}
+        |> EssenceAlpha.changeset(essence_alpha_params || %{})
+        |> Ecto.Changeset.change
+        |> Ecto.Changeset.put_assoc(:room, room)
+        |> Repo.insert!
 
       conn
         |> put_status(:created)
       
       render(conn, FivelWeb.EssenceAlphaView,"show.json", %{essence_alpha: essence_alpha})
-    end
   end
 
   def alphas(conn, %{"id" => room_id}) do
