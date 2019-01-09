@@ -9,7 +9,7 @@ defmodule Fivel.EssenceAlphas.EssenceAlpha do
   schema "essence_alphas" do
     field :description, :string
     field :name, :string
-    belongs_to :room_id, Room
+    belongs_to :room, Room
     has_many :essence_states, EssenceState
 
     timestamps()

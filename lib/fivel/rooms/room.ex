@@ -8,6 +8,7 @@ defmodule Fivel.Rooms.Room do
     field :topic, :string
 
     many_to_many :users, Fivel.Users.User, join_through: "user_rooms"
+    many_to_many :essence_alphas, Fivel.EssenceAlphas.EssenceAlpha, join_through: "essence_alphas"
 
     timestamps()
   end

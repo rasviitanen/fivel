@@ -31,13 +31,14 @@ defmodule FivelWeb.Router do
     post "/sessions", SessionController, :create
     resources "/users", UserController, only: [:create]
 
+    resources "/essence_alphas", EssenceAlphaController, except: [:new, :edit]
+    resources "/essence_states", EssenceStateController, except: [:new, :edit]
+    post "/essence_alphas/:id/add", EssenceAlphaController, :add
+
     pipe_through :auth
 
     resources "/alphas", AlphaController, except: [:new, :edit]
     resources "/states", StateController, except: [:new, :edit]
-
-    resources "/essence_alphas", EssenceAlphaController, except: [:new, :edit]
-    resources "/essence_states", EssenceStateController, except: [:new, :edit]
 
     delete "/sessions", SessionController, :delete
     post "/sessions/refresh", SessionController, :refresh

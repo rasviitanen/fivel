@@ -1,5 +1,5 @@
 //const API = process.env.REACT_APP_API_URL;
-const API = 'api';
+const API = 'http://localhost:4000/api';
 
 function headers() {
   const token = JSON.parse(localStorage.getItem('token'));

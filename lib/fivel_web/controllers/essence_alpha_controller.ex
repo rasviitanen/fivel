@@ -3,6 +3,7 @@ defmodule FivelWeb.EssenceAlphaController do
 
   alias Fivel.EssenceAlphas
   alias Fivel.EssenceAlphas.EssenceAlpha
+  alias Fivel.Repo
 
   action_fallback FivelWeb.FallbackController
 
@@ -17,6 +18,19 @@ defmodule FivelWeb.EssenceAlphaController do
       |> put_status(:created)
       |> put_resp_header("location", Routes.essence_alpha_path(conn, :show, essence_alpha))
       |> render("show.json", essence_alpha: essence_alpha)
+    end
+  end
+
+  def add(conn, %{"id" => room_id, "essence_alpha" => essence_alpha_params}) do
+    with {:ok, %EssenceAlpha{} = essence_alpha} <- EssenceAlphas.create_essence_alpha(essence_alpha_params) do
+        room = Repo.get(Fivel.Rooms.Room, room_id)
+
+        EssenceAlphas.update_essence_alpha(essence_alpha, %{"room" => room})
+
+        conn
+        |> put_status(:created)
+        |> render("show.json", %{essence_alpha: essence_alpha})
+
     end
   end
 

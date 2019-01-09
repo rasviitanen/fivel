@@ -1,6 +1,9 @@
 // @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Navbar from '../../components/Navbar';
+import Alphas from '../Alphas';
+
 import {
   connectToChannel,
   leaveChannel,
@@ -40,10 +43,9 @@ class Room extends Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', height: '100vh', flex: '1' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', flex: '1' }}>
-          asdajsdjasjd
-        </div>
+      <div style={{ flex: '1' }}>
+        <Navbar />
+        <Alphas />
       </div>
     );
   }
