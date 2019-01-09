@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
 
 type Props = {
   alphas: Array<Alpha>,
+  room_id: number,
   fetchAlphas: () => void,
 }
 
@@ -28,7 +29,16 @@ class Alphas extends Component<Props> {
   }
 
   componentDidMount() {
-    this.props.fetchAlphas();
+    this.props.fetchAlphas(this.props.room_id);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const currentId = this.props.room_id
+    const nextId = nextProps.room_id
+
+    if (currentId !== nextId) {
+      this.props.fetchAlphas(nextId);
+    }
   }
 
   renderAlphas() {

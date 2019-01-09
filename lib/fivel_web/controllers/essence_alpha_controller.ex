@@ -21,19 +21,6 @@ defmodule FivelWeb.EssenceAlphaController do
     end
   end
 
-  def add(conn, %{"id" => room_id, "essence_alpha" => essence_alpha_params}) do
-    with {:ok, %EssenceAlpha{} = essence_alpha} <- EssenceAlphas.create_essence_alpha(essence_alpha_params) do
-        room = Repo.get(Fivel.Rooms.Room, room_id)
-
-        EssenceAlphas.update_essence_alpha(essence_alpha, %{"room" => room})
-
-        conn
-        |> put_status(:created)
-        |> render("show.json", %{essence_alpha: essence_alpha})
-
-    end
-  end
-
   def show(conn, %{"id" => id}) do
     essence_alpha = EssenceAlphas.get_essence_alpha!(id)
     render(conn, "show.json", essence_alpha: essence_alpha)

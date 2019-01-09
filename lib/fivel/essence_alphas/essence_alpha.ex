@@ -10,7 +10,6 @@ defmodule Fivel.EssenceAlphas.EssenceAlpha do
     field :description, :string
     field :name, :string
     belongs_to :room, Room
-    has_many :essence_states, EssenceState
 
     timestamps()
   end
