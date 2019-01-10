@@ -43,9 +43,11 @@ class Alphas extends Component<Props> {
 
   renderAlphas() {
     return this.props.alphas.map((alpha) =>
-      <AlphaListItem
-        alpha={alpha}
-      />
+      <div style={{ flex: '1' }}>
+        <AlphaListItem
+          alpha={alpha}
+        />
+      </div>
     );
   }
 
