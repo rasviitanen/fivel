@@ -34,12 +34,9 @@ defmodule FivelWeb.Router do
     resources "/essence_alphas", EssenceAlphaController, except: [:new, :edit]
     resources "/essence_states", EssenceStateController, except: [:new, :edit]
     post "/essence_alphas/:id/add", RoomController, :add_alpha
-    
+        
     pipe_through :auth
-    
-    resources "/alphas", AlphaController, except: [:new, :edit]
-    resources "/states", StateController, except: [:new, :edit]
-    
+        
     delete "/sessions", SessionController, :delete
     post "/sessions/refresh", SessionController, :refresh
     
@@ -47,5 +44,7 @@ defmodule FivelWeb.Router do
     resources "/rooms", RoomController, only: [:index, :create]
     post "/rooms/:id/join", RoomController, :join
     post "/rooms/:id/alphas", RoomController, :alphas
+
+    post "/room/alphas/:id/states", EssenceAlphaController, :states
   end
 end

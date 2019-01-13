@@ -8,15 +8,13 @@ const styles = StyleSheet.create({
   sidebar: {
     display: 'flex',
     flexDirection: 'column',
-    background: 'rgb(38,28,37)',
     height: '100vh'
   },
 
   link: {
     position: 'relative',
     display: 'flex',
-    width: '65px',
-    color: 'rgba(255,255,255,.6)',
+    width: '100px',
     ':hover': {
       textDecoration: 'none',
     },
@@ -26,17 +24,15 @@ const styles = StyleSheet.create({
   },
 
   activeLink: {
-    color: '#fff',
+    color: '#000',
     ':after': {
       position: 'absolute',
       top: '12px',
       bottom: '12px',
       left: '0',
       width: '3px',
-      background: 'rgba(255,255,255,.2)',
-      borderTopRightRadius: '3px',
-      borderBottomRightRadius: '3px',
       content: '""',
+      background: 'rgba(100,100,255,1.0)',
     },
   },
 
@@ -44,12 +40,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    width: '45px',
+    width: '100px',
     height: '45px',
     margin: '12px auto',
-    fontSize: '20px',
-    background: 'rgba(255,255,255,.2)',
-    borderRadius: '5px',
+    fontSize: '12px',
   },
 });
 
@@ -65,7 +59,7 @@ type RoomLinkProps = {
 const RoomLink = ({ room }: RoomLinkProps) =>
   <NavLink to={`/r/${room.id}`} className={css(styles.link)} activeClassName={css(styles.activeLink)}>
     <div className={css(styles.badge)}>
-      <span>{room.name.slice(0, 2)}</span>
+      <span>{room.name.slice(0, 10)}</span>
     </div>
   </NavLink>;
 

@@ -5,17 +5,8 @@ import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchAlphas } from '../../actions/alphas';
 import AlphaListItem from '../../components/AlphaListItem'
+
 import { Alpha } from '../../types';
-
-
-const styles = StyleSheet.create({
-  card: {
-    maxWidth: '500px',
-    padding: '3rem 4rem',
-    margin: '2rem auto',
-  },
-});
-
 
 type Props = {
   alphas: Array<Alpha>,
@@ -42,8 +33,8 @@ class Alphas extends Component<Props> {
   }
 
   renderAlphas() {
-    return this.props.alphas.map((alpha) =>
-      <div style={{ flex: '1' }}>
+    return this.props.alphas.reverse().map((alpha) =>
+      <div key={ alpha.id } style={{ flex: '1' }}>
         <AlphaListItem
           alpha={alpha}
         />
@@ -54,11 +45,7 @@ class Alphas extends Component<Props> {
   render() {
     return (
       <div style={{ flex: '1' }}>
-        <div className={`card ${css(styles.card)}`}>
-          <div style={{ marginBottom: '1rem' }}>
-            {this.renderAlphas()}
-          </div>
-        </div>
+          {this.renderAlphas()}
       </div>
     );
   }

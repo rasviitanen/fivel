@@ -45,7 +45,6 @@ class Room extends Component {
     return (
       <div style={{ flex: '1' }}>
         <Navbar />
-        {this.props.match.params.id}
         <Alphas room_id={ this.props.match.params.id }/>
       </div>
     );

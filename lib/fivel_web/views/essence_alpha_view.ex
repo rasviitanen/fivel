@@ -11,8 +11,13 @@ defmodule FivelWeb.EssenceAlphaView do
   end
 
   def render("essence_alpha.json", %{essence_alpha: essence_alpha}) do
+    essence_alpha = essence_alpha
+      |> Fivel.Repo.preload(:essence_states)
+
     %{id: essence_alpha.id,
       name: essence_alpha.name,
-      description: essence_alpha.description}
+      description: essence_alpha.description,
+      essence_states: essence_alpha.essence_states
+    }
   end
 end

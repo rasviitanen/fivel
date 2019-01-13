@@ -3,8 +3,16 @@ export type Room = {
     name: string,
 }
 
-export type Alpha = {
+export type State = {
     id: number,
     name: string,
     description: string,
 }
+
+export type Alpha = {
+    id: number,
+    name: string,
+    description: string,
+    essence_states: Array<State>,
+}
+

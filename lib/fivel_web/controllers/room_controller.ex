@@ -7,8 +7,8 @@ defmodule FivelWeb.RoomController do
 
   alias Fivel.EssenceAlphas
   alias Fivel.EssenceAlphas.EssenceAlpha
-  
-  
+
+  plug Guardian.Plug.EnsureAuthenticated, handler: FivelWeb.SessionController
   action_fallback FivelWeb.FallbackController
   
 
@@ -25,6 +25,20 @@ defmodule FivelWeb.RoomController do
       |> Ecto.Changeset.change
       |> Ecto.Changeset.put_assoc(:room, room)
       |> Repo.insert!
+    
+    IO.puts("Alpha is:")
+    IO.puts(essence_alpha.name)
+    case essence_alpha.name do
+      "Opportunity" -> Fivel.EssenceAlphas.add_essence_states_opportunity(essence_alpha)
+      "Stakeholders" -> Fivel.EssenceAlphas.add_essence_states_stakeholders(essence_alpha)
+      "Requirements" -> Fivel.EssenceAlphas.add_essence_states_requirements(essence_alpha)
+      "Software System" -> Fivel.EssenceAlphas.add_essence_states_software_system(essence_alpha)
+      "Work" -> Fivel.EssenceAlphas.add_essence_states_work(essence_alpha)
+      "Team" -> Fivel.EssenceAlphas.add_essence_states_team(essence_alpha)
+      "Way-of-Working" -> Fivel.EssenceAlphas.add_essence_states_way_of_working(essence_alpha)
+      _ -> IO.puts("No states to add for alpha")
+    end
+    
   end
 
   def create(conn, params) do

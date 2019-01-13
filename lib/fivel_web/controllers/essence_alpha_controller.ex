@@ -3,6 +3,9 @@ defmodule FivelWeb.EssenceAlphaController do
 
   alias Fivel.EssenceAlphas
   alias Fivel.EssenceAlphas.EssenceAlpha
+
+  alias Fivel.EssenceStates.EssenceState
+
   alias Fivel.Repo
 
   action_fallback FivelWeb.FallbackController
@@ -10,6 +13,15 @@ defmodule FivelWeb.EssenceAlphaController do
   def index(conn, _params) do
     essence_alphas = EssenceAlphas.list_essence_alphas()
     render(conn, "index.json", essence_alphas: essence_alphas)
+  end
+
+  def states(conn, %{"id" => id}) do
+    essence_alpha = EssenceAlphas.get_essence_alpha!(id)
+      |> Repo.preload(:essence_states)
+
+    states = Repo.all(Ecto.assoc(essence_alpha, :essence_states))
+
+    render(conn, FivelWeb.EssenceStateView, "index.json", %{essence_states: states})
   end
 
   def create(conn, %{"essence_alpha" => essence_alpha_params}) do

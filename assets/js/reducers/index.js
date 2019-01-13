@@ -4,6 +4,8 @@ import session from './session';
 import rooms from './rooms';
 import alphas from './alphas';
 import room from './room';
+import states from './states';
+
 
 
 const appReducer = combineReducers({
@@ -12,6 +14,7 @@ const appReducer = combineReducers({
   rooms,
   room,
   alphas,
+  states,
 });
 
 export default function (state, action) {

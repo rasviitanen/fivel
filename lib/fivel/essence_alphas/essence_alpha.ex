@@ -11,6 +11,8 @@ defmodule Fivel.EssenceAlphas.EssenceAlpha do
     field :name, :string
     belongs_to :room, Room
 
+    has_many :essence_states, Fivel.EssenceStates.EssenceState, on_replace: :delete
+
     timestamps()
   end
 
