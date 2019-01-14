@@ -20,7 +20,6 @@ defmodule FivelWeb.EssenceAlphaController do
       |> Repo.preload(:essence_states)
 
     states = Repo.all(Ecto.assoc(essence_alpha, :essence_states))
-
     render(conn, FivelWeb.EssenceStateView, "index.json", %{essence_states: states})
   end
 

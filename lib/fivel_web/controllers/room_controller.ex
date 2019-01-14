@@ -38,7 +38,6 @@ defmodule FivelWeb.RoomController do
       "Way-of-Working" -> Fivel.EssenceAlphas.add_essence_states_way_of_working(essence_alpha)
       _ -> IO.puts("No states to add for alpha")
     end
-    
   end
 
   def create(conn, params) do
@@ -112,6 +111,7 @@ defmodule FivelWeb.RoomController do
       |> Repo.preload(:essence_alphas)
 
     alphas = Repo.all(Ecto.assoc(room, :essence_alphas))
+      |>Repo.preload([essence_states: [:patterns]])    
 
     render(conn, FivelWeb.EssenceAlphaView, "index.json", %{essence_alphas: alphas})
   end

@@ -2,34 +2,52 @@
 import React from 'react';
 import { Alpha } from '../../types';
 import { css, StyleSheet } from 'aphrodite';
+import ReactTooltip from 'react-tooltip';
 
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
+    borderRadius: '3px',
     flexDirection: 'row',
-    background: '#fff',
+    margin: '10px',
+    background: '#dfe3e6',
     justifyContent: 'space-between',
-    boxShadow: '2px 5px 5px rgba(0,0,0,.3)',
   },
 
   alpha: {
-    width: '15%',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '10px',
+    width: '10%',
+    borderRadius: '3px',
+    padding: '5px',
     margin: '10px',
-    background: '#fff',
-    boxShadow: '0px 1px 1px rgba(0,0,0,.3)',
+    color: "grey",
   },
 
   state: {
     width: '15%',
-    display: 'flex',
-    flexDirection: 'column',
-    padding: '10px',
-    margin: '10px',
+    borderRadius: '3px',
+    margin: '5px',
     background: '#fff',
-    boxShadow: '0px 1px 1px rgba(0,0,0,.3)',
+  },
+
+  tooltip: {
+    fontSize: "14px"
+  },
+
+  stateHead: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+
+  pattern: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  completion: {
+    fontSize: '12px',
+    padding: '3px',
+    textAlign: 'center',
   }
 });
 
@@ -37,11 +55,40 @@ type Props = {
   alpha: Alpha,
 }
 
-function renderStates(states) {
-  return states.reverse().map((state) =>
-    <div key={ state.id } className={css(styles.state)}>
-      <h4>{state.name}</h4>
-      <span>{state.description}</span>
+
+function renderChecklist(state) {
+  return state.patterns.reverse().map((pattern) =>
+    <li key={ pattern.name } className={"list-group-item " + css(styles.pattern)}>
+      <span><i className="fa fa-square-o"></i> { pattern.name }</span>
+      <i className="fa fa-info" data-tip data-for={ pattern.name }></i>
+      <ReactTooltip id={ pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+          <p style={{fontWeight: "bold"}}>{ pattern.name }</p>
+          <p>{ pattern.description }</p>
+      </ReactTooltip>
+    </li>
+  );
+}
+
+
+function renderStates(alpha) {
+  var iteration = 1;
+  return alpha.essence_states.reverse().map((state) =>
+    <div key={ state.name } className={"card text-center " + css(styles.state)}>
+      <div className={"card-header " + css(styles.completion)}>
+        Completed 0/6
+      </div>
+      <div className="card-block">
+        <p className="card-text">
+            { iteration++ + '.' } { state.name } <i className="fa fa-info-circle" data-tip data-for={ state.name + "-" + alpha.name }></i>
+        </p>
+        <ReactTooltip id={ state.name + "-" + alpha.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+          <p style={{fontWeight: "bold"}}>{ state.name }</p>
+          <p>{ state.description }</p>
+        </ReactTooltip>
+        <ul className="list-group list-group-flush">
+          {renderChecklist(state)}
+        </ul>
+      </div>
     </div>
   );
 }
@@ -50,10 +97,15 @@ const AlphaListItem = ({ alpha }: Props) => {
   return (
     <div className={css(styles.container)}>
       <div key={alpha.id} className={css(styles.alpha)}>
-          <h2>{alpha.name}</h2>
-          <h4>{alpha.description}</h4>
+          <div>
+            <span style={{ fontWeight: "bold" }}>{alpha.name} <i className="fa fa-info-circle" data-tip data-for={ alpha.name }></i></span>
+            <ReactTooltip id={ alpha.name } className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+              <p style={{ fontWeight: "bold" }}>{ alpha.name }</p>
+              <p>{ alpha.description }</p>
+            </ReactTooltip>
+          </div>
       </div>
-      { renderStates(alpha.essence_states) }
+      { renderStates(alpha) }
     </div>
 );
 };

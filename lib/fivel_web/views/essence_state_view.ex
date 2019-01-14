@@ -13,6 +13,8 @@ defmodule FivelWeb.EssenceStateView do
   def render("essence_state.json", %{essence_state: essence_state}) do
     %{id: essence_state.id,
       name: essence_state.name,
-      description: essence_state.description}
+      description: essence_state.description,
+      patterns: essence_state.patterns
+    }
   end
 end

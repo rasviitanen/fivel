@@ -104,13 +104,21 @@ defmodule Fivel.EssenceAlphas do
     EssenceAlpha.changeset(essence_alpha, %{})
   end
 
-
   def add_essence_state(alpha, %{"essence_state" => essence_state_params}) do
     essence_state = %EssenceState{}
       |> EssenceState.changeset(essence_state_params || %{})
       |> Ecto.Changeset.change
       |> Ecto.Changeset.put_assoc(:essence_alpha, alpha)
       |> Repo.insert!
+
+    # Addning patterns (checklist) using chain of responsibility
+    essence_state
+      |> Fivel.EssenceStates.add_patterns_opportunity_identified(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_opportunity_solution_needed(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_opportunity_value_established(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_opportunity_viable(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_opportunity_addressed(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_opportunity_benefit_accured(alpha.name)
   end
 
   def add_essence_states_opportunity(alpha) do
@@ -119,7 +127,7 @@ defmodule Fivel.EssenceAlphas do
     add_essence_state( alpha, %{"essence_state" => %{"name" => "Value Established", "description" => "The value of a successful solution has been established." }})
     add_essence_state( alpha, %{"essence_state" => %{"name" => "Viable", "description" => "It is agreed that a solution can be produced quickly and cheaply enough to successfully address the opportunity." }})
     add_essence_state( alpha, %{"essence_state" => %{"name" => "Addressed", "description" => "A solution has been produced that demonstrably addresses the opportunity." }})
-    add_essence_state( alpha, %{"essence_state" => %{"name" => "Benefit Accrued", "description" => "The operational useor sale of the solution is creating tangible benefits." }})
+    add_essence_state( alpha, %{"essence_state" => %{"name" => "Benefit Accured", "description" => "The operational useor sale of the solution is creating tangible benefits." }})
   end
 
   def add_essence_states_stakeholders(alpha) do
@@ -169,7 +177,6 @@ defmodule Fivel.EssenceAlphas do
     add_essence_state( alpha, %{"essence_state" => %{"name" => "In Place", "description" => "All team members are using the way of working to accomplish their work." }})
     add_essence_state( alpha, %{"essence_state" => %{"name" => "Working Well", "description" => "The team's way of working is working well for the team." }})
     add_essence_state( alpha, %{"essence_state" => %{"name" => "Retired", "description" => "The way of working is no longer in use by the team." }})
-
   end
 
 end

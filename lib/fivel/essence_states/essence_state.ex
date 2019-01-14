@@ -1,5 +1,5 @@
 defmodule Fivel.EssenceStates.EssenceState do
-  @derive {Jason.Encoder, only: [ :name, :description ]}
+  @derive {Jason.Encoder, only: [ :name, :description, :patterns ]}
 
   use Ecto.Schema
   import Ecto.Changeset
@@ -10,6 +10,8 @@ defmodule Fivel.EssenceStates.EssenceState do
     field :description, :string
     field :name, :string
     belongs_to :essence_alpha, EssenceAlpha
+
+    has_many :patterns, Fivel.Patterns.Pattern, on_replace: :delete
 
     timestamps()
   end
