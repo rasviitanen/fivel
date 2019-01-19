@@ -9,6 +9,13 @@ export type State = {
     description: string,
 }
 
+export type Pattern = {
+    id: number,
+    name: string,
+    description: string,
+    completed: boolean,
+}
+
 export type Alpha = {
     id: number,
     name: string,

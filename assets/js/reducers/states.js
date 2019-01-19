@@ -8,7 +8,7 @@ export default function (state = initialState, action) {
         case 'FETCH_STATES_SUCCESS':
             return {
                 ...state,
-                states: action.response.data,
+                states: action.response.data.reverse(),
             };
         default:
             return state;
