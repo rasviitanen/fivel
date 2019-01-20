@@ -10,6 +10,7 @@ import Project from '../Project'
 import MatchAuthenticated from '../../components/MatchAuthenticated';
 import RedirectAuthenticated from '../../components/RedirectAuthenticated';
 import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
 
 
 type Props = {
@@ -39,18 +40,22 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <div style={{ display: 'flex', flex: '1' }}>
+        <div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
+
+          <Navbar />
+          <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>
           {isAuthenticated &&
                 <Sidebar
-                  rooms={currentUserRooms}
+                rooms={currentUserRooms}
                 />
-          }
+              }
           <Switch>
             <MatchAuthenticated exact path="/" component={Home} {...authProps} />
             <RedirectAuthenticated path="/login" component={Login} {...authProps} />
             <RedirectAuthenticated path="/signup" component={Signup} {...authProps} />
             <MatchAuthenticated path="/r/:id" component={Project} {...authProps} />
           </Switch>
+          </div>
         </div>
       </BrowserRouter>
     );

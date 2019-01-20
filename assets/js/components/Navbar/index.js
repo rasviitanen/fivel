@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
     background: '#fff',
     justifyContent: 'space-between',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
+    position: 'sticky',
+    top: '0px',
+    zIndex: '20',
+    flex: '1',
   },
 
   link: {

@@ -61,7 +61,6 @@ class Home extends Component {
   render() {
     return (
       <div style={{ flex: '1' }}>
-        <Navbar />
         
         <div className={`card ${css(styles.card)}`}>
           <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>Create a new project room</h3>

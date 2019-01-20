@@ -22,7 +22,6 @@ class Signup extends Component {
   render() {
     return (
       <div style={{ flex: '1' }}>
-        <Navbar />
         <SignupForm onSubmit={this.handleSignup} />
       </div>
     );

@@ -3,18 +3,18 @@ import React from 'react';
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
 import { css, StyleSheet } from 'aphrodite';
+import { NavDropdown, MenuItem } from 'react-bootstrap';
 
 const styles = StyleSheet.create({
   sidebar: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100vh'
+    padding: '12px 6px',
   },
 
   link: {
     position: 'relative',
     display: 'flex',
-    width: '100px',
     ':hover': {
       textDecoration: 'none',
     },
@@ -25,10 +25,12 @@ const styles = StyleSheet.create({
 
   activeLink: {
     color: '#000',
+    background: 'rgba(100,100,255,0.2)',
+    borderRadius: '3px',
     ':after': {
       position: 'absolute',
-      top: '12px',
-      bottom: '12px',
+      top: '0px',
+      bottom: '0px',
       left: '0',
       width: '3px',
       content: '""',
@@ -39,10 +41,8 @@ const styles = StyleSheet.create({
   badge: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    padding: '6px 6px',
     width: '100px',
-    height: '45px',
-    margin: '12px auto',
     fontSize: '12px',
   },
 });
@@ -59,7 +59,7 @@ type RoomLinkProps = {
 const RoomLink = ({ room }: RoomLinkProps) =>
   <NavLink to={`/r/${room.id}`} className={css(styles.link)} activeClassName={css(styles.activeLink)}>
     <div className={css(styles.badge)}>
-      <span>{room.name.slice(0, 10)}</span>
+      <span>{room.name}</span>
     </div>
   </NavLink>;
 
@@ -70,17 +70,24 @@ type Props = {
 
 const Sidebar = ({ rooms, router }: Props) =>
   <div className={css(styles.sidebar)}>
-    {rooms.map(room => <RoomLink key={room.id} room={room} />)}
-    <NavLink
-      exact to="/"
-      className={css(styles.link)}
-      activeClassName={css(styles.activeLink)}
-    >
-      <div className={css(styles.badge)}>
-        <span className="fa fa-plus" />
-      </div>
-    </NavLink>
-    <div style={{ flex: '1' }} />
+    <NavDropdown eventKey={3} title="Projects" id="basic-nav-dropdown">
+      {rooms.map(room => <MenuItem eventKey={room.id}><RoomLink key={room.id} room={room} /></MenuItem>)}
+      <MenuItem eventKey={"new-room"}>
+        <NavLink
+        exact to="/"
+        className={css(styles.link)}
+        activeClassName={css(styles.activeLink)}
+        >
+        <div className={css(styles.badge)}>
+          <span><i className="fa fa-plus"/> New Project</span>
+        </div>
+        </NavLink>
+      </MenuItem>
+    </NavDropdown>
+    
+
+
+
   </div>;
 
 export default Sidebar;
