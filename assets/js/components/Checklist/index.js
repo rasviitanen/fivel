@@ -2,11 +2,9 @@
 import React, { Component } from 'react';
 import ChecklistItem from '../ChecklistItem';
 import { Pattern } from '../../types';
-import ChecklistCompletionCounter from '../ChecklistCompletionCounter';
-
 
 function renderChecklist(patterns) {
-  return patterns.map((pattern) =>
+  return patterns.reverse().map((pattern) =>
     <ChecklistItem key={ pattern.id } completed={ pattern.completed } pattern={ pattern }/>
   );
 }
@@ -24,7 +22,6 @@ class Checklist extends Component<Props, State> {
             <ul className="list-group list-group-flush">
                 { renderChecklist( this.props.patterns, this.handlePatternClick ) }
             </ul>
-            <ChecklistCompletionCounter total={ this.props.patterns.length }/>
         </div>
         );
     }

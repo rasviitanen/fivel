@@ -7,23 +7,14 @@ import Checklist from '../Checklist';
 import { State as EssenceState } from '../../types';
 
 const styles = StyleSheet.create({
-  stateUncompleted: {
+  state: {
     width: '15%',
     borderRadius: '5px',
     margin: '5px',
     background: '#fff',
     paddingBottom: '24px',
-    transition: '0.3s'
-  },
-
-  stateCompleted: {
-    color: '#fff',
-    width: '15%',
-    borderRadius: '5px',
-    margin: '5px',
-    background: 'MediumSeaGreen',
-    paddingBottom: '24px',
-    transition: '0.3s'
+    transition: '0.3s',
+    minWidth: '200px',
   },
 
   darken: {
@@ -56,7 +47,7 @@ type Props = {
 class StateListItem extends Component<Props, State> {
   render() {
     return (
-      <div className={"card text-center " + css(styles.stateUncompleted)}>
+      <div className={"card text-center " + css(styles.state)}>
         <div className="card-block">
           <div className="card-text">
               <p style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name } <i className="fa fa-info-circle" data-tip data-for={ this.props.state.name + "-" +this.props. belongs_to_alpha }></i></p>
