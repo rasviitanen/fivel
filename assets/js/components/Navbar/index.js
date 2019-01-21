@@ -18,19 +18,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: '0 1rem',
     height: '50px',
-    background: '#fff',
+    background: 'DodgerBlue',
     justifyContent: 'space-between',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
     position: 'sticky',
     top: '0px',
     zIndex: '20',
     flex: '1',
+    color: '#fff',
+
   },
 
   link: {
-    color: '#555459',
-    fontSize: '22px',
+    color: '#fff',
     fontWeight: 'bold',
+    fontSize: '18px',
     ':hover': {
       textDecoration: 'none',
     },
@@ -55,15 +57,15 @@ class NavBar extends Component {
       return (
         <div className={css(styles.navbar)}>
           <nav>
-            <Link to="/" className={css(styles.link)}>Fivel Essence</Link>
+            <Link to="/" className={css(styles.link)}><i class="fa fa-line-chart" aria-hidden="true"></i> FIVEL Essence</Link>
           </nav>
 
           {isAuthenticated &&
             <nav>
               <span style={{ marginRight: "15px" }}>{currentUser.username}</span>
               <div type="button" onClick={this.handleLogout}
-              className="btn btn-outline-danger btn-sm">
-                <i className="fa fa-sign-out"></i> Sign Out
+              className="btn btn-outline btn-sm">
+                <i className="fa fa-sign-out" ></i> Sign Out
               </div>
             </nav>
           }

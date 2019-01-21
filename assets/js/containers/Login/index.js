@@ -22,7 +22,6 @@ class Login extends Component {
   render() {
     return (
       <div style={{ flex: '1' }}>
-        <Navbar />
         <LoginForm onSubmit={this.handleLogin} />
       </div>
     );

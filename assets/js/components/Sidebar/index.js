@@ -1,15 +1,17 @@
 // @flow
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
-import { NavDropdown, MenuItem } from 'react-bootstrap';
+import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 const styles = StyleSheet.create({
   sidebar: {
     display: 'flex',
     flexDirection: 'column',
     padding: '12px 6px',
+    width: '200px',
   },
 
   link: {
@@ -26,16 +28,7 @@ const styles = StyleSheet.create({
   activeLink: {
     color: '#000',
     background: 'rgba(100,100,255,0.2)',
-    borderRadius: '3px',
-    ':after': {
-      position: 'absolute',
-      top: '0px',
-      bottom: '0px',
-      left: '0',
-      width: '3px',
-      content: '""',
-      background: 'rgba(100,100,255,1.0)',
-    },
+
   },
 
   badge: {
@@ -65,29 +58,36 @@ const RoomLink = ({ room }: RoomLinkProps) =>
 
 type Props = {
   rooms: Array<Room>,
-  router: PropTypes.router,
+  currentRoom: Room,
 }
 
-const Sidebar = ({ rooms, router }: Props) =>
-  <div className={css(styles.sidebar)}>
-    <NavDropdown eventKey={3} title="Projects" id="basic-nav-dropdown">
-      {rooms.map(room => <MenuItem eventKey={room.id}><RoomLink key={room.id} room={room} /></MenuItem>)}
-      <MenuItem eventKey={"new-room"}>
-        <NavLink
-        exact to="/"
-        className={css(styles.link)}
-        activeClassName={css(styles.activeLink)}
-        >
-        <div className={css(styles.badge)}>
-          <span><i className="fa fa-plus"/> New Project</span>
-        </div>
-        </NavLink>
-      </MenuItem>
-    </NavDropdown>
-    
+class Sidebar extends Component<Props> {
+  render() {
+    return (
+      <div className={css(styles.sidebar)}>
+      <NavDropdown eventKey={3} title="Projects" id="basic-nav-dropdown">
+        {this.props.rooms.map(room => <MenuItem eventKey={room.id}><RoomLink key={room.id} room={room} /></MenuItem>)}
+        <MenuItem eventKey={"new-room"}>
+          <NavLink
+          exact to="/"
+          className={css(styles.link)}
+          activeClassName={css(styles.activeLink)}
+          >
+          <div className={css(styles.badge)}>
+            <span><i className="fa fa-plus"/> New Project</span>
+          </div>
+          </NavLink>
+        </MenuItem>
+      </NavDropdown>
+      <hr />
+      { this.props.currentRoom.name }
+    </div>
+    );
+  }
+};
 
-
-
-  </div>;
-
-export default Sidebar;
+export default connect(
+  (state) => ({
+    currentRoom: state.sidebar.currentRoom,
+  }),
+)(Sidebar);

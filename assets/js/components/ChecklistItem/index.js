@@ -48,6 +48,7 @@ class ChecklistItem extends Component<Props, State> {
   
   handleClick = (event: SyntheticEvent<HTMLElement>) => {
     // To access your button instance use `event.currentTarget`.
+    console.log(this.props.pattern);
     (event.currentTarget: HTMLElement);
     if (this.state.completed) {
         this.props.parent_handler(-1);

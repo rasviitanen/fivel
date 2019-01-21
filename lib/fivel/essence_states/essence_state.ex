@@ -1,5 +1,5 @@
 defmodule Fivel.EssenceStates.EssenceState do
-  @derive {Jason.Encoder, only: [ :name, :description, :patterns ]}
+  @derive {Jason.Encoder, only: [ :id, :name, :description, :patterns ]}
 
   use Ecto.Schema
   import Ecto.Changeset

@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     borderRadius: '3px',
     flexDirection: 'row',
     margin: '10px',
-    background: '#dfe3e6',
+    background: 'WhiteSmoke',
     justifyContent: 'space-between',
   },
 

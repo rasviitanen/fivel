@@ -1,5 +1,5 @@
 defmodule Fivel.Patterns.Pattern do
-  @derive {Jason.Encoder, only: [ :name, :description, :completed ]}
+  @derive {Jason.Encoder, only: [ :id, :name, :description, :completed ]}
 
   use Ecto.Schema
   import Ecto.Changeset

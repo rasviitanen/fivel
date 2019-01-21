@@ -12,7 +12,6 @@ const styles = StyleSheet.create({
     borderRadius: '5px',
     margin: '5px',
     background: '#fff',
-    boxShadow: '3px 5px 5px rgba(0,0,0,.3)',
     paddingBottom: '24px',
     transition: '0.3s'
   },
@@ -23,7 +22,6 @@ const styles = StyleSheet.create({
     borderRadius: '5px',
     margin: '5px',
     background: 'MediumSeaGreen',
-    boxShadow: '3px 5px 5px rgba(0,0,0,.3)',
     paddingBottom: '24px',
     transition: '0.3s'
   },
