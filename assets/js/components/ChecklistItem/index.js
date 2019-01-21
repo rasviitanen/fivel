@@ -1,8 +1,12 @@
 // @flow
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { css, StyleSheet } from 'aphrodite';
 import ReactTooltip from 'react-tooltip';
-import { State as EssenceState, Pattern } from '../../types';
+
+import { Pattern } from '../../types';
+import { setPatternCompleted, setPatternUncompleted } from '../../actions/patterns';
 
 
 const styles = StyleSheet.create({
@@ -35,6 +39,9 @@ const styles = StyleSheet.create({
 type Props = {
   pattern: Pattern,
   parent_handler: Function,
+  setPatternCompleted: () => void,
+  setPatternUncompleted: () => void,
+  completed: boolean,
 }
 
 type State = {
@@ -46,15 +53,15 @@ class ChecklistItem extends Component<Props, State> {
     completed: this.props.pattern.completed,
   }
   
-  handleClick = (event: SyntheticEvent<HTMLElement>) => {
-    // To access your button instance use `event.currentTarget`.
-    console.log(this.props.pattern);
-    (event.currentTarget: HTMLElement);
+  handleClick = (event: SyntheticEvent<HTMLElement>) => {    
     if (this.state.completed) {
-        this.props.parent_handler(-1);
+      this.props.setPatternUncompleted(this.props.pattern.id);
     } else {
-        this.props.parent_handler(1);
+      this.props.setPatternCompleted(this.props.pattern.id);
     }
+
+    (event.currentTarget: HTMLElement);
+
     this.setState(prevState => ({
         completed: !prevState.completed,
     }));
@@ -74,4 +81,13 @@ class ChecklistItem extends Component<Props, State> {
   }
 }
 
-export default ChecklistItem;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    completed: ownProps.completed
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  { setPatternCompleted, setPatternUncompleted }
+)(ChecklistItem);

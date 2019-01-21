@@ -46,5 +46,8 @@ defmodule FivelWeb.Router do
     post "/rooms/:id/alphas", RoomController, :alphas
 
     post "/room/alphas/:id/states", EssenceAlphaController, :states
+
+    post "/patterns/:id/completed", PatternController, :setCompleted
+    post "/patterns/:id/uncompleted", PatternController, :setUncompleted
   end
 end

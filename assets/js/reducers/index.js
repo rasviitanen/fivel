@@ -6,6 +6,8 @@ import alphas from './alphas';
 import room from './room';
 import states from './states';
 import sidebar from './sidebar';
+import patterns from './patterns';
+
 
 const appReducer = combineReducers({
   form,
@@ -15,6 +17,7 @@ const appReducer = combineReducers({
   alphas,
   states,
   sidebar,
+  patterns,
 });
 
 export default function (state, action) {

@@ -33,6 +33,22 @@ defmodule FivelWeb.PatternController do
     end
   end
 
+  def setCompleted(conn, %{"id" => id}) do
+    pattern = Patterns.get_pattern!(id)
+
+    with {:ok, %Pattern{} = pattern} <- Patterns.update_pattern(pattern, %{ "completed" => true }) do
+      render(conn, "show.json", pattern: pattern)
+    end
+  end
+
+  def setUncompleted(conn, %{"id" => id}) do
+    pattern = Patterns.get_pattern!(id)
+
+    with {:ok, %Pattern{} = pattern} <- Patterns.update_pattern(pattern, %{ "completed" => false }) do
+      render(conn, "show.json", pattern: pattern)
+    end
+  end
+
   def delete(conn, %{"id" => id}) do
     pattern = Patterns.get_pattern!(id)
 

@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
 });
 
 type Props = {
-  completed: number,
   total: number
 }
 
@@ -24,7 +23,7 @@ class ChecklistCompletionCounter extends Component<Props> {
     render() {
         return (
             <div className={"card-footer bottom " + css(styles.completion)}>
-                Completed { this.props.completed } / {this.props.total}
+                Total {this.props.total}
             </div>
         );
     }

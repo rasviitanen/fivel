@@ -53,24 +53,10 @@ type Props = {
   belongs_to_alpha: string,
 }
 
-type State = {
-  completed: boolean,
-}
-
 class StateListItem extends Component<Props, State> {
-  state = {
-    completed: false,
-  }
-  
-  setStateCompleted(completed) {
-    this.setState({
-      completed: completed,
-    });
-  }
-
   render() {
     return (
-      <div className={"card text-center " + css(this.state.completed ? styles.stateCompleted : styles.stateUncompleted)}>
+      <div className={"card text-center " + css(styles.stateUncompleted)}>
         <div className="card-block">
           <div className="card-text">
               <p style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name } <i className="fa fa-info-circle" data-tip data-for={ this.props.state.name + "-" +this.props. belongs_to_alpha }></i></p>
@@ -82,7 +68,7 @@ class StateListItem extends Component<Props, State> {
           <p>{ this.props.state.description }</p>
         </ReactTooltip>
 
-        <Checklist patterns={this.props.state.patterns} setStateCompleted={ this.setStateCompleted.bind(this) }/>
+        <Checklist patterns={this.props.state.patterns}/>
       </div>
     );
   }

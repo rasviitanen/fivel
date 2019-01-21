@@ -1,10 +1,15 @@
-export function setPatternCompletionStatus(patternName, completionStatus) {
-    return dispatch => api.post('/patterns', {
-        patternName: patternName,
-        completed: completionStatus
-    })
-      .then((response) => {
-        dispatch({ type: 'PATTERN_CHANGED_COMPLETION_STATUS', response });
-        router.transitionTo(`/r/${response.data.id}`);
-      });
-  }
+import api from '../api';
+
+export function setPatternCompleted(patternId) {
+    return dispatch => api.post(`/patterns/${patternId}/completed`)
+        .then((response) => {
+        dispatch({ type: 'PATTERN_CHANGED_TO_COMPLETED', response });
+    });
+}
+
+export function setPatternUncompleted(patternId) {
+    return dispatch => api.post(`/patterns/${patternId}/uncompleted`)
+        .then((response) => {
+        dispatch({ type: 'PATTERN_CHANGED_TO_UNCOMPLETED', response });
+    });
+}
