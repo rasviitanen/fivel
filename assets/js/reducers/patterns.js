@@ -1,16 +1,19 @@
 const initialState = {
-    all: []
+    pattern: {},
   };
   
 export default function (state = initialState, action) {
     switch (action.type) {
         case 'PATTERN_CHANGED_TO_COMPLETED':
             return {
-                all: action.response.data.completed,
+                ...state,
+                pattern: action.response.data,
             };
         case 'PATTERN_CHANGED_TO_UNCOMPLETED':
+
             return {
-                all: action.response.data.completed,
+                ...state,
+                pattern: action.response.data,
             };
         default:
             return state;

@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import Checklist from '../Checklist';
 
 import { State as EssenceState } from '../../types';
+import StateLargeView from '../StateLargeView';
 
 const styles = StyleSheet.create({
   state: {
@@ -14,7 +15,7 @@ const styles = StyleSheet.create({
     background: '#fff',
     paddingBottom: '24px',
     transition: '0.3s',
-    minWidth: '200px',
+    minWidth: '200px'
   },
 
   darken: {
@@ -34,8 +35,11 @@ const styles = StyleSheet.create({
 
   stateHead: {
     display: 'flex',
-    justifyContent: 'space-between',
+    margin: '10px',
+    flexDirection: 'column',
+    textAlign: 'center'
   },
+ 
 });
 
 type Props = {
@@ -47,13 +51,14 @@ type Props = {
 class StateListItem extends Component<Props, State> {
   render() {
     return (
-      <div className={"card text-center " + css(styles.state)}>
-        <div className="card-block">
-          <div className="card-text">
-              <p style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name } <i className="fa fa-info-circle" data-tip data-for={ this.props.state.name + "-" +this.props. belongs_to_alpha }></i></p>
+      <div className={css(styles.state)}>
+        <div className={css(styles.stateHead)}>
+          <span style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name }</span>
+          <div style={{ display: "flex", flexDirection: "row", padding: "10px", justifyContent: "center", alignItems: "center" }}>
+            <i className="fa fa-info-circle" style={{margin: '5px'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha }></i>
+            <StateLargeView style={{margin: '5px'}} state={ this.props.state }/>
           </div>
-        </div>
-      
+        </div>      
         <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
           <p style={{fontWeight: "bold"}}>{ this.props.state.name }</p>
           <p>{ this.props.state.description }</p>

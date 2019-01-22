@@ -38,9 +38,10 @@ const styles = StyleSheet.create({
 
 type Props = {
   pattern: Pattern,
-  parent_handler: Function,
   setPatternCompleted: () => void,
   setPatternUncompleted: () => void,
+  patternId: number,
+  changedPatternId: number,
   completed: boolean,
 }
 
@@ -52,7 +53,20 @@ class ChecklistItem extends Component<Props, State> {
   state = {
     completed: this.props.pattern.completed,
   }
-  
+
+  componentWillReceiveProps(nextProps) {
+    // You don't have to do this check first, but it can help prevent an unneeded render
+    if (this.props.patternId == nextProps.changedPatternId && this.state.completed != nextProps.completed) {
+      this.toggleCompleted();
+    }
+  }
+
+  toggleCompleted() {
+    this.setState(prevState => ({
+      completed: !prevState.completed,
+    }));
+  };
+
   handleClick = (event: SyntheticEvent<HTMLElement>) => {    
     if (this.state.completed) {
       this.props.setPatternUncompleted(this.props.pattern.id);
@@ -61,10 +75,6 @@ class ChecklistItem extends Component<Props, State> {
     }
 
     (event.currentTarget: HTMLElement);
-
-    this.setState(prevState => ({
-        completed: !prevState.completed,
-    }));
   };
 
 
@@ -76,18 +86,16 @@ class ChecklistItem extends Component<Props, State> {
             <p style={{fontWeight: "bold"}}>{ this.props.pattern.name }</p>
             <p>{ this.props.pattern.description }</p>
         </ReactTooltip>
+        <h3>{ this.props.patternId } "|" { this.props.changedPatternId } </h3>
       </li>
     );
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    completed: ownProps.completed
-  }
-}
-
 export default connect(
-  mapStateToProps,
+  (state) => ({
+    changedPatternId: state.patterns.pattern.id,
+    completed: state.patterns.pattern.completed,
+  }),
   { setPatternCompleted, setPatternUncompleted }
 )(ChecklistItem);

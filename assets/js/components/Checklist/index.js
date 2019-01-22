@@ -4,8 +4,8 @@ import ChecklistItem from '../ChecklistItem';
 import { Pattern } from '../../types';
 
 function renderChecklist(patterns) {
-  return patterns.reverse().map((pattern) =>
-    <ChecklistItem key={ pattern.id } completed={ pattern.completed } pattern={ pattern }/>
+  return patterns.map((pattern) =>
+    <ChecklistItem key={ pattern.id } patternId={ pattern.id } completed={ pattern.completed } pattern={ pattern }/>
   );
 }
 
@@ -13,8 +13,7 @@ type Props = {
   patterns: Array<Pattern>,
 }
 
-
-class Checklist extends Component<Props, State> {
+class Checklist extends Component<Props> {
     // Number of completed items in the checklist
     render() {
         return (
