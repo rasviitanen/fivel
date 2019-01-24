@@ -1,20 +1,17 @@
 const initialState = {
-    pattern: {},
+    patterns: {},
   };
   
 export default function (state = initialState, action) {
     switch (action.type) {
-        case 'PATTERN_CHANGED_TO_COMPLETED':
+        case 'PATTERN_COMPLETION_CHANGED':
+            var patterns_copy = {...state.patterns};
+            patterns_copy[action.response.data.id] = action.response.data;
             return {
                 ...state,
-                pattern: action.response.data,
+                patterns: patterns_copy,
             };
-        case 'PATTERN_CHANGED_TO_UNCOMPLETED':
 
-            return {
-                ...state,
-                pattern: action.response.data,
-            };
         default:
             return state;
     }

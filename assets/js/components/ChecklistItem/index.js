@@ -6,7 +6,7 @@ import { css, StyleSheet } from 'aphrodite';
 import ReactTooltip from 'react-tooltip';
 
 import { Pattern } from '../../types';
-import { setPatternCompleted, setPatternUncompleted } from '../../actions/patterns';
+import { togglePatternCompleted } from '../../actions/patterns';
 
 
 const styles = StyleSheet.create({
@@ -38,55 +38,26 @@ const styles = StyleSheet.create({
 
 type Props = {
   pattern: Pattern,
-  setPatternCompleted: () => void,
-  setPatternUncompleted: () => void,
-  patternId: number,
-  changedPatternId: number,
-  completed: boolean,
+  changedPatterns: Object,
+  togglePatternCompleted: () => void,
 }
 
-type State = {
-  completed: boolean,
-}
-
-class ChecklistItem extends Component<Props, State> {
-  state = {
-    completed: this.props.pattern.completed,
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // You don't have to do this check first, but it can help prevent an unneeded render
-    if (this.props.patternId == nextProps.changedPatternId && this.state.completed != nextProps.completed) {
-      this.toggleCompleted();
-    }
-  }
-
-  toggleCompleted() {
-    this.setState(prevState => ({
-      completed: !prevState.completed,
-    }));
-  };
-
+class ChecklistItem extends Component<Props> {
   handleClick = (event: SyntheticEvent<HTMLElement>) => {    
-    if (this.state.completed) {
-      this.props.setPatternUncompleted(this.props.pattern.id);
-    } else {
-      this.props.setPatternCompleted(this.props.pattern.id);
-    }
-
-    (event.currentTarget: HTMLElement);
+    const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
+    this.props.togglePatternCompleted(pattern);
   };
-
 
   render() {
+    const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
+
     return (
-      <li key={ this.props.pattern.name } onClick={ this.handleClick } className={"list-group-item pattern " + css( this.state.completed ? styles.completed : styles.uncompleted)}>
-        <span><i className={ this.state.completed ? "fa fa-check-circle" : "fa fa-circle-o" }/> { this.props.pattern.name } <i className="fa fa-info" data-tip data-for={ this.props.pattern.name }/></span>
-        <ReactTooltip id={ this.props.pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-            <p style={{fontWeight: "bold"}}>{ this.props.pattern.name }</p>
-            <p>{ this.props.pattern.description }</p>
+      <li key={ pattern.name } onClick={ this.handleClick } className={"list-group-item pattern " + css( pattern.completed ? styles.completed : styles.uncompleted)}>
+        <span><i className={ pattern.completed ? "fa fa-check-circle" : "fa fa-circle-o" }/> { pattern.name } <i className="fa fa-info" data-tip data-for={ pattern.name }/></span>
+        <ReactTooltip id={ pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+            <p style={{fontWeight: "bold"}}>{ pattern.name }</p>
+            <p>{ pattern.description }</p>
         </ReactTooltip>
-        <h3>{ this.props.patternId } "|" { this.props.changedPatternId } </h3>
       </li>
     );
   }
@@ -94,8 +65,7 @@ class ChecklistItem extends Component<Props, State> {
 
 export default connect(
   (state) => ({
-    changedPatternId: state.patterns.pattern.id,
-    completed: state.patterns.pattern.completed,
+    changedPatterns: state.patterns.patterns,
   }),
-  { setPatternCompleted, setPatternUncompleted }
+  { togglePatternCompleted }
 )(ChecklistItem);

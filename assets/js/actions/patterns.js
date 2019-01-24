@@ -1,15 +1,15 @@
 import api from '../api';
 
-export function setPatternCompleted(patternId) {
-    return dispatch => api.post(`/patterns/${patternId}/completed`)
-        .then((response) => {
-        dispatch({ type: 'PATTERN_CHANGED_TO_COMPLETED', response });
-    });
-}
-
-export function setPatternUncompleted(patternId) {
-    return dispatch => api.post(`/patterns/${patternId}/uncompleted`)
-        .then((response) => {
-        dispatch({ type: 'PATTERN_CHANGED_TO_UNCOMPLETED', response });
-    });
+export function togglePatternCompleted(pattern) {
+    if (pattern.completed) {
+        return dispatch => api.post(`/patterns/${pattern.id}/uncompleted`)
+            .then((response) => {
+            dispatch({ type: 'PATTERN_COMPLETION_CHANGED', response });
+        });
+    } else {
+        return dispatch => api.post(`/patterns/${pattern.id}/completed`)
+            .then((response) => {
+            dispatch({ type: 'PATTERN_COMPLETION_CHANGED', response });
+        });
+    }
 }
