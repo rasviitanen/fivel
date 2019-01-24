@@ -9,17 +9,11 @@ import { State as EssenceState } from '../../types';
 import { Button, Tooltip, Popover, Modal, OverlayTrigger } from 'react-bootstrap';
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    position: 'relative',
-    modal: {
-      position: 'absolute',
-    },
-    backdrop: {
-      position: 'absolute',
-    }
+  entity: {
+    background: "WhiteSmoke", 
+    padding: '10px',
+    borderRadius: '5px'
   }
-
- 
 });
 
 type Props = {
@@ -57,38 +51,42 @@ class StateLargeView extends Component<Props, State> {
         </Popover>
         );
         return (
-        <div>
-            <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
-            <Modal show={this.state.show} onHide={this.handleClose}>
-            <Modal.Header closeButton>
-                <Modal.Title>{ this.props.state.name }</Modal.Title>
-                <p>{ this.props.state.description }</p>
-            </Modal.Header>
-            <Modal.Body>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                <div style={{ width: '70%'}}>
-                    <Checklist  patterns={this.props.state.patterns}/>
-                    <hr />
-                    <h4>Todo</h4>
-                    <hr />
-                    <p>Contact Stakeholders</p>
-                    <h4>Doing</h4>
-                    <hr />
+            <div>
+                <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
+                <Modal show={this.state.show} onHide={this.handleClose} bsSize="large">
+                <Modal.Header closeButton>
+                    <Modal.Title>{ this.props.state.name }</Modal.Title>
+                    <p>{ this.props.state.description }</p>
+                </Modal.Header>
+                <Modal.Body>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                    <div style={{ width: '70%'}}>
+                        <h3>Checklist</h3>
+                        <Checklist  patterns={this.props.state.patterns}/>
+                        <hr />
+                        <div className={css(styles.entity)}>
+                            <h4>To Do </h4>
+                            <div style={{ padding: '3px 8px', cursor: 'pointer', color: '#fff', background: 'SlateBlue', borderRadius: '3px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i> Create new</div>
+                            <hr />
+                            <p>Contact Stakeholders</p>
+                            <h4>Doing</h4>
+                            <hr />
 
-                    <h4>Done</h4>
-                    <hr />
+                            <h4>Done</h4>
+                            <hr />
+                        </div>
+                        </div>
+                    <div className={css(styles.entity)} style={{ width: '28%' }}>
+                        <h4>Comments</h4>
+                        <hr />
                     </div>
-                <div style={{ width: '25%'}}>
-                    <h4>Comments</h4>
-                    <hr />
                 </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button onClick={this.handleClose}>Close</Button>
+                </Modal.Footer>
+                </Modal>
             </div>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={this.handleClose}>Close</Button>
-            </Modal.Footer>
-            </Modal>
-        </div>
         );
     }
     }
