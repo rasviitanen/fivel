@@ -119,6 +119,12 @@ defmodule Fivel.EssenceAlphas do
       |> Fivel.EssenceStates.add_patterns_opportunity_viable(alpha.name)
       |> Fivel.EssenceStates.add_patterns_opportunity_addressed(alpha.name)
       |> Fivel.EssenceStates.add_patterns_opportunity_benefit_accured(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_stakeholders_recognized(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_stakeholders_represented(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_stakeholders_involved(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_stakeholders_in_agreement(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_stakeholders_satisfied_for_deployment(alpha.name)
+      |> Fivel.EssenceStates.add_patterns_stakeholders_satisfied_in_use(alpha.name)
   end
 
   def add_essence_states_opportunity(alpha) do

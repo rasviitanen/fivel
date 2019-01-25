@@ -1,3 +1,4 @@
+
 const initialState = {
     patterns: {},
   };
@@ -11,7 +12,6 @@ export default function (state = initialState, action) {
                 ...state,
                 patterns: patterns_copy,
             };
-
         default:
             return state;
     }

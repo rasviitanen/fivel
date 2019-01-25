@@ -169,4 +169,61 @@ defmodule Fivel.EssenceStates do
     end
     state
   end
+
+
+
+
+  def add_patterns_stakeholders_recognized(state, essence_alpha_name) do
+    if state.name == "Recognized" and essence_alpha_name == "Stakeholders" do
+      add_pattern( state, %{"pattern" => %{"name" => "Stakeholder groups identified", "description" => "All the different groups of stakeholders that are, or will be, affected by the development and operation of the software system are identified", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Key stakeholder groups represented", "description" => "There is agreement on the stakeholder groups to be represented. At a minimum, the stakeholders groups that fund, use, support, and maintain the system have been considered.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Responsibilities defined", "description" => "The responsibilities of the stakeholder representatives have been defined.", "completed" => false }})
+    end
+    state
+  end 
+
+  def add_patterns_stakeholders_represented(state, essence_alpha_name) do
+    if state.name == "Represented" and essence_alpha_name == "Stakeholders" do
+      add_pattern( state, %{"pattern" => %{"name" => "Responsibilities agreed", "description" => "The stakeholder representatives have agreed to take on their responsibilities", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Representatives authorized", "description" => "The stakeholder representatives are authorized to carry out their responsibilities.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Collaboration approach agreed", "description" => "The collaboration approach among the stakeholder representatives has been agreed.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Way of working supported & respected", "description" => "The stakeholder representatives support and respect the team's way of working.", "completed" => false }})
+    end
+    state
+  end 
+  def add_patterns_stakeholders_involved(state, essence_alpha_name) do
+    if state.name == "Involved" and essence_alpha_name == "Stakeholders" do
+      add_pattern( state, %{"pattern" => %{"name" => "Representatives assist the team", "description" => "The stakeholder representatives assist the team in accordance with their responsibilities.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Timely feedback and decisions provided", "description" => "The stakeholder representatives provide feedback and take part in decision making in a timely manner.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Changes promptly communicated", "description" => "The stakeholder representatives promptly communicate changes that are relevant for their stakeholder groups.", "completed" => false }})
+    end
+    state
+  end 
+
+  def add_patterns_stakeholders_in_agreement(state, essence_alpha_name) do
+    if state.name == "In Agreement" and essence_alpha_name == "Stakeholders" do
+      add_pattern( state, %{"pattern" => %{"name" => "Minimal expectations agreed", "description" => "The stakeholder representatives have agreed upon their minimal expectations for the next deployment of the new system.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Rep's happy with their involvement", "description" => "The stakeholder representatives are happy with their involvement in the work.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Rep's input valued", "description" => "The stakeholder representatives agree that their input is valued by the team and treated with respect.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Team's input valued", "description" => "The team members agree that their input is valued by the stakeholder representatives and treated with respect.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "Priorities clear & perspectives balanced", "description" => "The stakeholder representatives agree with how their different priorities and perspectives are being balanced to provide a clear direction for the team.", "completed" => false }})
+    end
+    state
+  end 
+
+  def add_patterns_stakeholders_satisfied_for_deployment(state, essence_alpha_name) do
+    if state.name == "Satisfied for Deployment" and essence_alpha_name == "Stakeholders" do
+      add_pattern( state, %{"pattern" => %{"name" => "Stakeholder feedback provided", "description" => "The stakeholder representatives provide feedback on the system from their stakeholder group perspective.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "System ready for deployment", "description" => "The stakeholder representatives confirm that they agree that the system is ready for deployment.", "completed" => false }})
+    end
+    state
+  end 
+
+  def add_patterns_stakeholders_satisfied_in_use(state, essence_alpha_name) do
+    if state.name == "Satisfied in Use" and essence_alpha_name == "Stakeholders" do
+      add_pattern( state, %{"pattern" => %{"name" => "Feedback on system use available", "description" => "Stakeholders are using the new system and providing feedback on their experiences.", "completed" => false }})
+      add_pattern( state, %{"pattern" => %{"name" => "System meets expectations", "description" => "The stakeholders confirm that the new system meets their expectations.", "completed" => false }})
+    end
+    state
+  end 
 end

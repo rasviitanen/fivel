@@ -9,7 +9,7 @@ import StateLargeView from '../StateLargeView';
 
 const styles = StyleSheet.create({
   state: {
-    width: '15%',
+    width: '100%',
     borderRadius: '5px',
     margin: '5px',
     background: '#fff',

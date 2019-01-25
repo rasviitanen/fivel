@@ -10,14 +10,17 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     borderRadius: '3px',
-    flexDirection: 'row',
-    background: 'WhiteSmoke',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     margin: '5px'
   },
 
+  alphas: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+
   alpha: {
-    width: '10%',
     borderRadius: '3px',
     padding: '5px',
     margin: '10px',
@@ -57,7 +60,9 @@ const AlphaListItem = ({ alpha }: Props) => {
             </ReactTooltip>
           </div>
       </div>
-      { renderStates(alpha) }
+      <div className={css(styles.alphas)}>
+        { renderStates(alpha) }
+      </div>
     </div>
 );
 };

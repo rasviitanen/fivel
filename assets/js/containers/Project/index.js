@@ -43,7 +43,7 @@ class Room extends Component {
 
   render() {
     return (
-      <div style={{ flex: '1', background: '#fff' }}>
+      <div style={{ flex: '1' }}>
         <Alphas room_id={ this.props.match.params.id }/>
       </div>
     );

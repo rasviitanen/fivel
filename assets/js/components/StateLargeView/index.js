@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
   entity: {
     background: "WhiteSmoke", 
     padding: '10px',
-    borderRadius: '5px'
+    borderRadius: '5px',
+    margin: "0 -5px"
   }
 });
 
@@ -66,9 +67,11 @@ class StateLargeView extends Component<Props, State> {
                         <hr />
                         <div className={css(styles.entity)}>
                             <h4>To Do </h4>
-                            <div style={{ padding: '3px 8px', cursor: 'pointer', color: '#fff', background: 'SlateBlue', borderRadius: '3px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i> Create new</div>
+                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px'}}>Contact Stakeholders</div>
+                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px'}}>Contact</div>
+                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px' }}>asd asdas</div>
+                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', color: '#fff', background: 'SlateBlue', borderRadius: '3px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i> Create new</div>
                             <hr />
-                            <p>Contact Stakeholders</p>
                             <h4>Doing</h4>
                             <hr />
 
@@ -77,7 +80,7 @@ class StateLargeView extends Component<Props, State> {
                         </div>
                         </div>
                     <div className={css(styles.entity)} style={{ width: '28%' }}>
-                        <h4>Comments</h4>
+                        <h4>Discussion</h4>
                         <hr />
                     </div>
                 </div>
