@@ -1,12 +1,16 @@
 // @flow
 import React, { Component } from 'react';
 import { css, StyleSheet } from 'aphrodite';
+import { connect } from 'react-redux';
+
 import ReactTooltip from 'react-tooltip';
 import Checklist from '../Checklist';
 
-import { State as EssenceState } from '../../types';
+import { State as EssenceState, Todo } from '../../types';
 
 import { Button, Tooltip, Popover, Modal, OverlayTrigger } from 'react-bootstrap';
+import { fetchTodos, addTodo } from '../../actions/states';
+
 
 const styles = StyleSheet.create({
   entity: {
@@ -19,6 +23,9 @@ const styles = StyleSheet.create({
 
 type Props = {
     state: EssenceState,
+    todos: Array<Todo>,
+    fetchTodos: () => void,
+    addTodo: () => void,
 }
 
 type State = {
@@ -36,6 +43,14 @@ class StateLargeView extends Component<Props, State> {
             show: false
         };
     }
+
+    addTodo = (name) => {    
+        this.props.addTodo(this.props.state.id, name);
+    };
+
+    fetchTodos = () => {    
+        this.props.fetchTodos(this.props.state.id);
+    };
 
     handleClose() {
         this.setState({ show: false });
@@ -70,7 +85,7 @@ class StateLargeView extends Component<Props, State> {
                             <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px'}}>Contact Stakeholders</div>
                             <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px'}}>Contact</div>
                             <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px' }}>asd asdas</div>
-                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', color: '#fff', background: 'SlateBlue', borderRadius: '3px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i> Create new</div>
+                            <div onClick={ this.addTodo("first todo") } style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', color: '#fff', background: 'SlateBlue', borderRadius: '3px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i> Create new</div>
                             <hr />
                             <h4>Doing</h4>
                             <hr />
@@ -94,4 +109,9 @@ class StateLargeView extends Component<Props, State> {
     }
     }
 
-export default StateLargeView;
+export default connect(
+    (state) => ({
+      todos: state.states.todos,
+    }),
+    { fetchTodos, addTodo }
+  )(StateLargeView);;

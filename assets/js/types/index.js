@@ -16,6 +16,12 @@ export type Pattern = {
     completed: boolean,
 }
 
+export type Todo = {
+    id: number,
+    name: string,
+    state: string,
+}
+
 export type Alpha = {
     id: number,
     name: string,

@@ -14,19 +14,3 @@ export function togglePatternCompleted(pattern) {
     }
 }
 
-export function togglePatternInListCompleted(patterns, index) {
-    console.log("ran toggle");
-    if (patterns[index].completed) {
-        return dispatch => api.post(`/patterns/${patterns[index].id}/uncompleted`)
-            .then((response) => {
-            dispatch({ type: 'PATTERN_LIST_CHANGED', response, patterns, index });
-        });
-    } else {
-        return dispatch => api.post(`/patterns/${patterns[index].id}/completed`)
-            .then((response) => {
-            dispatch({ type: 'PATTERN_LIST_CHANGED', response, patterns, index });
-        });
-    }
-}
-
-

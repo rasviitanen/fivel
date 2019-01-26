@@ -40,4 +40,21 @@ defmodule FivelWeb.EssenceStateController do
       send_resp(conn, :no_content, "")
     end
   end
+
+  def todos(conn, %{"id" => id}) do
+    essence_state = EssenceStates.get_essence_state!(id)
+      |> Repo.preload(:todos)
+
+    todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+    render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
+  end
+
+  def create_todo(conn, %{"id" => id, "todo" => todo_params}) do
+    essence_state = EssenceStates.get_essence_state!(id)
+    EssenceStates.add_todo(essence_state, %{"todo" => todo_params})
+
+    todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+    render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
+  end
+
 end

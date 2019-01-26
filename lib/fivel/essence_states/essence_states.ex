@@ -102,10 +102,17 @@ defmodule Fivel.EssenceStates do
     EssenceState.changeset(essence_state, %{})
   end
 
-
+  def add_todo(essence_state, %{"todo" => todo_params}) do
+    todo = %Fivel.Todos.Todo{} 
+      |> Fivel.Todos.Todo.changeset(todo_params || %{})
+      |> Ecto.Changeset.change
+      |> Ecto.Changeset.put_assoc(:essence_state, essence_state)
+      |> Repo.insert!
+  end
+  
   def add_pattern(essence_state, %{"pattern" => pattern_params}) do
     pattern = %Fivel.Patterns.Pattern{}
-      |> EssenceState.changeset(pattern_params || %{})
+      |> Fivel.Patterns.Pattern.changeset(pattern_params || %{})
       |> Ecto.Changeset.change
       |> Ecto.Changeset.put_assoc(:essence_state, essence_state)
       |> Repo.insert!
@@ -170,8 +177,7 @@ defmodule Fivel.EssenceStates do
     state
   end
 
-
-
+  
 
   def add_patterns_stakeholders_recognized(state, essence_alpha_name) do
     if state.name == "Recognized" and essence_alpha_name == "Stakeholders" do
