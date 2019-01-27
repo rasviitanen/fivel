@@ -7,6 +7,7 @@ export type State = {
     id: number,
     name: string,
     description: string,
+    todos: Array<Todo>,
 }
 
 export type Pattern = {

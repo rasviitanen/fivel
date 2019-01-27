@@ -1,7 +1,8 @@
 const initialState = {
     states: [],
     todos: [],
-  };
+    updatedStateId: 0,
+};
   
 export default function (state = initialState, action) {    
     switch (action.type) {
@@ -17,12 +18,14 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 todos: todos_copy,
+                updatedStateId: action.stateId
             };
         case 'TODOS_UPDATED':
             var todos_copy = action.response.data.reverse();
             return {
                 ...state,
                 todos: todos_copy,
+                updatedStateId: action.stateId
             };
         default:
             return state;

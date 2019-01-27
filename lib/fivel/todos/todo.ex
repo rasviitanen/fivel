@@ -1,4 +1,6 @@
 defmodule Fivel.Todos.Todo do
+  @derive {Jason.Encoder, only: [ :id, :name, :state ]}
+  
   use Ecto.Schema
   import Ecto.Changeset
 

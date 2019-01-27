@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { connect } from 'react-redux';
 
-import ReactTooltip from 'react-tooltip';
 import Checklist from '../Checklist';
 import NewTodoForm from '../NewTodoForm';
 
@@ -29,6 +28,7 @@ const styles = StyleSheet.create({
 type Props = {
     state: EssenceState,
     todos: Object,
+    updatedStateId: number,
     fetchTodos: () => void,
     addTodo: () => void,
     deleteTodo: () => void,
@@ -50,6 +50,17 @@ class StateLargeView extends Component<Props, State> {
         this.state = {
             show: false
         };
+    }
+
+    componentDidMount() {
+        this.props.fetchTodos(this.props.state.id);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.state.id === nextProps.updatedStateId || this.state.show == true) {
+            return true;
+        }
+        return false;
     }
 
     renderTodos() {
@@ -137,6 +148,7 @@ class StateLargeView extends Component<Props, State> {
 export default connect(
     (state) => ({
       todos: state.states.todos,
+      updatedStateId: state.states.updatedStateId
     }),
     { fetchTodos, addTodo, deleteTodo }
-  )(StateLargeView);;
+  )(StateLargeView);

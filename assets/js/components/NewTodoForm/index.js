@@ -18,7 +18,7 @@ class NewTodoForm extends Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form autocomplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
+      <form autoComplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
           <InputGroup>
             <Field 
             name="name"

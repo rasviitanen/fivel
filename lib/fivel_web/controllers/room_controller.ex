@@ -111,7 +111,7 @@ defmodule FivelWeb.RoomController do
       |> Repo.preload(:essence_alphas)
 
     alphas = Repo.all(Ecto.assoc(room, :essence_alphas))
-      |>Repo.preload([essence_states: [:patterns]])    
+      |>Repo.preload([essence_states: [:patterns, :todos]])    
 
     render(conn, FivelWeb.EssenceAlphaView, "index.json", %{essence_alphas: alphas})
   end
