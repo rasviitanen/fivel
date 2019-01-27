@@ -67,7 +67,7 @@ class StateLargeView extends Component<Props, State> {
     renderTodos() {
         return this.props.todos.map((todo) => {
             if (todo.state === "todo") {
-                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'DodgerBlue', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#0087af', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <span>{ todo.name } <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "doing"}}) }></i></span>
                     <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
                 </div>);
@@ -78,7 +78,7 @@ class StateLargeView extends Component<Props, State> {
     renderDoing() {
         return this.props.todos.map((todo) => {
             if (todo.state === "doing") {
-                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'Orange', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#c6bc4b', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "todo"}}) }></i> <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "done"}}) }></i></span>
                     <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
                 </div>);
@@ -89,7 +89,7 @@ class StateLargeView extends Component<Props, State> {
     renderDone() {
         return this.props.todos.map((todo) => {
             if (todo.state === "done") {
-                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'MediumSeaGreen', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#008700', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "doing"}}) }></i></span>
                     <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
                 </div>);
@@ -125,9 +125,10 @@ class StateLargeView extends Component<Props, State> {
         return (
             <div>
                 <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
-                <Modal isOpen={this.state.show} size="lg" fade={ false } toggle={this.handleClose} centered={ true }>
+                <Modal isOpen={this.state.show} size="lg" fade={ false } toggle={this.handleClose}>
                     <ModalHeader>
-                        { this.props.state.name }
+                        <h3>{ this.props.state.name }</h3>
+                        { this.props.state.description }
                     </ModalHeader>
                     
                     <ModalBody>

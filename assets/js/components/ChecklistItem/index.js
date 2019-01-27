@@ -15,22 +15,29 @@ const styles = StyleSheet.create({
   },
 
   pattern: {
-    display: 'flex',
-    justifyContent: 'space-between',
     padding: '12px',
-    alignItems: 'center',
   },
 
   completed: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: 'center',
+
     color: '#fff',
-    background: 'MediumSeaGreen',
+    background: '#008700',
     transition: '0.3s',
     cursor: 'pointer',
   },
 
   uncompleted: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignItems: 'center',
+
     color: 'grey',
-    background: '#fff',
+    background: '#eee',
     transition: '0.3s',
     cursor: 'pointer',    
   },
@@ -53,7 +60,8 @@ class ChecklistItem extends Component<Props> {
 
     return (
       <li key={ pattern.name } onClick={ this.handleClick } className={"list-group-item pattern " + css( pattern.completed ? styles.completed : styles.uncompleted)}>
-        <span><i className={ pattern.completed ? "fa fa-check-circle" : "fa fa-circle-o" }/> { pattern.name } <i className="fa fa-info" data-tip data-for={ pattern.name }/></span>
+        <span><i className={ pattern.completed ? "fa fa-check-circle" : "fa fa-circle-o" }/> { pattern.name } </span>
+        <i className="fa fa-info" data-tip data-for={ pattern.name }/>
         <ReactTooltip id={ pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
             <p style={{fontWeight: "bold"}}>{ pattern.name }</p>
             <p>{ pattern.description }</p>

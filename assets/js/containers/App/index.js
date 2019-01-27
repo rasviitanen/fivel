@@ -40,7 +40,7 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', flex: '1', flexDirection: 'column', background: '#eee' }}>
 
           <Navbar />
           <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>

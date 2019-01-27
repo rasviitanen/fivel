@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: '0 1rem',
     height: '50px',
-    background: 'DodgerBlue',
+    background: '#4b6f8e',
     justifyContent: 'space-between',
     boxShadow: '0 1px 1px rgba(0,0,0,.1)',
     position: 'sticky',
@@ -61,6 +61,7 @@ class NavBar extends Component {
 
           {isAuthenticated &&
             <nav>
+              <img src={"https://avatars.dicebear.com/v2/identicon/" + currentUser.username + ".svg"} height="15px" style={{ marginRight: "5px" }}></img>
               <span style={{ marginRight: "15px" }}>{currentUser.username}</span>
               <div type="button" onClick={this.handleLogout}
               className="btn btn-primary">

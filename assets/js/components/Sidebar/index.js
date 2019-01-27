@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: '12px 6px',
     width: '200px',
+    background: '#fff',
   },
 
   link: {
@@ -80,7 +81,15 @@ class Sidebar extends Component<Props> {
         </MenuItem>
       </NavDropdown>
       <hr />
-      { this.props.currentRoom.name }
+      <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="50px" style={{ marginBottom: '12px'}}></img>
+        <h3 style={{ fontWeight: 'bold'}}>{ this.props.currentRoom.name }</h3>
+        Current Users
+        <div>
+        <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="20px" style={{ marginRight: '5px'}}></img>
+        <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="20px" style={{ marginRight: '5px'}}></img>
+        </div>
+      </div>
     </div>
     );
   }

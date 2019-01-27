@@ -9,10 +9,12 @@ import StateListItem from '../StateListItem';
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    borderRadius: '3px',
+    borderRadius: '8px',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    margin: '5px'
+    color: 'grey',
+    background: '#ccc',
+    margin: '10px'
   },
 
   alphas: {
@@ -23,8 +25,7 @@ const styles = StyleSheet.create({
   alpha: {
     borderRadius: '3px',
     padding: '5px',
-    margin: '10px',
-    color: "grey",
+    marginLeft: '5px',
   },
 
   tooltip: {
@@ -52,13 +53,11 @@ const AlphaListItem = ({ alpha }: Props) => {
   return (
     <div className={css(styles.container)}>
       <div key={alpha.id} className={css(styles.alpha)}>
-          <div>
             <span style={{ fontWeight: "bold" }}>{alpha.name} <i className="fa fa-info-circle" data-tip data-for={ alpha.name }></i></span>
             <ReactTooltip id={ alpha.name } className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
               <p style={{ fontWeight: "bold" }}>{ alpha.name }</p>
               <p>{ alpha.description }</p>
             </ReactTooltip>
-          </div>
       </div>
       <div className={css(styles.alphas)}>
         { renderStates(alpha) }

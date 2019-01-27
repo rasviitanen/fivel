@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchAlphas } from '../../actions/alphas';
 import AlphaListItem from '../../components/AlphaListItem'
+import { Spinner } from 'reactstrap';
 
 import { Alpha } from '../../types';
 
@@ -14,13 +15,22 @@ type Props = {
   fetchAlphas: () => void,
 }
 
-class Alphas extends Component<Props> {
+type State = {
+  isLoading: boolean,
+}
+
+class Alphas extends Component<Props, State> {
+  state = {
+    isLoading: true,
+  }
+
   static contextTypes = {
     router: PropTypes.object,
   }
 
   componentDidMount() {
     this.props.fetchAlphas(this.props.room_id);
+    setTimeout(() => this.setState({ isLoading: false }), 200);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -28,12 +38,14 @@ class Alphas extends Component<Props> {
     const nextId = nextProps.room_id
 
     if (currentId !== nextId) {
+      this.setState({ isLoading: true });
       this.props.fetchAlphas(nextId);
+      setTimeout(() => this.setState({ isLoading: false }), 200);
     }
   }
 
   renderAlphas() {
-    return this.props.alphas.reverse().map((alpha) =>
+    return this.props.alphas.map((alpha) =>
       <div key={ alpha.id } style={{ flex: '1' }}>
         <AlphaListItem
           alpha={alpha}
@@ -46,7 +58,7 @@ class Alphas extends Component<Props> {
   render() {
     return (
       <div style={{ flex: '1' }}>
-          {this.renderAlphas()}
+          { this.state.isLoading ? <i className="fa fa-spinner fa-spin" style={{padding: '48px', fontSize: '48px'}}/> : this.renderAlphas() }
       </div>
     );
   }
@@ -54,7 +66,7 @@ class Alphas extends Component<Props> {
 
 export default connect(
   state => ({
-    alphas: state.alphas.all,
+    alphas: state.alphas.all.reverse(),
   }),
   { fetchAlphas }
 )(Alphas);

@@ -1,5 +1,5 @@
 const initialState = {
-    all: []
+    all: [],
   };
   
 export default function (state = initialState, action) {

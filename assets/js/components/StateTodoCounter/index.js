@@ -27,7 +27,7 @@ type Props = {
     numDone: number,
 }
 
-class StateTodoCounter extends Component<Props, State> {
+class StateTodoCounter extends Component<Props> {
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props.stateId === nextProps.updatedStateId) {
             return true;
