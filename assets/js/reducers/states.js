@@ -1,6 +1,6 @@
 const initialState = {
     states: [],
-    todos: []
+    todos: [],
   };
   
 export default function (state = initialState, action) {    
@@ -13,9 +13,16 @@ export default function (state = initialState, action) {
             };
 
         case 'FETCH_TODOS_SUCCESS':
+            var todos_copy = action.response.data.reverse();
             return {
                 ...state,
-                todos: action.response.data.reverse(),
+                todos: todos_copy,
+            };
+        case 'TODOS_UPDATED':
+            var todos_copy = action.response.data.reverse();
+            return {
+                ...state,
+                todos: todos_copy,
             };
         default:
             return state;

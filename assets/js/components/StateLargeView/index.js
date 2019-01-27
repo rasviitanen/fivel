@@ -5,11 +5,12 @@ import { connect } from 'react-redux';
 
 import ReactTooltip from 'react-tooltip';
 import Checklist from '../Checklist';
+import NewTodoForm from '../NewTodoForm';
 
 import { State as EssenceState, Todo } from '../../types';
 
-import { Button, Tooltip, Popover, Modal, OverlayTrigger } from 'react-bootstrap';
-import { fetchTodos, addTodo } from '../../actions/states';
+import { Card, CardBody, CardTitle, CardFooter, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { fetchTodos, addTodo, deleteTodo } from '../../actions/states';
 
 
 const styles = StyleSheet.create({
@@ -17,20 +18,27 @@ const styles = StyleSheet.create({
     background: "WhiteSmoke", 
     padding: '10px',
     borderRadius: '5px',
-    margin: "0 -5px"
+    margin: "0 -5px",
+  },
+  
+  hr: {
+    margin: '0px'
   }
 });
 
 type Props = {
     state: EssenceState,
-    todos: Array<Todo>,
+    todos: Object,
     fetchTodos: () => void,
     addTodo: () => void,
+    deleteTodo: () => void,
 }
 
 type State = {
     show: boolean,
 }
+
+
 
 class StateLargeView extends Component<Props, State> {
     constructor(props, context) {
@@ -44,12 +52,21 @@ class StateLargeView extends Component<Props, State> {
         };
     }
 
+    renderTodos() {
+        return this.props.todos.map((todo) =>
+            <div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'SlateBlue', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                { todo.name }
+                <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
+            </div>
+        );
+    }
+
     addTodo = (name) => {    
         this.props.addTodo(this.props.state.id, name);
     };
 
-    fetchTodos = () => {    
-        this.props.fetchTodos(this.props.state.id);
+    deleteTodo = (id) => {    
+        this.props.deleteTodo(this.props.state.id, id);
     };
 
     handleClose() {
@@ -57,52 +74,60 @@ class StateLargeView extends Component<Props, State> {
     }
 
     handleShow() {
+        this.props.fetchTodos(this.props.state.id);
         this.setState({ show: true });
     }
 
+    handleNewTodoSubmit = data => this.props.addTodo(this.props.state.id, data);
+
     render() {
-        const popover = (
-        <Popover id="modal-popover" title="popover">
-            very popover. such engagement
-        </Popover>
-        );
+        console.log("rendering");
         return (
             <div>
                 <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
-                <Modal show={this.state.show} onHide={this.handleClose} bsSize="large">
-                <Modal.Header closeButton>
-                    <Modal.Title>{ this.props.state.name }</Modal.Title>
-                    <p>{ this.props.state.description }</p>
-                </Modal.Header>
-                <Modal.Body>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                    <div style={{ width: '70%'}}>
-                        <h3>Checklist</h3>
-                        <Checklist  patterns={this.props.state.patterns}/>
-                        <hr />
-                        <div className={css(styles.entity)}>
-                            <h4>To Do </h4>
-                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px'}}>Contact Stakeholders</div>
-                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px'}}>Contact</div>
-                            <div style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', background: '#fff', borderRadius: '3px' }}>asd asdas</div>
-                            <div onClick={ this.addTodo("first todo") } style={{ margin: '5px', padding: '3px 8px', cursor: 'pointer', color: '#fff', background: 'SlateBlue', borderRadius: '3px'}}><i class="fa fa-plus-circle" aria-hidden="true"></i> Create new</div>
+                <Modal isOpen={this.state.show} fade={ false } toggle={this.handleClose} size="lg">
+                    <ModalHeader>
+                        { this.props.state.name }
+                    </ModalHeader>
+                    
+                    <ModalBody>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+                        <div style={{ width: '70%'}}>
+                            <h3>Checklist</h3>
+                            <Checklist patterns={this.props.state.patterns}/>
                             <hr />
-                            <h4>Doing</h4>
-                            <hr />
+                            <Card>
+                                <CardBody>
+                                    <CardTitle>To Do</CardTitle>
+                                </CardBody>
+                                    { this.renderTodos() }
+                                <CardFooter>
+                                    <NewTodoForm onSubmit={ this.handleNewTodoSubmit } ></NewTodoForm>
+                                </CardFooter>
+                            </Card>
 
-                            <h4>Done</h4>
+                            <Card>
+                                <CardBody>
+                                    <CardTitle>Doing</CardTitle>
+                                </CardBody>
+                            </Card>
+                            
+                            <Card>
+                                <CardBody>
+                                    <CardTitle>Done</CardTitle>
+                                </CardBody>
+                            </Card>
+                            </div>
+                        <div className={css(styles.entity)} style={{ width: '28%' }}>
+                            <h4>Discussion</h4>
                             <hr />
                         </div>
-                        </div>
-                    <div className={css(styles.entity)} style={{ width: '28%' }}>
-                        <h4>Discussion</h4>
-                        <hr />
                     </div>
-                </div>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={this.handleClose}>Close</Button>
-                </Modal.Footer>
+                    </ModalBody>
+
+                    <ModalFooter>
+                        <Button onClick={this.handleClose}>Close</Button>
+                    </ModalFooter>
                 </Modal>
             </div>
         );
@@ -113,5 +138,5 @@ export default connect(
     (state) => ({
       todos: state.states.todos,
     }),
-    { fetchTodos, addTodo }
+    { fetchTodos, addTodo, deleteTodo }
   )(StateLargeView);;

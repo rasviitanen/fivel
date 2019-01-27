@@ -39,6 +39,7 @@ class Alphas extends Component<Props> {
           alpha={alpha}
         />
       </div>
+      
     );
   }
 

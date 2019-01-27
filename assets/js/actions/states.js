@@ -13,10 +13,17 @@ export function fetchTodos(stateId) {
       });
   }
   
-  export function addTodo(stateId, name) {
-    const todo = {"todo": { "name": name }};
+export function addTodo(stateId, name) {
+    const todo = {"todo": name};
     return dispatch => api.post(`/states/${stateId}/add/todo`, todo)
         .then((response) => {
-            dispatch({ type: 'CREATE_TODO_SUCCESS', response });
+            dispatch({ type: 'TODOS_UPDATED', response });
         });
-  }
+}
+
+export function deleteTodo(stateId, todoId) {
+    return dispatch => api.post(`/states/${stateId}/todos/${todoId}/delete`)
+        .then((response) => {
+            dispatch({ type: 'TODOS_UPDATED', response });
+        });
+}

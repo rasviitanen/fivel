@@ -9,7 +9,7 @@ type Props = {
   submitting: boolean,
 }
 
-class NewRoomForm extends Component {
+class NewTodoForm extends Component {
   props: Props
 
   handleSubmit = data => this.props.onSubmit(data);
@@ -18,17 +18,17 @@ class NewRoomForm extends Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.handleSubmit)}>
+      <form autocomplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
           <InputGroup>
-            <Field
-              name="name"
+            <Field 
+            name="name"
               type="text"
-              placeholder="Name"
+              placeholder="Write a to do that helps you fulfill the checklist..."
               component="input"
               className="form-control"
             />
             <InputGroupAddon addonType="append">
-              <Button type="submit" disabled={submitting}>{submitting ? 'Saving...' : 'Submit'}</Button>
+              <Button color="success" type="submit" disabled={submitting} style={{ marginBottom: '0px' }}>{submitting ? 'Adding...' : 'Add'}</Button>
             </InputGroupAddon>
           </InputGroup>
       </form>
@@ -45,6 +45,6 @@ const validate = (values) => {
 };
 
 export default reduxForm({
-  form: 'newRoom',
+  form: 'newTodo',
   validate,
-})(NewRoomForm);
+})(NewTodoForm);

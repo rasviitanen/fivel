@@ -43,7 +43,7 @@ defmodule FivelWeb.EssenceStateController do
 
   def todos(conn, %{"id" => id}) do
     essence_state = EssenceStates.get_essence_state!(id)
-      |> Repo.preload(:todos)
+      |> Fivel.Repo.preload(:todos)
 
     todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
     render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
@@ -55,6 +55,16 @@ defmodule FivelWeb.EssenceStateController do
 
     todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
     render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
+  end
+
+  def delete_todo(conn, %{"todo_id" => todo_id, "state_id" => state_id}) do
+    todo = Fivel.Todos.get_todo!(todo_id)
+  
+    with {:ok, %Fivel.Todos.Todo{}} <- Fivel.Todos.delete_todo(todo) do
+      essence_state = EssenceStates.get_essence_state!(state_id)
+      todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+      render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
+    end
   end
 
 end

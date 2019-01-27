@@ -73,6 +73,7 @@ class Home extends Component {
             {this.renderRooms()}
           </div>
         </div>
+
       </div>
     );
   }

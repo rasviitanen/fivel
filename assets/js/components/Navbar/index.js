@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     zIndex: '20',
     flex: '1',
     color: '#fff',
-
   },
 
   link: {
@@ -64,7 +63,7 @@ class NavBar extends Component {
             <nav>
               <span style={{ marginRight: "15px" }}>{currentUser.username}</span>
               <div type="button" onClick={this.handleLogout}
-              className="btn btn-sm">
+              className="btn btn-primary btn-sm">
                 <i className="fa fa-sign-out" ></i> Sign Out
               </div>
             </nav>
