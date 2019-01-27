@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: '12px 6px',
     width: '200px',
+    minHeight: '100vh',
     background: '#fff',
   },
 
