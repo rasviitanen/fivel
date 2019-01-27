@@ -50,6 +50,8 @@ defmodule FivelWeb.Router do
     post "/states/:id/todos", EssenceStateController, :todos
     post "/states/:id/add/todo", EssenceStateController, :create_todo
     post "/states/:state_id/todos/:todo_id/delete", EssenceStateController, :delete_todo
+    post "/states/:state_id/todos/:todo_id/update", EssenceStateController, :update_todo
+
 
     post "/patterns/:id/completed", PatternController, :setCompleted
     post "/patterns/:id/uncompleted", PatternController, :setUncompleted

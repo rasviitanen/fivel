@@ -21,6 +21,13 @@ export function addTodo(stateId, name) {
         });
 }
 
+export function changeTodo(stateId, todoId, change) {
+    return dispatch => api.post(`/states/${stateId}/todos/${todoId}/update`, change)
+        .then((response) => {
+            dispatch({ type: 'TODOS_UPDATED', response, stateId: stateId });
+        });
+}
+
 export function deleteTodo(stateId, todoId) {
     return dispatch => api.post(`/states/${stateId}/todos/${todoId}/delete`)
         .then((response) => {

@@ -67,4 +67,14 @@ defmodule FivelWeb.EssenceStateController do
     end
   end
 
+  def update_todo(conn, %{"todo_id" => todo_id, "state_id" => state_id, "todo" => todo_params}) do
+    todo = Fivel.Todos.get_todo!(todo_id)
+
+    with {:ok, %Fivel.Todos.Todo{} = todo} <- Fivel.Todos.update_todo(todo, todo_params) do
+      essence_state = EssenceStates.get_essence_state!(state_id)
+      todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+      render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
+    end
+  end
+
 end

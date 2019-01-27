@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 
   stateHead: {
     display: 'flex',
-    margin: '10px',
+    margin: '5px',
     flexDirection: 'column',
     textAlign: 'center'
   },
@@ -56,13 +56,16 @@ class StateListItem extends Component<Props> {
     return (
       <div className={css(styles.state)}>
         <div className={css(styles.stateHead)}>
-          <span style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name }</span>
-          <div style={{ display: "flex", flexDirection: "row", padding: "10px", justifyContent: "center", alignItems: "center" }}>
+
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+            <span style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name }</span>
             <i className="fa fa-info-circle" style={{margin: '5px'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha }></i>
             <StateLargeView style={{margin: '5px'}} state={ this.props.state } setNumTodos={ () => this.setNumTodos.bind(this) }/>
           </div>
-          <StateTodoCounter stateId={ this.props.state.id } numTodos={ this.props.state.todos.length }/>
 
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+            <StateTodoCounter stateId={ this.props.state.id } numTodos={ this.props.state.todos.length }/>
+          </div>
         </div>
         <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
           <p style={{fontWeight: "bold"}}>{ this.props.state.name }</p>

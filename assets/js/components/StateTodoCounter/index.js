@@ -3,11 +3,7 @@ import React, { Component } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { connect } from 'react-redux';
 
-import Checklist from '../Checklist';
-import NewTodoForm from '../NewTodoForm';
-
-import { Card, CardBody, CardTitle, CardFooter, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { fetchTodos, addTodo, deleteTodo } from '../../actions/states';
+import { Badge } from 'reactstrap';
 
 
 const styles = StyleSheet.create({
@@ -27,6 +23,8 @@ type Props = {
     stateId: number,
     updatedStateId: number,
     numTodos: number,
+    numDoing: number,
+    numDone: number,
 }
 
 class StateTodoCounter extends Component<Props, State> {
@@ -38,9 +36,12 @@ class StateTodoCounter extends Component<Props, State> {
     }
 
     render() {
+        const renderColor = (this.props.numTodos + this.props.numDoing == 0);
         return (
             <div>
-                { this.props.numTodos }
+                <Badge style={{ margin: "5px" }} color={(renderColor) ? "secondary" : "warning"}>To Do: { this.props.numTodos }</Badge>
+                <Badge style={{ margin: "5px" }} color={(renderColor) ? "secondary" : "warning"}>Doing: { this.props.numDoing }</Badge>
+                <Badge style={{ margin: "5px" }} color={(renderColor) ? "secondary" : "warning"}>Done: { this.props.numDone }</Badge>
             </div>
         );
         }
@@ -48,7 +49,9 @@ class StateTodoCounter extends Component<Props, State> {
 
 export default connect(
     (state) => ({
-        numTodos: state.states.todos.length,
+        numTodos: state.states.numTodos,
+        numDoing: state.states.numDoing,
+        numDone: state.states.numDone,
         updatedStateId: state.states.updatedStateId
     }),
   )(StateTodoCounter);

@@ -9,7 +9,7 @@ import NewTodoForm from '../NewTodoForm';
 import { State as EssenceState, Todo } from '../../types';
 
 import { Card, CardBody, CardTitle, CardFooter, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { fetchTodos, addTodo, deleteTodo } from '../../actions/states';
+import { fetchTodos, addTodo, deleteTodo, changeTodo } from '../../actions/states';
 
 
 const styles = StyleSheet.create({
@@ -32,6 +32,7 @@ type Props = {
     fetchTodos: () => void,
     addTodo: () => void,
     deleteTodo: () => void,
+    changeTodo: () => void,
 }
 
 type State = {
@@ -64,12 +65,36 @@ class StateLargeView extends Component<Props, State> {
     }
 
     renderTodos() {
-        return this.props.todos.map((todo) =>
-            <div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'SlateBlue', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                { todo.name }
-                <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
-            </div>
-        );
+        return this.props.todos.map((todo) => {
+            if (todo.state === "todo") {
+                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'DodgerBlue', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <span>{ todo.name } <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "doing"}}) }></i></span>
+                    <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
+                </div>);
+            }
+        });
+    }
+
+    renderDoing() {
+        return this.props.todos.map((todo) => {
+            if (todo.state === "doing") {
+                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'Orange', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "todo"}}) }></i> <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "done"}}) }></i></span>
+                    <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
+                </div>);
+            }
+        });
+    }
+
+    renderDone() {
+        return this.props.todos.map((todo) => {
+            if (todo.state === "done") {
+                return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: 'MediumSeaGreen', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                    <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "doing"}}) }></i></span>
+                    <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
+                </div>);
+            }
+        });
     }
 
     addTodo = (name) => {    
@@ -78,6 +103,10 @@ class StateLargeView extends Component<Props, State> {
 
     deleteTodo = (id) => {    
         this.props.deleteTodo(this.props.state.id, id);
+    };
+
+    changeTodo = (id, change) => {    
+        this.props.changeTodo(this.props.state.id, id, change);
     };
 
     handleClose() {
@@ -96,7 +125,7 @@ class StateLargeView extends Component<Props, State> {
         return (
             <div>
                 <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
-                <Modal isOpen={this.state.show} fade={ false } toggle={this.handleClose} size="lg">
+                <Modal isOpen={this.state.show} size="lg" fade={ false } toggle={this.handleClose} centered={ true }>
                     <ModalHeader>
                         { this.props.state.name }
                     </ModalHeader>
@@ -107,11 +136,12 @@ class StateLargeView extends Component<Props, State> {
                             <h3>Checklist</h3>
                             <Checklist patterns={this.props.state.patterns}/>
                             <hr />
+                        <div className={css(styles.entity)}>
                             <Card>
                                 <CardBody>
                                     <CardTitle>To Do</CardTitle>
-                                </CardBody>
                                     { this.renderTodos() }
+                                </CardBody>
                                 <CardFooter>
                                     <NewTodoForm onSubmit={ this.handleNewTodoSubmit } ></NewTodoForm>
                                 </CardFooter>
@@ -120,15 +150,18 @@ class StateLargeView extends Component<Props, State> {
                             <Card>
                                 <CardBody>
                                     <CardTitle>Doing</CardTitle>
+                                    { this.renderDoing() }
                                 </CardBody>
                             </Card>
                             
                             <Card>
                                 <CardBody>
                                     <CardTitle>Done</CardTitle>
+                                    { this.renderDone() }
                                 </CardBody>
                             </Card>
-                            </div>
+                        </div>
+                        </div>
                         <div className={css(styles.entity)} style={{ width: '28%' }}>
                             <h4>Discussion</h4>
                             <hr />
@@ -150,5 +183,5 @@ export default connect(
       todos: state.states.todos,
       updatedStateId: state.states.updatedStateId
     }),
-    { fetchTodos, addTodo, deleteTodo }
+    { fetchTodos, addTodo, deleteTodo, changeTodo }
   )(StateLargeView);
