@@ -14,9 +14,6 @@ const styles = StyleSheet.create({
     fontSize: "14px"
   },
 
-  pattern: {
-    padding: '12px',
-  },
 
   completed: {
     display: 'flex',
@@ -28,6 +25,9 @@ const styles = StyleSheet.create({
     background: '#008700',
     transition: '0.3s',
     cursor: 'pointer',
+
+    margin: '3px 8px',
+    borderRadius: '20px',
   },
 
   uncompleted: {
@@ -39,7 +39,10 @@ const styles = StyleSheet.create({
     color: 'grey',
     background: '#eee',
     transition: '0.3s',
-    cursor: 'pointer',    
+    cursor: 'pointer',   
+    
+    margin: '3px 8px',
+    borderRadius: '20px',
   },
 });
 
@@ -59,7 +62,7 @@ class ChecklistItem extends Component<Props> {
     const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
 
     return (
-      <li key={ pattern.name } onClick={ this.handleClick } className={"list-group-item pattern " + css( pattern.completed ? styles.completed : styles.uncompleted)}>
+      <li key={ pattern.name } onClick={ this.handleClick } className={"list-group-item " + css( pattern.completed ? styles.completed : styles.uncompleted)}>
         <span><i className={ pattern.completed ? "fa fa-check-circle" : "fa fa-circle-o" }/> { pattern.name } </span>
         <i className="fa fa-info" data-tip data-for={ pattern.name }/>
         <ReactTooltip id={ pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
