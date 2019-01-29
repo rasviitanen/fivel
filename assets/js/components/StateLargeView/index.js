@@ -127,17 +127,16 @@ class StateLargeView extends Component<Props, State> {
                 <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
                 <Modal isOpen={this.state.show} size="lg" fade={ false } toggle={this.handleClose}>
                     <ModalHeader>
-                        <h3>{ this.props.state.name }</h3>
-                        { this.props.state.description }
+                        <strong>{ this.props.state.name }</strong>
+                        <br/>
+                        <span>{ this.props.state.description }</span>
                     </ModalHeader>
                     
                     <ModalBody>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                         <div style={{ width: '70%'}}>
-                            <h3>Checklist</h3>
                             <Checklist patterns={this.props.state.patterns}/>
-                            <hr />
-                        <div className={css(styles.entity)}>
+                        <div style={{ paddingTop: '5px'}}>
                             <Card>
                                 <CardBody>
                                     <CardTitle>To Do</CardTitle>

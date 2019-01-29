@@ -22,12 +22,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     color: '#fff',
-    background: '#008700',
+    background: '#0087af',
     transition: '0.3s',
     cursor: 'pointer',
-
-    margin: '3px 8px',
-    borderRadius: '20px',
   },
 
   uncompleted: {
@@ -37,12 +34,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
 
     color: 'grey',
-    background: '#eee',
     transition: '0.3s',
     cursor: 'pointer',   
-    
-    margin: '3px 8px',
-    borderRadius: '20px',
   },
 });
 

@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     color: 'grey',
-    background: '#ccc',
+    background: '#fff',
     margin: '10px'
   },
 

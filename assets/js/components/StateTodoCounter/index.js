@@ -39,9 +39,9 @@ class StateTodoCounter extends Component<Props> {
         const renderColor = (this.props.numTodos + this.props.numDoing == 0);
         return (
             <div>
-                <Badge style={{ margin: "5px" }} color={(renderColor) ? "secondary" : "warning"}>To Do: { this.props.numTodos }</Badge>
-                <Badge style={{ margin: "5px" }} color={(renderColor) ? "secondary" : "warning"}>Doing: { this.props.numDoing }</Badge>
-                <Badge style={{ margin: "5px" }} color={(renderColor) ? "secondary" : "warning"}>Done: { this.props.numDone }</Badge>
+                <Badge style={{ margin: "5px" }} color={(renderColor) ? "" : "warning"}>To Do: { this.props.numTodos }</Badge>
+                <Badge style={{ margin: "5px" }} color={(renderColor) ? "" : "warning"}>Doing: { this.props.numDoing }</Badge>
+                <Badge style={{ margin: "5px" }} color={(renderColor) ? "" : "warning"}>Done: { this.props.numDone }</Badge>
             </div>
         );
         }

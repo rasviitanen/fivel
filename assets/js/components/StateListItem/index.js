@@ -13,12 +13,13 @@ const styles = StyleSheet.create({
     width: '100%',
     borderRadius: '5px',
     margin: '5px',
-    background: '#eee',
-    paddingBottom: '28px',
+    background: '#fff',
+    paddingBottom: '10px',
     transition: '0.3s',
     minWidth: '200px',
     color: '#333',
     position: 'relative',
+    border: '1px solid grey'
   },
 
   darken: {
@@ -34,15 +35,16 @@ const styles = StyleSheet.create({
 
   focusedState: {
     width: '100%',
-    borderRadius: '15px',
+    borderRadius: '5px',
     margin: '5px',
     background: '#fff',
     paddingBottom: '28px',
     transition: '0.3s',
     minWidth: '200px',
     color: '#333',
-    boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.7)",
+    boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)",
     position: 'relative',
+    border: '1px solid grey'
   },
 
   tooltip: {
@@ -112,11 +114,6 @@ class StateListItem extends Component<Props, State> {
         </ReactTooltip>
 
         <Checklist patterns={this.props.state.patterns}/>
-
-
-        <div style={{  width: '100%', color: '#fff', background:'#0087af', position: 'absolute', bottom: '0px', textAlign: 'center' }}>
-          {this.state.isTarget ? "Current Target" : ''}
-        </div>
 
       </div>
     );
