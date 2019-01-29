@@ -1,6 +1,7 @@
 const initialState = {
     channel: null,
     currentRoom: {},
+    presentUsers: []
 };
   
 export default function (state = initialState, action) {
@@ -13,6 +14,11 @@ export default function (state = initialState, action) {
             };
         case 'USER_LEFT_ROOM':
             return initialState;
+        case 'ROOM_PRESENCE_UPDATE':
+            return {
+                ...state,
+                presentUsers: action.presentUsers,
+        };
         default:
             return state;
     }

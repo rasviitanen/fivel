@@ -16,11 +16,18 @@ type Props = {
   params: {
     id: number,
   },
+  presentUsers: Array,
   connectToChannel: () => void,
   leaveChannel: () => void,
 }
 
 class Room extends Component {
+  renderPresentUsers() {
+    return this.props.presentUsers.map((user) =>
+      <img src={"https://avatars.dicebear.com/v2/identicon/" + user.username + ".svg"} height="20px" style={{ marginRight: '5px'}}></img>
+    );
+  }
+
   componentDidMount() {
     this.props.connectToChannel(this.props.socket, this.props.match.params.id);
   }
@@ -44,6 +51,7 @@ class Room extends Component {
   render() {
     return (
       <div style={{ flex: '1' }}>
+        { this.renderPresentUsers() }
         <Alphas room_id={ this.props.match.params.id }/>
       </div>
     );
@@ -55,6 +63,7 @@ export default connect(
     room: state.room.currentRoom,
     socket: state.session.socket,
     channel: state.room.channel,
+    presentUsers: state.room.presentUsers,
   }),
   { connectToChannel, leaveChannel }
 )(Room);

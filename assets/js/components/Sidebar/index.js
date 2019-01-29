@@ -65,20 +65,15 @@ type Props = {
 
 class Sidebar extends Component<Props> {
   renderRoomInfo() {
-    console.log(this.props.currentRoom.name);
     if (this.props.currentRoom.name) {
       return(
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
           <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="50px" style={{ marginBottom: '12px'}}></img>
           <h3 style={{ fontWeight: 'bold'}}>{ this.props.currentRoom.name }</h3>
-          Current Users
-          <div>
-            <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="20px" style={{ marginRight: '5px'}}></img>
-            <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="20px" style={{ marginRight: '5px'}}></img>
-          </div>
       </div>);
     }
   }
+
   render() {
     return (
       <div className={css(styles.sidebar)}>

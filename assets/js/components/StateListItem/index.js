@@ -96,8 +96,10 @@ class StateListItem extends Component<Props, State> {
       <div className={css(this.state.isTarget ? styles.focusedState : styles.state)}>
         <div className={css(styles.stateHead)}>
 
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
-            <span style={{fontWeight: "bold"}}> { this.props.id.toString() }. { this.props.state.name }</span>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", textAlign: 'left' }}>
+            <span style={{fontWeight: "bold"}}>
+              { this.props.id.toString() }. { this.props.state.name }
+            </span>
             <i className="fa fa-info-circle" style={{margin: '5px'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha }/>
             <i className="fa fa-flag" style={{marginRight: '5px', cursor: 'pointer'}} onClick={ this.toggleTarget }/>
             <StateLargeView style={{margin: '5px'}} state={ this.props.state } setNumTodos={ () => this.setNumTodos.bind(this) }/>

@@ -11,7 +11,16 @@ defmodule FivelWeb.RoomChannel do
             room: Phoenix.View.render_one(room, FivelWeb.RoomView, "room.json"),
         }
 
+        send(self, :after_join)
         {:ok, response, assign(socket, :room, room)}
+    end
+
+    def handle_info(:after_join, socket) do
+        FivelWeb.Presence.track(socket, socket.assigns.current_user.id, %{
+          user: Phoenix.View.render_one(socket.assigns.current_user, FivelWeb.UserView, "user.json")
+        })
+        push(socket, "presence_state", FivelWeb.Presence.list(socket))
+        {:noreply, socket}
     end
 
     def terminate(_reason, socket) do

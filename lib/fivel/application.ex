@@ -11,9 +11,10 @@ defmodule Fivel.Application do
       # Start the Ecto repository
       Fivel.Repo,
       # Start the endpoint when the application starts
-      FivelWeb.Endpoint
+      FivelWeb.Endpoint,
       # Starts a worker by calling: Fivel.Worker.start_link(arg)
       # {Fivel.Worker, arg},
+      FivelWeb.Presence
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
