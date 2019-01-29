@@ -23,6 +23,20 @@ defmodule FivelWeb.RoomChannel do
         {:noreply, socket}
     end
 
+    def handle_in("toggle_pattern_completion", %{"id" => id, "completed" => completed}, socket) do
+        pattern = Fivel.Patterns.get_pattern!(id)
+            
+        with {:ok, %Fivel.Patterns.Pattern{} = pattern} <- Fivel.Patterns.update_pattern(pattern, %{ "completed" => !completed }) do
+            response = %{
+                pattern: Phoenix.View.render_one(pattern, FivelWeb.PatternView, "show.json"),
+            }
+
+            broadcast!(socket, "pattern_changed", response)
+        end
+        
+        {:noreply, socket}
+    end
+
     def terminate(_reason, socket) do
         {:ok, socket}
     end

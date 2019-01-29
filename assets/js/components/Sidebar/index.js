@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
 import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+import ReactTooltip from 'react-tooltip';
+
 
 const styles = StyleSheet.create({
   sidebar: {
@@ -61,15 +63,27 @@ const RoomLink = ({ room }: RoomLinkProps) =>
 type Props = {
   rooms: Array<Room>,
   currentRoom: Room,
+  presentUsers: Array,
 }
 
 class Sidebar extends Component<Props> {
+  renderPresentUsers() {
+    return this.props.presentUsers.map((user) =>
+      <div>
+        <img src={"https://avatars.dicebear.com/v2/identicon/" + user.username + ".svg"} height="25px" style={{ marginRight: '5px'}} data-tip={user.username}></img>
+        <ReactTooltip/>
+      </div>
+    );
+  }
+
   renderRoomInfo() {
     if (this.props.currentRoom.name) {
       return(
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
           <img src={"https://avatars.dicebear.com/v2/identicon/" + this.props.currentRoom.name + ".svg"} height="50px" style={{ marginBottom: '12px'}}></img>
           <h3 style={{ fontWeight: 'bold'}}>{ this.props.currentRoom.name }</h3>
+          Online Users
+          { this.renderPresentUsers() }
       </div>);
     }
   }
@@ -101,5 +115,6 @@ class Sidebar extends Component<Props> {
 export default connect(
   (state) => ({
     currentRoom: state.sidebar.currentRoom,
+    presentUsers: state.room.presentUsers
   }),
 )(Sidebar);

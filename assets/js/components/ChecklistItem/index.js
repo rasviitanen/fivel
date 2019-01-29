@@ -8,6 +8,9 @@ import ReactTooltip from 'react-tooltip';
 import { Pattern } from '../../types';
 import { togglePatternCompleted } from '../../actions/patterns';
 
+import { sendMessage } from '../../actions/room';
+
+
 
 const styles = StyleSheet.create({
   tooltip: {
@@ -42,13 +45,15 @@ const styles = StyleSheet.create({
 type Props = {
   pattern: Pattern,
   changedPatterns: Object,
+  channel: any,
   togglePatternCompleted: () => void,
+  sendMessage: () => void,
 }
 
 class ChecklistItem extends Component<Props> {
   handleClick = (event: SyntheticEvent<HTMLElement>) => {    
     const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
-    this.props.togglePatternCompleted(pattern);
+    this.props.sendMessage(this.props.channel, "toggle_pattern_completion", pattern);
   };
 
   render() {
@@ -70,6 +75,7 @@ class ChecklistItem extends Component<Props> {
 export default connect(
   (state) => ({
     changedPatterns: state.patterns.patterns,
+    channel: state.room.channel,
   }),
-  { togglePatternCompleted }
+  { togglePatternCompleted, sendMessage }
 )(ChecklistItem);

@@ -13,7 +13,7 @@ export function connectToChannel(socket, roomId) {
         if (!socket) { return false; }
         const channel = socket.channel(`rooms:${roomId}`);
         let presences = {};
-        
+
         channel.join().receive('ok', (response) => {
             dispatch({ type: 'ROOM_CONNECTED_TO_CHANNEL', response, channel });
         });
@@ -27,9 +27,27 @@ export function connectToChannel(socket, roomId) {
             presences = Presence.syncDiff(presences, diff);
             syncPresentUsers(dispatch, presences);
         });
+            
+        channel.on('todo_changed', (response) => {
+            dispatch({ type: 'TODOS_UPDATED', response });
+        });
+
+        channel.on('pattern_changed', (response) => {
+            dispatch({ type: 'PATTERN_COMPLETION_CHANGED', response });
+        });
 
         return false;
     };
+}
+
+export function sendMessage(channel, actionType, data) {
+    return dispatch => new Promise((resolve, reject) => {
+        channel.push(actionType, data)
+        .receive('ok', () => resolve(
+            dispatch({ type: 'NEW_CHANNEL_MESSAGE'})
+        ))
+        .receive('error', () => reject());
+    });
 }
 
 export function leaveChannel(channel) {
