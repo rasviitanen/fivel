@@ -43,7 +43,7 @@ export default function (state = initialState, action) {
             };
 
         case 'TODOS_UPDATED':
-            var todos_copy = action.response.data.reverse();
+            var todos_copy = action.response.todos.reverse();
 
             var todos = 0;
             var doing = 0;
@@ -62,7 +62,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 todos: todos_copy,
-                updatedStateId: action.stateId,
+                updatedStateId: action.response.state_id,
                 numTodos: todos,
                 numDoing: doing,
                 numDone: done,

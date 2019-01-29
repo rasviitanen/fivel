@@ -10,6 +10,8 @@ import { State as EssenceState, Todo } from '../../types';
 
 import { Card, CardBody, CardTitle, CardFooter, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { fetchTodos, addTodo, deleteTodo, changeTodo } from '../../actions/states';
+import { sendMessage } from '../../actions/room';
+
 
 
 const styles = StyleSheet.create({
@@ -29,10 +31,12 @@ type Props = {
     state: EssenceState,
     todos: Object,
     updatedStateId: number,
+    channel: any,
     fetchTodos: () => void,
     addTodo: () => void,
     deleteTodo: () => void,
     changeTodo: () => void,
+    sendMessage: () => void,
 }
 
 type State = {
@@ -66,9 +70,11 @@ class StateLargeView extends Component<Props, State> {
 
     renderTodos() {
         return this.props.todos.map((todo) => {
+            console.log(todo);
+            console.log(todo.state);
             if (todo.state === "todo") {
                 return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#0087af', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <span>{ todo.name } <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "doing"}}) }></i></span>
+                    <span>{ todo.name } <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"state": "doing"}) }></i></span>
                     <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
                 </div>);
             }
@@ -79,7 +85,7 @@ class StateLargeView extends Component<Props, State> {
         return this.props.todos.map((todo) => {
             if (todo.state === "doing") {
                 return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#c6bc4b', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "todo"}}) }></i> <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "done"}}) }></i></span>
+                    <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"state": "todo"}) }></i> <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"state": "done"}) }></i></span>
                     <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
                 </div>);
             }
@@ -90,23 +96,20 @@ class StateLargeView extends Component<Props, State> {
         return this.props.todos.map((todo) => {
             if (todo.state === "done") {
                 return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#008700', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                    <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"todo": {"state": "doing"}}) }></i></span>
+                    <span>{ todo.name } <i className="fa fa-angle-double-up" onClick={ () => this.changeTodo(todo.id, {"state": "doing"}) }></i></span>
                     <i className="fa fa-minus-circle" onClick={ () => this.deleteTodo(todo.id) }></i>
                 </div>);
             }
         });
     }
 
-    addTodo = (name) => {    
-        this.props.addTodo(this.props.state.id, name);
-    };
-
     deleteTodo = (id) => {    
-        this.props.deleteTodo(this.props.state.id, id);
-    };
+        this.props.sendMessage(this.props.channel, "delete_todo", {"state_id": this.props.state.id, "todo_id": id});
 
+    };
+    
     changeTodo = (id, change) => {    
-        this.props.changeTodo(this.props.state.id, id, change);
+        this.props.sendMessage(this.props.channel, "change_todo", {"state_id": this.props.state.id, "todo_id": id, "todo_params": change});
     };
 
     handleClose() {
@@ -118,7 +121,8 @@ class StateLargeView extends Component<Props, State> {
         this.setState({ show: true });
     }
 
-    handleNewTodoSubmit = data => this.props.addTodo(this.props.state.id, data);
+    //handleNewTodoSubmit = data => this.props.addTodo(this.props.state.id, data);
+    handleNewTodoSubmit = data => this.props.sendMessage(this.props.channel, "create_todo", {"state_id": this.props.state.id, "todo": data});
 
     render() {
         console.log("rendering");
@@ -181,7 +185,8 @@ class StateLargeView extends Component<Props, State> {
 export default connect(
     (state) => ({
       todos: state.states.todos,
-      updatedStateId: state.states.updatedStateId
+      updatedStateId: state.states.updatedStateId,
+      channel: state.room.channel,
     }),
-    { fetchTodos, addTodo, deleteTodo, changeTodo }
+    { fetchTodos, addTodo, deleteTodo, changeTodo, sendMessage }
   )(StateLargeView);

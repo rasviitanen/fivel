@@ -37,6 +37,59 @@ defmodule FivelWeb.RoomChannel do
         {:noreply, socket}
     end
 
+    def handle_in("create_todo", %{"state_id" => state_id, "todo" => todo_params}, socket) do
+        essence_state = Fivel.EssenceStates.get_essence_state!(state_id)
+        Fivel.EssenceStates.add_todo(essence_state, %{"todo" => todo_params})
+
+        todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+
+        response = %{
+            state_id: state_id,
+            todos: Phoenix.View.render_many(todos, FivelWeb.TodoView, "todo.json"),
+        }
+
+        broadcast!(socket, "todo_created", response)
+        
+        {:reply, :ok, socket}
+    end
+
+    def handle_in("delete_todo", %{"state_id" => state_id, "todo_id" => todo_id}, socket) do
+        todo = Fivel.Todos.get_todo!(todo_id)
+  
+        with {:ok, %Fivel.Todos.Todo{}} <- Fivel.Todos.delete_todo(todo) do
+          essence_state = Fivel.EssenceStates.get_essence_state!(state_id)
+          todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+          response = %{
+              state_id: state_id,
+              todos: Phoenix.View.render_many(todos, FivelWeb.TodoView, "todo.json"),
+          }
+  
+          broadcast!(socket, "todo_deleted", response)
+        end
+        
+        {:noreply, socket}
+    end
+
+
+    def handle_in("change_todo", %{"state_id" => state_id, "todo_id" => todo_id, "todo_params" => todo_params}, socket) do
+        todo = Fivel.Todos.get_todo!(todo_id)
+
+        with {:ok, %Fivel.Todos.Todo{} = todo} <- Fivel.Todos.update_todo(todo, todo_params) do
+            essence_state = Fivel.EssenceStates.get_essence_state!(state_id)
+            todos = Fivel.Repo.all(Ecto.assoc(essence_state, :todos))
+
+
+            response = %{
+                state_id: state_id,
+                todos: Phoenix.View.render_many(todos, FivelWeb.TodoView, "todo.json"),
+            }
+
+            broadcast!(socket, "todo_updated", response)
+        end
+        
+        {:noreply, socket}
+    end
+
     def terminate(_reason, socket) do
         {:ok, socket}
     end

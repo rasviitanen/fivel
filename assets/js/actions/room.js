@@ -1,4 +1,5 @@
-import { Presence } from 'phoenix'; // new line
+import { Presence } from 'phoenix';
+import { reset } from 'redux-form';
 
 const syncPresentUsers = (dispatch, presences) => {
   const presentUsers = [];
@@ -28,7 +29,15 @@ export function connectToChannel(socket, roomId) {
             syncPresentUsers(dispatch, presences);
         });
             
-        channel.on('todo_changed', (response) => {
+        channel.on('todo_created', (response) => {
+            dispatch({ type: 'TODOS_UPDATED', response });
+        });
+
+        channel.on('todo_updated', (response) => {
+            dispatch({ type: 'TODOS_UPDATED', response });
+        });
+
+        channel.on('todo_deleted', (response) => {
             dispatch({ type: 'TODOS_UPDATED', response });
         });
 
@@ -41,10 +50,11 @@ export function connectToChannel(socket, roomId) {
 }
 
 export function sendMessage(channel, actionType, data) {
+    console.log(data);
     return dispatch => new Promise((resolve, reject) => {
         channel.push(actionType, data)
         .receive('ok', () => resolve(
-            dispatch({ type: 'NEW_CHANNEL_MESSAGE'})
+            dispatch(reset('newTodo'))
         ))
         .receive('error', () => reject());
     });
