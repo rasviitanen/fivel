@@ -6,7 +6,6 @@ import { css, StyleSheet } from 'aphrodite';
 import ReactTooltip from 'react-tooltip';
 
 import { Pattern } from '../../types';
-import { togglePatternCompleted } from '../../actions/patterns';
 
 import { sendMessage } from '../../actions/room';
 
@@ -46,7 +45,6 @@ type Props = {
   pattern: Pattern,
   changedPatterns: Object,
   channel: any,
-  togglePatternCompleted: () => void,
   sendMessage: () => void,
 }
 
@@ -77,5 +75,5 @@ export default connect(
     changedPatterns: state.patterns.patterns,
     channel: state.room.channel,
   }),
-  { togglePatternCompleted, sendMessage }
+  { sendMessage }
 )(ChecklistItem);

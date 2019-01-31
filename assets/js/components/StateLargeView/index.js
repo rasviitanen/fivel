@@ -70,8 +70,6 @@ class StateLargeView extends Component<Props, State> {
 
     renderTodos() {
         return this.props.todos.map((todo) => {
-            console.log(todo);
-            console.log(todo.state);
             if (todo.state === "todo") {
                 return (<div key={ todo.id } style={{ margin: '5px', padding: '5px 8px', cursor: 'pointer', color: "#fff", background: '#0087af', borderRadius: '3px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                     <span>{ todo.name } <i className="fa fa-angle-double-down" onClick={ () => this.changeTodo(todo.id, {"state": "doing"}) }></i></span>
@@ -125,7 +123,6 @@ class StateLargeView extends Component<Props, State> {
     handleNewTodoSubmit = data => this.props.sendMessage(this.props.channel, "create_todo", {"state_id": this.props.state.id, "todo": data});
 
     render() {
-        console.log("rendering");
         return (
             <div>
                 <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>

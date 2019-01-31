@@ -13,3 +13,9 @@ export function fetchStates(alphaId) {
           dispatch({ type: 'FETCH_STATES_SUCCESS', response });
       });
 }
+
+export function messageStateCompletionForAlpha(alphaId, stateId, completed) {
+  return (dispatch) => {
+      dispatch({ type: 'STATE_COMPLETION_CHANGED', alphaId, stateId, completed });
+  };
+}

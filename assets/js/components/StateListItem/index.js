@@ -3,23 +3,42 @@ import React, { Component } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import ReactTooltip from 'react-tooltip';
 import Checklist from '../Checklist';
+import { connect } from 'react-redux';
 
 import { State as EssenceState } from '../../types';
 import StateLargeView from '../StateLargeView';
 import StateTodoCounter from '../StateTodoCounter';
 
+
+import { messageStateCompletionForAlpha } from '../../actions/alphas';
+
+
 const styles = StyleSheet.create({
-  state: {
+  uncompleted: {
     width: '100%',
     borderRadius: '5px',
     margin: '5px',
     background: '#fff',
-    paddingBottom: '10px',
+    paddingBottom: '32px',
     transition: '0.3s',
     minWidth: '200px',
     color: '#333',
     position: 'relative',
     border: '1px solid grey'
+  },
+
+  completed: {
+    color: '#fff',
+    width: '100%',
+    borderRadius: '5px',
+    margin: '5px',
+    background: '#0087af',
+    paddingBottom: '32px',
+    transition: '0.3s',
+    minWidth: '200px',
+    position: 'relative',
+    border: '1px solid grey',
+    opacity: '0.7'
   },
 
   darken: {
@@ -34,17 +53,7 @@ const styles = StyleSheet.create({
   },
 
   focusedState: {
-    width: '100%',
-    borderRadius: '5px',
-    margin: '5px',
-    background: '#fff',
-    paddingBottom: '28px',
-    transition: '0.3s',
-    minWidth: '200px',
-    color: '#333',
     boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)",
-    position: 'relative',
-    border: '1px solid grey'
   },
 
   tooltip: {
@@ -53,7 +62,6 @@ const styles = StyleSheet.create({
 
   stateHead: {
     display: 'flex',
-    margin: '5px',
     flexDirection: 'column',
     textAlign: 'center'
   },
@@ -68,7 +76,9 @@ const styles = StyleSheet.create({
 type Props = {
   id: number,
   state: EssenceState,
-  belongs_to_alpha: string,
+  belongs_to_alpha_id: number,
+  changedPatterns: Object,
+  messageStateCompletionForAlpha: () => void,
 }
 
 type State = {
@@ -91,16 +101,32 @@ class StateListItem extends Component<Props, State> {
     this.setState({isTarget: !this.state.isTarget});
   }
 
+  completed() {
+    var completed = 0;
+    this.props.state.patterns.map((pattern) => {
+      if (this.props.changedPatterns[pattern.id]) {
+          if (this.props.changedPatterns[pattern.id].completed){ completed += 1 };
+      }
+
+      if (pattern.completed && !this.props.changedPatterns[pattern.id]) {
+        completed += 1;
+      }
+    });
+    
+    this.props.messageStateCompletionForAlpha(this.props.belongs_to_alpha_id, this.props.state.id, completed);
+    return completed
+  }
+
   render() {
     return (
-      <div className={css(this.state.isTarget ? styles.focusedState : styles.state)}>
+      <div className={css((this.completed() === this.props.state.patterns.length) ? styles.completed : styles.uncompleted)}>
         <div className={css(styles.stateHead)}>
 
           <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", textAlign: 'left' }}>
             <span style={{fontWeight: "bold"}}>
               { this.props.id.toString() }. { this.props.state.name }
             </span>
-            <i className="fa fa-info-circle" style={{margin: '5px'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha }/>
+            <i className="fa fa-info-circle" style={{margin: '5px'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/>
             <i className="fa fa-flag" style={{marginRight: '5px', cursor: 'pointer'}} onClick={ this.toggleTarget }/>
             <StateLargeView style={{margin: '5px'}} state={ this.props.state } setNumTodos={ () => this.setNumTodos.bind(this) }/>
           </div>
@@ -110,16 +136,24 @@ class StateListItem extends Component<Props, State> {
             <StateTodoCounter stateId={ this.props.state.id } numTodos={ this.props.state.todos.length }/>
           </div>
         </div>
-        <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+        <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
           <p style={{fontWeight: "bold"}}>{ this.props.state.name }</p>
           <p>{ this.props.state.description }</p>
         </ReactTooltip>
 
         <Checklist patterns={this.props.state.patterns}/>
 
+        <div style={{textAlign: 'center', padding: '3px', background: '#c6bc4b', color:'#fff', borderRadius: '3px', bottom: '0px', width: '100%', position: 'absolute'}}>
+          { this.completed() === this.props.state.patterns.length ? 'Completed' : this.completed() + ' / ' + this.props.state.patterns.length}
+        </div>
       </div>
     );
   }
 };
 
-export default StateListItem;
+export default connect(
+  (state) => ({
+      changedPatterns: state.patterns.patterns
+  }),
+  { messageStateCompletionForAlpha }
+)(StateListItem);;

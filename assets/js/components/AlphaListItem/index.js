@@ -38,12 +38,13 @@ type Props = {
 }
 
 function renderStates(alpha) {
+  
   return alpha.essence_states.reverse().map((state, index) =>
     {
       if (index == 0) {
-        return <StateListItem key={ alpha.name + "_"  + state.name } id={ index + 1 } state={ state } belongs_to_alpha={ alpha.name }/>
+        return <StateListItem key={ alpha.name + "_"  + state.name } id={ index + 1 } state={ state } belongs_to_alpha_id={ alpha.id }/>
       } else {
-        return <StateListItem key={ alpha.name + "_"  + state.name } id={ index + 1 } state={ state } belongs_to_alpha={ alpha.name }/>
+        return <StateListItem key={ alpha.name + "_"  + state.name } id={ index + 1 } state={ state } belongs_to_alpha_id={ alpha.id }/>
       }
     }
   );

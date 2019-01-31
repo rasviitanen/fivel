@@ -66,7 +66,7 @@ class Alphas extends Component<Props, State> {
 
 export default connect(
   state => ({
-    alphas: state.alphas.all.reverse(),
+    alphas: state.alphas.all,
   }),
   { fetchAlphas }
 )(Alphas);

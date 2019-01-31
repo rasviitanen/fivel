@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
 import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 import ReactTooltip from 'react-tooltip';
-
+import { Progress } from 'reactstrap';
 
 const styles = StyleSheet.create({
   sidebar: {
@@ -64,6 +64,8 @@ type Props = {
   rooms: Array<Room>,
   currentRoom: Room,
   presentUsers: Array,
+  alphas: Array,
+  completions: Object
 }
 
 class Sidebar extends Component<Props> {
@@ -84,8 +86,27 @@ class Sidebar extends Component<Props> {
           <h3 style={{ fontWeight: 'bold'}}>{ this.props.currentRoom.name }</h3>
           Online Users
           { this.renderPresentUsers() }
+          <hr/>
+          { this.renderCompletions() }
       </div>);
     }
+  }
+
+  renderCompletions() {
+    return this.props.alphas.map((alpha) => {
+      let completed = 0;
+      let total = 0;
+      alpha.essence_states.map((state) => {
+        completed += this.props.completions[alpha.id + ':' + state.id];
+        total += state.patterns.length;
+      });
+      return (
+          <div style={{width: '100%'}}>
+          <div className="text-center">{alpha.name}</div>
+          <Progress value={completed} max={total}/>
+          </div>
+        );
+    });
   }
 
   render() {
@@ -115,6 +136,8 @@ class Sidebar extends Component<Props> {
 export default connect(
   (state) => ({
     currentRoom: state.sidebar.currentRoom,
-    presentUsers: state.room.presentUsers
+    presentUsers: state.room.presentUsers,
+    alphas: state.alphas.all,
+    completions: state.alphas.stateCompletions,
   }),
 )(Sidebar);

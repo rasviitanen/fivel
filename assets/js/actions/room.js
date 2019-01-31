@@ -50,7 +50,6 @@ export function connectToChannel(socket, roomId) {
 }
 
 export function sendMessage(channel, actionType, data) {
-    console.log(data);
     return dispatch => new Promise((resolve, reject) => {
         channel.push(actionType, data)
         .receive('ok', () => resolve(

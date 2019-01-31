@@ -67,6 +67,7 @@ export default function (state = initialState, action) {
                 numDoing: doing,
                 numDone: done,
             };
+
         default:
             return state;
     }
