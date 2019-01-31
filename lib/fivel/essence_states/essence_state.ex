@@ -13,6 +13,7 @@ defmodule Fivel.EssenceStates.EssenceState do
 
     has_many :patterns, Fivel.Patterns.Pattern, on_replace: :delete
     has_many :todos, Fivel.Todos.Todo, on_replace: :delete
+    has_many :comments, Fivel.Comments.Comment, on_replace: :delete
 
     timestamps()
   end

@@ -49,6 +49,15 @@ defmodule FivelWeb.EssenceStateController do
     render(conn, FivelWeb.TodoView, "index.json", %{todos: todos})
   end
 
+  def comments(conn, %{"id" => id}) do
+    essence_state = EssenceStates.get_essence_state!(id)
+    |> Fivel.Repo.preload(:comments)
+
+    comments = Fivel.Repo.all(Ecto.assoc(essence_state, :comments))
+      |> Fivel.Repo.preload(:user)
+    render(conn, FivelWeb.CommentView, "index.json", %{comments: comments})
+  end
+
   def create_todo(conn, %{"id" => id, "todo" => todo_params}) do
     essence_state = EssenceStates.get_essence_state!(id)
     EssenceStates.add_todo(essence_state, %{"todo" => todo_params})

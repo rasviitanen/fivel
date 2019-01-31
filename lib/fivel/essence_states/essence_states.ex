@@ -109,6 +109,15 @@ defmodule Fivel.EssenceStates do
       |> Ecto.Changeset.put_assoc(:essence_state, essence_state)
       |> Repo.insert!
   end
+
+  def add_comment(essence_state, user, %{"comment" => comment_params}) do
+    comment = %Fivel.Comments.Comment{} 
+      |> Fivel.Comments.Comment.changeset(comment_params || %{})
+      |> Ecto.Changeset.change
+      |> Ecto.Changeset.put_assoc(:essence_state, essence_state)
+      |> Ecto.Changeset.put_assoc(:user, user)
+      |> Repo.insert!
+  end
   
   def add_pattern(essence_state, %{"pattern" => pattern_params}) do
     pattern = %Fivel.Patterns.Pattern{}

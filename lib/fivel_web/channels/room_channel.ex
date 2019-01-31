@@ -37,6 +37,24 @@ defmodule FivelWeb.RoomChannel do
         {:noreply, socket}
     end
 
+    def handle_in("create_comment", %{"state_id" => state_id, "comment" => comment_params}, socket) do
+        essence_state = Fivel.EssenceStates.get_essence_state!(state_id)
+        Fivel.EssenceStates.add_comment(essence_state, socket.assigns.current_user, %{"comment" => comment_params})
+
+        comments = Fivel.Repo.all(Ecto.assoc(essence_state, :comments))
+            |> Fivel.Repo.preload(:user)
+
+        response = %{
+            state_id: state_id,
+            comments: Phoenix.View.render_many(comments, FivelWeb.CommentView, "comment.json"),
+        }
+
+        broadcast!(socket, "comment_created", response)
+        
+        {:reply, :ok, socket}
+    end
+
+
     def handle_in("create_todo", %{"state_id" => state_id, "todo" => todo_params}, socket) do
         essence_state = Fivel.EssenceStates.get_essence_state!(state_id)
         Fivel.EssenceStates.add_todo(essence_state, %{"todo" => todo_params})

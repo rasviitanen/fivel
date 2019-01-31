@@ -5,34 +5,41 @@ import { connect } from 'react-redux';
 
 import Checklist from '../Checklist';
 import NewTodoForm from '../NewTodoForm';
+import NewCommentForm from '../NewCommentForm';
+
 
 import { State as EssenceState, Todo } from '../../types';
 
 import { Card, CardBody, CardTitle, CardFooter, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { fetchTodos, addTodo, deleteTodo, changeTodo } from '../../actions/states';
+import { fetchTodos, addTodo, deleteTodo, changeTodo, addComment, fetchComments } from '../../actions/states';
 import { sendMessage } from '../../actions/room';
 
 
-
 const styles = StyleSheet.create({
+  modal: {
+    width: '80vw',
+  },
   entity: {
     background: "WhiteSmoke", 
     padding: '10px',
-    borderRadius: '5px',
-    margin: "0 -5px",
+    overflow: 'auto',
+    width: '100%',
+    height: '100%'
   },
   
   hr: {
     margin: '0px'
-  }
+  },
 });
 
 type Props = {
     state: EssenceState,
     todos: Object,
+    comments: Object,
     updatedStateId: number,
     channel: any,
     fetchTodos: () => void,
+    fetchComments: () => void,
     addTodo: () => void,
     deleteTodo: () => void,
     changeTodo: () => void,
@@ -51,14 +58,29 @@ class StateLargeView extends Component<Props, State> {
 
         this.handleShow = this.handleShow.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.scrollToBottom = this.scrollToBottom.bind(this);
 
         this.state = {
             show: false
         };
+
+        this.messagesEnd = React.createRef();
     }
+    
 
     componentDidMount() {
+        // To view the current todos and comments on the state cards
         this.props.fetchTodos(this.props.state.id);
+        this.props.fetchComments(this.props.state.id);
+        if (this.messagesEnd.current){ 
+            this.scrollToBottom() 
+        };
+    }
+
+    componentDidUpdate() {
+        if (this.messagesEnd.current){ 
+            this.scrollToBottom() 
+        };
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -101,6 +123,16 @@ class StateLargeView extends Component<Props, State> {
         });
     }
 
+    renderComments() {
+        return this.props.comments.map((comment) => {
+                return (
+                    <div key={ comment.id }>
+                        <strong>{comment.user}:</strong> {comment.content}
+                    </div>
+                );
+        });
+    }
+
     deleteTodo = (id) => {    
         this.props.sendMessage(this.props.channel, "delete_todo", {"state_id": this.props.state.id, "todo_id": id});
 
@@ -116,17 +148,23 @@ class StateLargeView extends Component<Props, State> {
 
     handleShow() {
         this.props.fetchTodos(this.props.state.id);
+        this.props.fetchComments(this.props.state.id);
         this.setState({ show: true });
     }
 
     //handleNewTodoSubmit = data => this.props.addTodo(this.props.state.id, data);
     handleNewTodoSubmit = data => this.props.sendMessage(this.props.channel, "create_todo", {"state_id": this.props.state.id, "todo": data});
+    handleNewCommentSubmit = data => this.props.addComment(this.props.channel, {"state_id": this.props.state.id, "comment": data});
+      
+    scrollToBottom = () => {
+        this.messagesEnd.current.scrollIntoView({ behavior: "smooth" });
+      }
 
     render() {
         return (
             <div>
                 <i className="fa fa-expand" style={{ cursor: "pointer" }} onClick={this.handleShow}/>
-                <Modal isOpen={this.state.show} size="lg" fade={ false } toggle={this.handleClose}>
+                <Modal isOpen={this.state.show} size="lg" fade={ false } toggle={this.handleClose} contentClassName={css(styles.modal)} style={{marginLeft: '10vw'}}>
                     <ModalHeader>
                         <strong>{ this.props.state.name }</strong>
                         <br/>
@@ -135,7 +173,7 @@ class StateLargeView extends Component<Props, State> {
                     
                     <ModalBody>
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-                        <div style={{ width: '70%'}}>
+                        <div style={{ width: '55%'}}>
                             <Checklist patterns={this.props.state.patterns}/>
                         <div style={{ paddingTop: '5px'}}>
                             <Card>
@@ -163,9 +201,17 @@ class StateLargeView extends Component<Props, State> {
                             </Card>
                         </div>
                         </div>
-                        <div className={css(styles.entity)} style={{ width: '28%' }}>
-                            <h4>Discussion</h4>
-                            <hr />
+                        <div style={{ width: '44%', height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                            <div className={css(styles.entity)}>
+                                { this.renderComments() } 
+                                <div ref={this.messagesEnd}>
+                                </div>
+                            </div>
+                            <Card>
+                            <CardFooter>
+                                <NewCommentForm onSubmit={ this.handleNewCommentSubmit } style= {{ position: 'absolute', bottom: '0px' }}/>
+                            </CardFooter>
+                            </Card>
                         </div>
                     </div>
                     </ModalBody>
@@ -182,8 +228,9 @@ class StateLargeView extends Component<Props, State> {
 export default connect(
     (state) => ({
       todos: state.states.todos,
+      comments: state.states.comments,
       updatedStateId: state.states.updatedStateId,
       channel: state.room.channel,
     }),
-    { fetchTodos, addTodo, deleteTodo, changeTodo, sendMessage }
+    { fetchTodos, fetchComments, addTodo, deleteTodo, changeTodo, sendMessage, addComment }
   )(StateLargeView);

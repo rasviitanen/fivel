@@ -28,7 +28,11 @@ export function connectToChannel(socket, roomId) {
             presences = Presence.syncDiff(presences, diff);
             syncPresentUsers(dispatch, presences);
         });
-            
+
+        channel.on('comment_created', (response) => {
+            dispatch({ type: 'COMMENTS_UPDATED', response });
+        });
+
         channel.on('todo_created', (response) => {
             dispatch({ type: 'TODOS_UPDATED', response });
         });

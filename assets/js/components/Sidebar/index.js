@@ -70,6 +70,9 @@ type Props = {
 
 class Sidebar extends Component<Props> {
   renderPresentUsers() {
+    console.log("CURRENT ROOM");
+    console.log(this.props.currentRoom);
+
     return this.props.presentUsers.map((user) =>
       <div>
         <img src={"https://avatars.dicebear.com/v2/identicon/" + user.username + ".svg"} height="25px" style={{ marginRight: '5px'}} data-tip={user.username}></img>

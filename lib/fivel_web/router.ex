@@ -48,6 +48,8 @@ defmodule FivelWeb.Router do
     post "/room/alphas/:id/states", EssenceAlphaController, :states
 
     post "/states/:id/todos", EssenceStateController, :todos
+    post "/states/:id/comments", EssenceStateController, :comments
+
     post "/states/:id/add/todo", EssenceStateController, :create_todo
     post "/states/:state_id/todos/:todo_id/delete", EssenceStateController, :delete_todo
     post "/states/:state_id/todos/:todo_id/update", EssenceStateController, :update_todo

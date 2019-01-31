@@ -1,6 +1,7 @@
 const initialState = {
     states: [],
     todos: [],
+    comments: [],
     numTodos: 0,
     numDoing: 0,
     numDone: 0,
@@ -14,6 +15,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 states: action.response.data.reverse(),
+            };
+
+        case 'FETCH_COMMENTS_SUCCESS':
+            return {
+                ...state,
+                updatedStateId: action.stateId,
+                comments: action.response.data,
             };
 
         case 'FETCH_TODOS_SUCCESS':
@@ -41,6 +49,14 @@ export default function (state = initialState, action) {
                 numDoing: doing,
                 numDone: done,
             };
+
+        case 'COMMENTS_UPDATED': {
+            return {
+                ...state,
+                updatedStateId: action.stateId,
+                comments: action.response.comments
+            }
+        }
 
         case 'TODOS_UPDATED':
             var todos_copy = action.response.todos.reverse();
