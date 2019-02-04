@@ -201,7 +201,7 @@ class StateLargeView extends Component<Props, State> {
                             </Card>
                         </div>
                         </div>
-                        <div style={{ width: '44%', height: '80vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                        <div style={{ width: '44%', height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
                             <div className={css(styles.entity)}>
                                 { this.renderComments() } 
                                 <div ref={this.messagesEnd}>

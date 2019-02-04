@@ -3,7 +3,7 @@ defmodule Fivel.Repo.Migrations.CreateTodos do
 
   def change do
     create table(:todos) do
-      add :name, :string
+      add :name, :text
       add :state, :string
       add :essence_state_id, references(:essence_states, on_delete: :nothing)
 

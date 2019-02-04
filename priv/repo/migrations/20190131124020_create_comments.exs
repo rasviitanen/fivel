@@ -3,7 +3,7 @@ defmodule Fivel.Repo.Migrations.CreateComments do
 
   def change do
     create table(:comments) do
-      add :content, :string
+      add :content, :text
       add :essence_state_id, references(:essence_states, on_delete: :nothing)
       add :user_id, references(:users, on_delete: :nothing)
 

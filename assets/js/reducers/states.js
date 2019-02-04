@@ -21,7 +21,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 updatedStateId: action.stateId,
-                comments: action.response.data,
+                comments: action.response.data.reverse(),
             };
 
         case 'FETCH_TODOS_SUCCESS':
@@ -54,7 +54,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 updatedStateId: action.stateId,
-                comments: action.response.comments
+                comments: action.response.comments.reverse(),
             }
         }
 
