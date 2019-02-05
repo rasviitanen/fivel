@@ -3,20 +3,16 @@ import React, { Component } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { connect } from 'react-redux';
 
-import { Badge } from 'reactstrap';
+import Chip from '@material-ui/core/Chip';
+import {Label, LabelImportant, LabelOff} from '@material-ui/icons';
 
 
 const styles = StyleSheet.create({
-  entity: {
-    background: "WhiteSmoke", 
-    padding: '10px',
-    borderRadius: '5px',
-    margin: "0 -5px",
+  chip: {
+      fontSize: '0.7em',
+      margin: '2px',
+      height: '18px'
   },
-  
-  hr: {
-    margin: '0px'
-  }
 });
 
 type Props = {
@@ -39,9 +35,9 @@ class StateTodoCounter extends Component<Props> {
         const renderColor = (this.props.numTodos + this.props.numDoing == 0);
         return (
             <div>
-                <Badge style={{ margin: "5px" }} color={(renderColor) ? "" : "warning"}>To Do: { this.props.numTodos }</Badge>
-                <Badge style={{ margin: "5px" }} color={(renderColor) ? "" : "warning"}>Doing: { this.props.numDoing }</Badge>
-                <Badge style={{ margin: "5px" }} color={(renderColor) ? "" : "warning"}>Done: { this.props.numDone }</Badge>
+                <Chip classes={{ root: css(styles.chip)}} icon={<Label style={{ height: '0.6em' }}/>} color="primary" label={ this.props.numTodos } variant={!(renderColor) ? "default" : "outlined"}/>
+                <Chip classes={{ root: css(styles.chip)}} icon={<LabelImportant style={{ height: '0.6em' }}/>} color="primary" label={ this.props.numDoing } variant={!(renderColor) ? "default" : "outlined"}/>
+                <Chip classes={{ root: css(styles.chip)}} icon={<LabelOff style={{ height: '0.6em' }}/>} color="primary" label={ this.props.numDone } variant={!(renderColor) ? "default" : "outlined"}/>
             </div>
         );
         }

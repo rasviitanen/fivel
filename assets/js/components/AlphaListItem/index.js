@@ -4,6 +4,7 @@ import { Alpha } from '../../types';
 import { css, StyleSheet } from 'aphrodite';
 import ReactTooltip from 'react-tooltip';
 import StateListItem from '../StateListItem';
+import HelpOutline from '@material-ui/icons/HelpOutline';
 
 
 const styles = StyleSheet.create({
@@ -54,7 +55,7 @@ const AlphaListItem = ({ alpha }: Props) => {
   return (
     <div className={css(styles.container)}>
       <div key={alpha.id} className={css(styles.alpha)}>
-            <span style={{ fontWeight: "bold" }}>{alpha.name} <i className="fa fa-info-circle" data-tip data-for={ alpha.name }></i></span>
+            <h6>{alpha.name} <HelpOutline data-tip data-for={ alpha.name }/></h6>
             <ReactTooltip id={ alpha.name } className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
               <p style={{ fontWeight: "bold" }}>{ alpha.name }</p>
               <p>{ alpha.description }</p>

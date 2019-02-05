@@ -9,6 +9,10 @@ import { Pattern } from '../../types';
 
 import { sendMessage } from '../../actions/room';
 
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import HelpOutline from '@material-ui/icons/HelpOutline';
 
 
 const styles = StyleSheet.create({
@@ -18,26 +22,14 @@ const styles = StyleSheet.create({
 
 
   completed: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: "row",
-    alignItems: 'center',
-
     color: '#fff',
-    background: '#0087af',
+    background: '#6200EE',
     transition: '0.3s',
-    cursor: 'pointer',
   },
 
   uncompleted: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-
-    color: 'grey',
+    background: '#fff',
     transition: '0.3s',
-    cursor: 'pointer',   
   },
 });
 
@@ -58,14 +50,22 @@ class ChecklistItem extends Component<Props> {
     const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
 
     return (
-      <li key={ pattern.name } onClick={ this.handleClick } className={"list-group-item " + css( pattern.completed ? styles.completed : styles.uncompleted)}>
-        <span><i className={ pattern.completed ? "fa fa-check-circle" : "fa fa-circle-o" }/> { pattern.name } </span>
-        <i className="fa fa-info" data-tip data-for={ pattern.name }/>
+      <ListItem role={undefined} dense button onClick={ this.handleClick } className={css(pattern.completed ? styles.completed : styles.uncompleted)}>
+        <Checkbox
+          checked={ pattern.completed }
+          tabIndex={-1}
+          className={css(pattern.completed ? styles.completed : styles.uncompleted)}
+          disableRipple
+        />
+        <ListItemText classes={{ primary: css(pattern.completed ? styles.completed : styles.uncompleted)}}  primary={ pattern.name }/>
+        
+        <HelpOutline style={{ height: '0.7em', margin: '3px' }} data-tip data-for={ pattern.name }/>
+
         <ReactTooltip id={ pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
             <p style={{fontWeight: "bold"}}>{ pattern.name }</p>
             <p>{ pattern.description }</p>
         </ReactTooltip>
-      </li>
+      </ListItem>
     );
   }
 }

@@ -1,12 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
-import { Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
+
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import ReactTooltip from 'react-tooltip';
-import { Progress } from 'reactstrap';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 const styles = StyleSheet.create({
   sidebar: {
@@ -49,17 +52,6 @@ type Room = {
   name: string,
 }
 
-type RoomLinkProps = {
-  room: Room
-}
-
-const RoomLink = ({ room }: RoomLinkProps) =>
-  <NavLink to={`/r/${room.id}`} className={css(styles.link)} activeClassName={css(styles.activeLink)}>
-    <div className={css(styles.badge)}>
-      <span>{room.name}</span>
-    </div>
-  </NavLink>;
-
 type Props = {
   rooms: Array<Room>,
   currentRoom: Room,
@@ -69,12 +61,24 @@ type Props = {
 }
 
 class Sidebar extends Component<Props> {
+  state = {
+    anchorEl: null,
+  };
+
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
   renderPresentUsers() {
     console.log("CURRENT ROOM");
     console.log(this.props.currentRoom);
 
     return this.props.presentUsers.map((user) =>
-      <div>
+      <div key={user.id}>
         <img src={"https://avatars.dicebear.com/v2/identicon/" + user.username + ".svg"} height="25px" style={{ marginRight: '5px'}} data-tip={user.username}></img>
         <ReactTooltip/>
       </div>
@@ -95,7 +99,10 @@ class Sidebar extends Component<Props> {
     }
   }
 
+  
   renderCompletions() {
+    const normalise = (value, max) => (value) * 100 / (max);
+
     return this.props.alphas.map((alpha) => {
       let completed = 0;
       let total = 0;
@@ -104,31 +111,47 @@ class Sidebar extends Component<Props> {
         total += state.patterns.length;
       });
       return (
-          <div style={{width: '100%'}}>
+          <div key={alpha.id} style={{width: '100%'}}>
           <div className="text-center">{alpha.name}</div>
-          <Progress value={completed} max={total}/>
+          <LinearProgress variant="determinate" value={normalise(completed, total)}/>
           </div>
         );
     });
   }
 
   render() {
+    const { anchorEl } = this.state;
+
     return (
       <div className={css(styles.sidebar)}>
-      <NavDropdown eventKey={3} title="Projects" id="basic-nav-dropdown">
-        {this.props.rooms.map(room => <MenuItem eventKey={room.id}><RoomLink key={room.id} room={room} /></MenuItem>)}
-        <MenuItem eventKey={"new-room"}>
-          <NavLink
-          exact to="/"
-          className={css(styles.link)}
-          activeClassName={css(styles.activeLink)}
-          >
-          <div className={css(styles.badge)}>
-            <span><i className="fa fa-plus"/> New Project</span>
-          </div>
-          </NavLink>
-        </MenuItem>
-      </NavDropdown>
+      <Button
+          aria-owns={anchorEl ? 'project-menu' : undefined}
+          aria-haspopup="true"
+          onClick={this.handleClick}
+      >
+        Projects
+      </Button>
+
+      <Menu
+          id="project-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+        >
+
+        {this.props.rooms.map(room => 
+          <NavLink key={room.id} to={`/r/${room.id}`}>
+              <MenuItem onClick={this.handleClose}>
+                {room.name}
+              </MenuItem>
+          </NavLink>)}
+
+        <NavLink exact to="/">
+          <MenuItem onClick={this.handleClose}>
+              <span><i className="fa fa-plus"/> New Project</span>
+          </MenuItem>
+        </NavLink>
+      </Menu>
       <hr />
       { this.renderRoomInfo() }
     </div>

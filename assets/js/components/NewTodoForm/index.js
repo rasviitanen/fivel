@@ -21,12 +21,14 @@ class NewTodoForm extends Component {
       <form autoComplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
           <InputGroup>
             <Field 
-            name="name"
+              name="name"
               type="text"
               placeholder="Write a to do that helps you fulfill the checklist..."
               component="input"
               className="form-control"
             />
+
+          
             <InputGroupAddon addonType="append">
               <Button color="success" type="submit" disabled={submitting} style={{ marginBottom: '0px' }}>{submitting ? 'Adding...' : 'Add'}</Button>
             </InputGroupAddon>

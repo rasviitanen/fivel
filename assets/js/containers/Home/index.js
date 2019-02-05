@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import Navbar from '../../components/Navbar';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchRooms, createRoom, joinRoom } from '../../actions/rooms';
 import NewRoomForm from '../../components/NewRoomForm';

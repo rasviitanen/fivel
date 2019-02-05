@@ -10,67 +10,36 @@ import StateLargeView from '../StateLargeView';
 import StateTodoCounter from '../StateTodoCounter';
 
 
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+
+import Avatar from '@material-ui/core/Avatar';
+import {HelpOutline} from '@material-ui/icons';
+
 import { messageStateCompletionForAlpha } from '../../actions/alphas';
 
 
 const styles = StyleSheet.create({
-  uncompleted: {
+  cardNumber: {
+    background: '#6200EE',
+  },
+
+  card: {
     width: '100%',
-    borderRadius: '5px',
     margin: '5px',
-    background: '#fff',
-    paddingBottom: '32px',
     transition: '0.3s',
     minWidth: '200px',
-    color: '#333',
-    position: 'relative',
-    border: '1px solid grey'
+    height: 'auto'
   },
 
   completed: {
-    color: '#fff',
-    width: '100%',
-    borderRadius: '5px',
-    margin: '5px',
-    background: '#0087af',
-    paddingBottom: '32px',
-    transition: '0.3s',
-    minWidth: '200px',
-    position: 'relative',
-    border: '1px solid grey',
-    opacity: '0.7'
-  },
-
-  darken: {
-    background: '#eee',
-    opacity: '0.7',
-    zIndex: '20',
-    height: '100%',
-    width: '100%',
-    position: 'absolute',
-    top: '0px',
-    left: '0px',
+    opacity: '0.6'
   },
 
   focusedState: {
     boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)",
   },
-
-  tooltip: {
-    fontSize: "14px"
-  },
-
-  stateHead: {
-    display: 'flex',
-    flexDirection: 'column',
-    textAlign: 'center'
-  },
-
-  hr: {
-    borderTop: '1px solid grey',
-    borderBottom: '1px solid grey'
-  },
- 
 });
 
 type Props = {
@@ -81,25 +50,7 @@ type Props = {
   messageStateCompletionForAlpha: () => void,
 }
 
-type State = {
-  isTarget: boolean
-}
-
-class StateListItem extends Component<Props, State> {
-  constructor(props, context) {
-    super(props, context);
-
-    this.toggleTarget = this.toggleTarget.bind(this);
-
-    this.state = {
-      isTarget: false,
-    };
-  }
-  
-
-  toggleTarget() {
-    this.setState({isTarget: !this.state.isTarget});
-  }
+class StateListItem extends Component<Props> {
 
   completed() {
     var completed = 0;
@@ -114,39 +65,58 @@ class StateListItem extends Component<Props, State> {
     });
     
     this.props.messageStateCompletionForAlpha(this.props.belongs_to_alpha_id, this.props.state.id, completed);
-    return completed
+
+    return completed;
+  }
+
+  title() {
+    return(
+      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+        { this.props.state.name }
+      </div>
+    );
+  }
+  
+  buttons() {
+    return(
+      <div style={{ display: "flex", flexDirection: "row", alignItems: 'center' }}>
+        <HelpOutline style={{ height: '0.8em'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/>
+        <StateLargeView state={ this.props.state } setNumTodos={ () => this.setNumTodos.bind(this) }/>
+      </div>
+    );
+  }
+
+  completion() {
+    if (this.completed() === this.props.state.patterns.length) {
+      return "Completed"
+    } else {
+      return this.completed() + ' / ' + this.props.state.patterns.length
+    }
   }
 
   render() {
     return (
-      <div className={css((this.completed() === this.props.state.patterns.length) ? styles.completed : styles.uncompleted)}>
-        <div className={css(styles.stateHead)}>
-
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center", textAlign: 'left' }}>
-            <span style={{fontWeight: "bold"}}>
-              { this.props.id.toString() }. { this.props.state.name }
-            </span>
-            <i className="fa fa-info-circle" style={{margin: '5px'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/>
-            <i className="fa fa-flag" style={{marginRight: '5px', cursor: 'pointer'}} onClick={ this.toggleTarget }/>
-            <StateLargeView style={{margin: '5px'}} state={ this.props.state } setNumTodos={ () => this.setNumTodos.bind(this) }/>
-          </div>
-          
-
-          <div className={ css(styles.hr) } style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center"}}>
+      <Card className={css(styles.card, this.props.completed === this.props.state.patterns.length ? styles.completed : '')}>
+          <CardHeader
+            avatar={
+              <Avatar aria-label="StateNumber" className={css(styles.cardNumber)}>
+                { this.props.id.toString() }
+              </Avatar>
+            }
+            title={ this.title() }
+            subheader={ this.completion() }
+            action={ this.buttons() }
+          />
+          <CardContent style={{padding: '2px', textAlign: 'center'}}>
             <StateTodoCounter stateId={ this.props.state.id } numTodos={ this.props.state.todos.length }/>
-          </div>
-        </div>
-        <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-          <p style={{fontWeight: "bold"}}>{ this.props.state.name }</p>
-          <p>{ this.props.state.description }</p>
-        </ReactTooltip>
+          </CardContent>
+          <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+            <h6>{ this.props.state.name }</h6>
+            { this.props.state.description }
+          </ReactTooltip>
 
-        <Checklist patterns={this.props.state.patterns}/>
-
-        <div style={{textAlign: 'center', padding: '3px', background: '#c6bc4b', color:'#fff', borderRadius: '3px', bottom: '0px', width: '100%', position: 'absolute'}}>
-          { this.completed() === this.props.state.patterns.length ? 'Completed' : this.completed() + ' / ' + this.props.state.patterns.length}
-        </div>
-      </div>
+          <Checklist patterns={this.props.state.patterns}/>
+      </Card>
     );
   }
 };

@@ -21,11 +21,11 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 updatedStateId: action.stateId,
-                comments: action.response.data.reverse(),
+                comments: action.response.data,
             };
 
         case 'FETCH_TODOS_SUCCESS':
-            var todos_copy = action.response.data.reverse();
+            var todos_copy = action.response.data;
 
             var todos = 0;
             var doing = 0;
@@ -54,12 +54,12 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 updatedStateId: action.stateId,
-                comments: action.response.comments.reverse(),
+                comments: action.response.comments,
             }
         }
 
         case 'TODOS_UPDATED':
-            var todos_copy = action.response.todos.reverse();
+            var todos_copy = action.response.todos;
 
             var todos = 0;
             var doing = 0;

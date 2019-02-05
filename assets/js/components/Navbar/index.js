@@ -56,7 +56,7 @@ class NavBar extends Component {
       return (
         <div className={css(styles.navbar)}>
           <nav>
-            <Link to="/" className={css(styles.link)}><i class="fa fa-line-chart" aria-hidden="true"></i> FIVEL Essence</Link>
+            <Link to="/" className={css(styles.link)}><i className="fa fa-line-chart" aria-hidden="true"></i> FIVEL Essence</Link>
           </nav>
 
           {isAuthenticated &&
