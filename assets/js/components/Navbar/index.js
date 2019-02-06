@@ -6,6 +6,13 @@ import { Link } from 'react-router-dom';
 import { css, StyleSheet } from 'aphrodite';
 import { logout } from '../../actions/session';
 
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
 type Props = {
   logout: () => void,
   currentUser: Object,
@@ -14,18 +21,12 @@ type Props = {
 
 const styles = StyleSheet.create({
   navbar: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '0 1rem',
-    height: '50px',
-    background: '#4b6f8e',
-    justifyContent: 'space-between',
-    boxShadow: '0 1px 1px rgba(0,0,0,.1)',
-    position: 'sticky',
-    top: '0px',
-    zIndex: '20',
-    flex: '1',
-    color: '#fff',
+    flexGrow: '1',
+    margin: '0px'
+  },
+
+  grow: {
+    flexGrow: '1',
   },
 
   link: {
@@ -41,12 +42,10 @@ const styles = StyleSheet.create({
   },
 });
 
-class NavBar extends Component {
+class NavBar extends Component<Props> {
   static contextTypes = {
     router: PropTypes.object,
   }
-
-  props: Props
 
   handleLogout = () => this.props.logout(this.context.router);
 
@@ -54,22 +53,21 @@ class NavBar extends Component {
     const { currentUser, isAuthenticated } = this.props;
 
       return (
-        <div className={css(styles.navbar)}>
-          <nav>
-            <Link to="/" className={css(styles.link)}><i className="fa fa-line-chart" aria-hidden="true"></i> FIVEL Essence</Link>
-          </nav>
-
+        <AppBar position="static" className={css(styles.navbar)}>
+          <Toolbar>
+            <Link to="/" className={css(styles.link)}>FIVEL Essence</Link>
+            <div className={css(styles.grow)} />
           {isAuthenticated &&
-            <nav>
+            <Toolbar>
               <img src={"https://avatars.dicebear.com/v2/identicon/" + currentUser.username + ".svg"} height="15px" style={{ marginRight: "5px" }}></img>
               <span style={{ marginRight: "15px" }}>{currentUser.username}</span>
-              <div type="button" onClick={this.handleLogout}
-              className="btn btn-primary">
-                <i className="fa fa-sign-out" ></i> Sign Out
-              </div>
-            </nav>
+              <Button color="inherit" onClick={this.handleLogout}>
+                Sign Out
+              </Button>
+            </Toolbar>
           }
-        </div>
+          </Toolbar>
+        </AppBar>
       );
   }
 }
