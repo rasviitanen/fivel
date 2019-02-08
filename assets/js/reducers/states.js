@@ -6,6 +6,7 @@ const initialState = {
     numDoing: 0,
     numDone: 0,
     updatedStateId: 0,
+    updatedCommentsForStateId: 0,
 };
   
 export default function (state = initialState, action) {    
@@ -20,18 +21,16 @@ export default function (state = initialState, action) {
         case 'FETCH_COMMENTS_SUCCESS':
             return {
                 ...state,
-                updatedStateId: action.stateId,
+                updatedCommentsForStateId: action.stateId,
                 comments: action.response.data,
             };
 
         case 'FETCH_TODOS_SUCCESS':
-            var todos_copy = action.response.data;
-
             var todos = 0;
             var doing = 0;
             var done = 0;
 
-            todos_copy.map((todo) => {
+            action.response.data.map((todo) => {
                 if (todo.state === "todo") {
                     todos += 1;
                 } else if (todo.state === "doing") {
@@ -40,10 +39,9 @@ export default function (state = initialState, action) {
                     done += 1;
                 }
             });
-
             return {
                 ...state,
-                todos: todos_copy,
+                todos: action.response.data,
                 updatedStateId: action.stateId,
                 numTodos: todos,
                 numDoing: doing,
@@ -53,19 +51,17 @@ export default function (state = initialState, action) {
         case 'COMMENTS_UPDATED': {
             return {
                 ...state,
-                updatedStateId: action.stateId,
+                updatedCommentsForStateId: action.response.state_id,
                 comments: action.response.comments,
             }
         }
 
         case 'TODOS_UPDATED':
-            var todos_copy = action.response.todos;
-
             var todos = 0;
             var doing = 0;
             var done = 0;
 
-            todos_copy.map((todo) => {
+            action.response.todos.map((todo) => {
                 if (todo.state === "todo") {
                     todos += 1;
                 } else if (todo.state === "doing") {
@@ -77,7 +73,7 @@ export default function (state = initialState, action) {
 
             return {
                 ...state,
-                todos: todos_copy,
+                todos: action.response.todos,
                 updatedStateId: action.response.state_id,
                 numTodos: todos,
                 numDoing: doing,

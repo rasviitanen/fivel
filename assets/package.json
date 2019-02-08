@@ -17,8 +17,6 @@
     "phoenix_html": "file:../deps/phoenix_html",
     "prop-types": "^15.6.2",
     "react": "^16.7.0",
-    "react-beautiful-dnd": "^10.0.3",
-    "react-bootstrap": "^0.32.4",
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
@@ -26,7 +24,6 @@
     "react-scripts": "2.1.2",
     "react-tabs": "^3.0.0",
     "react-tooltip": "^3.9.2",
-    "reactstrap": "^7.1.0",
     "redux": "^4.0.1",
     "redux-form": "^8.1.0",
     "redux-thunk": "^2.3.0"

@@ -108,7 +108,7 @@ class StateListItem extends Component<Props> {
             action={ this.buttons() }
           />
           <CardContent style={{padding: '2px', textAlign: 'center'}}>
-            <StateTodoCounter stateId={ this.props.state.id } numTodos={ this.props.state.todos.length }/>
+            <StateTodoCounter stateId={ this.props.state.id }/>
           </CardContent>
           <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
             <h6>{ this.props.state.name }</h6>

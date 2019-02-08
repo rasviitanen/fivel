@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import { InputGroup, InputGroupAddon, Button } from 'reactstrap';
+import Button from '@material-ui/core/Button';
 
 type Props = {
   handleSubmit: () => void,
@@ -19,7 +19,7 @@ class NewTodoForm extends Component {
 
     return (
       <form autoComplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
-          <InputGroup>
+          <div style={{ display: 'flex', flexDirection: 'row'}}>
             <Field 
               name="name"
               type="text"
@@ -27,12 +27,8 @@ class NewTodoForm extends Component {
               component="input"
               className="form-control"
             />
-
-          
-            <InputGroupAddon addonType="append">
-              <Button color="success" type="submit" disabled={submitting} style={{ marginBottom: '0px' }}>{submitting ? 'Adding...' : 'Add'}</Button>
-            </InputGroupAddon>
-          </InputGroup>
+            <Button type="submit" disabled={submitting} style={{ marginBottom: '0px' }}>{submitting ? 'Adding...' : 'Add'}</Button>
+          </div>
       </form>
     );
   }

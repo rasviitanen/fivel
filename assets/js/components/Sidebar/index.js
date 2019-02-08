@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     padding: '12px 6px',
-    width: '200px',
+    width: '250px',
     minHeight: '100vh',
     background: '#fff',
   },
@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
     ':focus': {
       textDecoration: 'none',
     },
+  },
+
+  smallerText: {
+    fontSize: '0.9em'
   },
 
   activeLink: {
@@ -112,7 +116,7 @@ class Sidebar extends Component<Props> {
       });
       return (
           <div key={alpha.id} style={{width: '100%'}}>
-          <div className="text-center">{alpha.name}</div>
+          <div className={css(styles.smallerText)}>{alpha.name}</div>
           <LinearProgress variant="determinate" value={normalise(completed, total)}/>
           </div>
         );
@@ -148,7 +152,7 @@ class Sidebar extends Component<Props> {
 
         <NavLink exact to="/">
           <MenuItem onClick={this.handleClose}>
-              <span><i className="fa fa-plus"/> New Project</span>
+              <span>New Project</span>
           </MenuItem>
         </NavLink>
       </Menu>

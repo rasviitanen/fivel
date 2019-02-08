@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { HashRouter, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { authenticate, unauthenticate } from '../../actions/session';
 import Home from '../Home';
@@ -39,8 +39,8 @@ class App extends Component {
     const authProps = { isAuthenticated, willAuthenticate };
 
     return (
-      <BrowserRouter>
-        <div style={{ display: 'flex', flex: '1', flexDirection: 'column', background: '#eee' }}>
+      <HashRouter>
+        <div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
 
           <Navbar />
           <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>
@@ -57,7 +57,7 @@ class App extends Component {
           </Switch>
           </div>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }

@@ -26,6 +26,9 @@ type Props = {
 class StateTodoCounter extends Component<Props> {
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props.stateId === nextProps.updatedStateId) {
+            console.log("updating");
+            console.log('state: ' + this.props.stateId);
+
             return true;
         }
         return false;

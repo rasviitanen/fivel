@@ -33,7 +33,7 @@ class LoginForm extends Component {
         onSubmit={handleSubmit(this.handleSubmit)}
       >
         <h3 style={{ marginBottom: '2rem', textAlign: 'center' }}>
-          <i className="fa fa-sign-in"></i> Fivel Essence
+          Fivel Essence
         </h3>
         <Field name="email" type="text" component={Input} placeholder="Email" />
         <Field name="password" type="password" component={Input} placeholder="Password" />

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
 import { fetchAlphas } from '../../actions/alphas';
 import AlphaListItem from '../../components/AlphaListItem'
-import { Spinner } from 'reactstrap';
 
 import { Alpha } from '../../types';
 
@@ -58,7 +57,7 @@ class Alphas extends Component<Props, State> {
   render() {
     return (
       <div style={{ flex: '1' }}>
-          { this.state.isLoading ? <i className="fa fa-spinner fa-spin" style={{padding: '48px', fontSize: '48px'}}/> : this.renderAlphas() }
+          { this.state.isLoading ? "Loading..." : this.renderAlphas() }
       </div>
     );
   }
