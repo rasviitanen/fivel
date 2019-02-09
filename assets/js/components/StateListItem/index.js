@@ -5,6 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import Checklist from '../Checklist';
 import { connect } from 'react-redux';
 
+import Collapse from '@material-ui/core/Collapse';
 import { State as EssenceState } from '../../types';
 import StateLargeView from '../StateLargeView';
 import StateTodoCounter from '../StateTodoCounter';
@@ -13,16 +14,17 @@ import StateTodoCounter from '../StateTodoCounter';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
-
 import Avatar from '@material-ui/core/Avatar';
 import {HelpOutline} from '@material-ui/icons';
 
-import { messageStateCompletionForAlpha } from '../../actions/alphas';
+import IconButton from '@material-ui/core/IconButton';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
+import { messageStateCompletionForAlpha, expandAlpha } from '../../actions/alphas';
 
 const styles = StyleSheet.create({
   cardNumber: {
-    background: '#6200EE',
+    background: '#ffc107',
   },
 
   card: {
@@ -34,11 +36,21 @@ const styles = StyleSheet.create({
   },
 
   completed: {
-    opacity: '0.6'
+    background: '#00e5ff',
   },
 
   focusedState: {
     boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)",
+  },
+
+  expand: {
+    transform: 'rotate(0deg)',
+    marginLeft: 'auto',
+    transition: '0.3s'
+  },
+
+  expandOpen: {
+    transform: 'rotate(180deg)',
   },
 });
 
@@ -47,11 +59,12 @@ type Props = {
   state: EssenceState,
   belongs_to_alpha_id: number,
   changedPatterns: Object,
+  expanded: boolean,
+  expandAlpha: () => void,
   messageStateCompletionForAlpha: () => void,
 }
 
 class StateListItem extends Component<Props> {
-
   completed() {
     var completed = 0;
     this.props.state.patterns.map((pattern) => {
@@ -96,7 +109,7 @@ class StateListItem extends Component<Props> {
 
   render() {
     return (
-      <Card className={css(styles.card, this.props.completed === this.props.state.patterns.length ? styles.completed : '')}>
+      <Card className={css(styles.card, this.completed() === this.props.state.patterns.length ? styles.completed : '')}>
           <CardHeader
             avatar={
               <Avatar aria-label="StateNumber" className={css(styles.cardNumber)}>
@@ -114,8 +127,17 @@ class StateListItem extends Component<Props> {
             <h6>{ this.props.state.name }</h6>
             { this.props.state.description }
           </ReactTooltip>
-
-          <Checklist patterns={this.props.state.patterns}/>
+          <IconButton
+            className={css(styles.expand, this.expanded ? styles.expandOpen : null)}
+            onClick={ () => this.props.expandAlpha(this.props.belongs_to_alpha_id, !this.props.expanded) }
+            aria-expanded={this.expanded}
+            aria-label="Show more"
+          >
+          <ExpandMoreIcon/>
+          </IconButton>
+          <Collapse in={this.props.expanded} timeout="auto" unmountOnExit>
+            <Checklist patterns={this.props.state.patterns}/>
+          </Collapse>
       </Card>
     );
   }
@@ -123,7 +145,7 @@ class StateListItem extends Component<Props> {
 
 export default connect(
   (state) => ({
-      changedPatterns: state.patterns.patterns
+      changedPatterns: state.patterns.patterns,
   }),
-  { messageStateCompletionForAlpha }
+  { messageStateCompletionForAlpha, expandAlpha }
 )(StateListItem);;

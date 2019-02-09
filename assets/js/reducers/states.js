@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
         case 'FETCH_STATES_SUCCESS':
             return {
                 ...state,
-                states: action.response.data.reverse(),
+                states: action.response.data,
             };
 
         case 'FETCH_COMMENTS_SUCCESS':

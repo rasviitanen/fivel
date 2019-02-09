@@ -1,6 +1,8 @@
 const initialState = {
     all: [],
-    stateCompletions: {} // Includes all states and their completions in a dict
+    stateCompletions: {}, // Includes all states and their completions in a dict
+    alphaId: null,
+    expand: false,
   };
   
 export default function (state = initialState, action) {
@@ -9,6 +11,13 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 all: action.response.data,
+            };
+
+        case 'TOGGLE_ALPHA_EXPANDED':
+            return {
+                ...state,
+                alphaId: action.alphaId,
+                expand: !action.expand,
             };
 
         case 'STATE_COMPLETION_CHANGED':

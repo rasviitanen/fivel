@@ -31,10 +31,6 @@ defmodule FivelWeb.Router do
     post "/sessions", SessionController, :create
     resources "/users", UserController, only: [:create]
 
-    resources "/essence_alphas", EssenceAlphaController, except: [:new, :edit]
-    resources "/essence_states", EssenceStateController, except: [:new, :edit]
-    post "/essence_alphas/:id/add", RoomController, :add_alpha
-        
     pipe_through :auth
         
     delete "/sessions", SessionController, :delete
@@ -48,16 +44,6 @@ defmodule FivelWeb.Router do
     post "/room/alphas/:id/states", EssenceAlphaController, :states
 
     post "/states/:id/todos", EssenceStateController, :todos
-    post "/states/:id/comments", EssenceStateController, :comments
-
-    post "/states/:id/add/todo", EssenceStateController, :create_todo
-    post "/states/:state_id/todos/:todo_id/delete", EssenceStateController, :delete_todo
-    post "/states/:state_id/todos/:todo_id/update", EssenceStateController, :update_todo
-
-
-    post "/patterns/:id/completed", PatternController, :setCompleted
-    post "/patterns/:id/uncompleted", PatternController, :setUncompleted
-    
-
+    post "/states/:id/comments", EssenceStateController, :comments  
   end
 end

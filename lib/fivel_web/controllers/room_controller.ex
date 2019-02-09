@@ -52,13 +52,13 @@ defmodule FivelWeb.RoomController do
         )
         Repo.insert(assoc_changeset)
         
-        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Way-of-Working", "description" => "The tailored set of practices and tools used by a team to guide and support their work."}})
-        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Team", "description" => " A group of people actively engaged in the development, maintenance, delivery, or support of a specific software system."}})
-        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Work", "description" => "Activity involving mental or physical effort done in order to achieve a result."}})
-        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Software System", "description" => "A system made up of software, hardware, and data that provides its primary value by the execution of the software."}})
-        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Requirements", "description" => "What the software system must do to address the opportunity and satisfy the stakeholders."}})
-        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Stakeholders", "description" => "The people, groups, or organizations who affect or are affected by a software system."}})
         add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Opportunity", "description" => "The set of circumstances that makes it appropriate to develop or change a software system."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Stakeholders", "description" => "The people, groups, or organizations who affect or are affected by a software system."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Requirements", "description" => "What the software system must do to address the opportunity and satisfy the stakeholders."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Software System", "description" => "A system made up of software, hardware, and data that provides its primary value by the execution of the software."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Work", "description" => "Activity involving mental or physical effort done in order to achieve a result."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Team", "description" => " A group of people actively engaged in the development, maintenance, delivery, or support of a specific software system."}})
+        add_kernel_alpha( %{"id" => room.id, "essence_alpha" => %{"name" => "Way-of-Working", "description" => "The tailored set of practices and tools used by a team to guide and support their work."}})
 
         conn
         |> put_status(:created)

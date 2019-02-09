@@ -19,3 +19,9 @@ export function messageStateCompletionForAlpha(alphaId, stateId, completed) {
       dispatch({ type: 'STATE_COMPLETION_CHANGED', alphaId, stateId, completed });
   };
 }
+
+export function expandAlpha(alphaId, expand) {
+  return (dispatch) => {
+      dispatch({ type: 'TOGGLE_ALPHA_EXPANDED', alphaId: alphaId, expand: expand});
+  };
+}

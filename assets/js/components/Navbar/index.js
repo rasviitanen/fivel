@@ -22,7 +22,8 @@ type Props = {
 const styles = StyleSheet.create({
   navbar: {
     flexGrow: '1',
-    margin: '0px'
+    margin: '0px',
+    background: '#d84315',
   },
 
   grow: {
