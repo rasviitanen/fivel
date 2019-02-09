@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
     fontSize: "14px"
   },
 
-
   completed: {
     color: '#fff',
     background: '#6200EE',
@@ -41,6 +40,14 @@ type Props = {
 }
 
 class ChecklistItem extends Component<Props> {
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.pattern.id === nextProps.pattern.id) {
+        return true;
+    }
+    return false;
+  }
+
   handleClick = (event: SyntheticEvent<HTMLElement>) => {    
     const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
     this.props.sendMessage(this.props.channel, "toggle_pattern_completion", pattern);
@@ -50,7 +57,7 @@ class ChecklistItem extends Component<Props> {
     const pattern = (this.props.changedPatterns[this.props.pattern.id]) ? this.props.changedPatterns[this.props.pattern.id] :  this.props.pattern;
 
     return (
-      <ListItem role={undefined} dense button onClick={ this.handleClick } className={css(pattern.completed ? styles.completed : styles.uncompleted)}>
+      <ListItem role={undefined} dense button onClick={ this.handleClick } className={css((pattern.completed) ? styles.completed : styles.uncompleted)}>
         <Checkbox
           checked={ pattern.completed }
           tabIndex={-1}

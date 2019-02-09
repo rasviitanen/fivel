@@ -8,7 +8,7 @@ export default function (state = initialState, action) {
         case 'FETCH_ALPHAS_SUCCESS':
             return {
                 ...state,
-                all: action.response.data.reverse(),
+                all: action.response.data,
             };
 
         case 'STATE_COMPLETION_CHANGED':
