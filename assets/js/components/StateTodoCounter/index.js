@@ -8,11 +8,19 @@ import {Label, LabelImportant, LabelOff} from '@material-ui/icons';
 
 
 const styles = StyleSheet.create({
-  chip: {
+  chipHighlight: {
       fontSize: '0.7em',
       margin: '2px',
-      height: '18px'
+      height: '18px',
+      background: "#ffc107"
   },
+  chipRegular: {
+    fontSize: '0.7em',
+    margin: '2px',
+    height: '18px',
+    background: "rgba(0,0,0,0)",
+    opacity: '0.4'
+},
 });
 
 type Props = {
@@ -35,9 +43,9 @@ class StateTodoCounter extends Component<Props> {
         const renderColor = (this.props.numTodos + this.props.numDoing == 0);
         return (
             <div>
-                <Chip classes={{ root: css(styles.chip)}} icon={<Label style={{ height: '0.6em' }}/>} color="primary" label={ this.props.numTodos } variant={!(renderColor) ? "default" : "outlined"}/>
-                <Chip classes={{ root: css(styles.chip)}} icon={<LabelImportant style={{ height: '0.6em' }}/>} color="primary" label={ this.props.numDoing } variant={!(renderColor) ? "default" : "outlined"}/>
-                <Chip classes={{ root: css(styles.chip)}} icon={<LabelOff style={{ height: '0.6em' }}/>} color="primary" label={ this.props.numDone } variant={!(renderColor) ? "default" : "outlined"}/>
+                <Chip classes={{ root: css(!renderColor ? styles.chipHighlight : styles.chipRegular)}} icon={<Label style={{ height: '0.6em' }}/>} label={ this.props.numTodos }/>
+                <Chip classes={{ root: css(!renderColor ? styles.chipHighlight : styles.chipRegular)}} icon={<LabelImportant style={{ height: '0.6em' }}/>} label={ this.props.numDoing }/>
+                <Chip classes={{ root: css(!renderColor ? styles.chipHighlight : styles.chipRegular)}} icon={<LabelOff style={{ height: '0.6em' }}/>} label={ this.props.numDone }/>
             </div>
         );
         }

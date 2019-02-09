@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 
   completed: {
-    background: '#00e5ff',
+    background: '#ccc',
   },
 
   focusedState: {
@@ -82,18 +82,13 @@ class StateListItem extends Component<Props> {
     return completed;
   }
 
-  title() {
-    return(
-      <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-        { this.props.state.name }
-      </div>
-    );
+  title(completed) {
+    return (<span>{ this.props.state.name }<HelpOutline style={{ height: '0.8em'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/></span>);
   }
   
   buttons() {
     return(
       <div style={{ display: "flex", flexDirection: "row", alignItems: 'center' }}>
-        <HelpOutline style={{ height: '0.8em'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/>
         <StateLargeView state={ this.props.state } setNumTodos={ () => this.setNumTodos.bind(this) }/>
       </div>
     );
@@ -101,22 +96,23 @@ class StateListItem extends Component<Props> {
 
   completion() {
     if (this.completed() === this.props.state.patterns.length) {
-      return "Completed"
+      return "COMPLETED"
     } else {
       return this.completed() + ' / ' + this.props.state.patterns.length
     }
   }
 
   render() {
+    const completed = this.completed() === this.props.state.patterns.length;
     return (
-      <Card className={css(styles.card, this.completed() === this.props.state.patterns.length ? styles.completed : '')}>
+      <Card className={css(styles.card, completed ? styles.completed : '')}>
           <CardHeader
             avatar={
               <Avatar aria-label="StateNumber" className={css(styles.cardNumber)}>
                 { this.props.id.toString() }
               </Avatar>
             }
-            title={ this.title() }
+            title={ this.title(completed) }
             subheader={ this.completion() }
             action={ this.buttons() }
           />
@@ -124,11 +120,10 @@ class StateListItem extends Component<Props> {
             <StateTodoCounter stateId={ this.props.state.id }/>
           </CardContent>
           <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-            <h6>{ this.props.state.name }</h6>
             { this.props.state.description }
           </ReactTooltip>
           <IconButton
-            className={css(styles.expand, this.expanded ? styles.expandOpen : null)}
+            className={css(styles.expand, this.props.expanded ? styles.expandOpen : null)}
             onClick={ () => this.props.expandAlpha(this.props.belongs_to_alpha_id, !this.props.expanded) }
             aria-expanded={this.expanded}
             aria-label="Show more"

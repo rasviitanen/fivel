@@ -99,9 +99,8 @@ class AlphaListItem extends Component<Props> {
                 <ExpandMoreIcon/>
                 </IconButton>
               </div>
-              <ReactTooltip id={ alpha.name } className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-                <p style={{ fontWeight: "bold" }}>{ alpha.name }</p>
-                <p>{ alpha.description }</p>
+              <ReactTooltip place="bottom" id={ alpha.name } className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
+                { alpha.description }
               </ReactTooltip>
         </div>
         <div className={css(styles.alphas)}>

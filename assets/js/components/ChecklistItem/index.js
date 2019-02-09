@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   },
 
   completed: {
-    color: '#fff',
-    background: '#6200EE',
+    color: '#333',
+    background: '#ccc',
     transition: '0.3s',
   },
 
