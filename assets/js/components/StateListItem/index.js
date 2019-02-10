@@ -36,17 +36,23 @@ const styles = StyleSheet.create({
   },
 
   completed: {
-    background: '#ccc',
+    backgroundImage: "url(images/confirmation.svg)",
+    backgroundPosition: "top center",
+    backgroundRepeat: "no-repeat",
+    opacity: '0.4',
+    backgroundSize: '70%'
   },
 
   focusedState: {
-    boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.5)",
+    boxShadow: "0px 5px 15px rgba(0, 0, 0, 0.6)",
   },
 
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
-    transition: '0.3s'
+    transition: '0.3s',
+    padding: '5px',
+    margin: '3px'
   },
 
   expandOpen: {
@@ -83,7 +89,7 @@ class StateListItem extends Component<Props> {
   }
 
   title(completed) {
-    return (<span>{ this.props.state.name }<HelpOutline style={{ height: '0.8em'}} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/></span>);
+    return (<span>{ this.props.state.name }<HelpOutline style={{ height: '0.8em' }} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/></span>);
   }
   
   buttons() {

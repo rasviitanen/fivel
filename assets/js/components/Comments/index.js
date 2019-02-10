@@ -4,16 +4,17 @@ import { css, StyleSheet } from 'aphrodite';
 import { connect } from 'react-redux';
 
 import { addComment, fetchComments } from '../../actions/states';
+import Card from '@material-ui/core/Card';
 
 const styles = StyleSheet.create({
   entity: {
-        background: "WhiteSmoke", 
         padding: '5px',
+        borderRadius: '6px',
         overflow: 'auto',
         width: '100%',
         height: '100%'
-        },  
-    });
+    },  
+});
 
 type Props = {
     stateId: number,
@@ -52,7 +53,7 @@ class Comments extends Component<Props> {
     }
 
     renderComments() {
-        return this.props.comments.map((comment) => {
+        return this.props.comments.sort(function(a, b) {return a.id - b.id}).map((comment) => {
             return (
                 <div key={ comment.id }>
                     <strong>{comment.user}:</strong> {comment.content}
@@ -67,10 +68,10 @@ class Comments extends Component<Props> {
 
     render() {
         return (
-            <div className={css(styles.entity)}>
+            <Card className={css(styles.entity)}>
                 { this.renderComments() } 
                 <div ref={this.messagesEnd}/>
-            </div>
+            </Card>
         );
     }
     }

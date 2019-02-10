@@ -40,10 +40,7 @@ class App extends Component {
 
     return (
       <HashRouter>
-        <div style={{ display: 'flex', flex: '1', flexDirection: 'column' }}>
-
-          <Navbar />
-          <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>
+        <div style={{ display: 'flex', flex: '1', flexDirection: 'row' }}>
           {isAuthenticated &&
                 <Sidebar
                 rooms={currentUserRooms}
@@ -55,7 +52,6 @@ class App extends Component {
             <RedirectAuthenticated path="/signup" component={Signup} {...authProps} />
             <MatchAuthenticated path="/r/:id" component={Project} {...authProps} />
           </Switch>
-          </div>
         </div>
       </HashRouter>
     );

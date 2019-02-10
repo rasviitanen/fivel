@@ -1,8 +1,10 @@
 // @flow
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { css, StyleSheet } from 'aphrodite';
+import { logout } from '../../actions/session';
 
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
@@ -16,7 +18,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     padding: '12px 6px',
-    width: '250px',
+    width: '200px',
+    minWidth: '200px',
+    maxWidth: '200px',
     minHeight: '100vh',
     background: '#fff',
   },
@@ -61,13 +65,23 @@ type Props = {
   currentRoom: Room,
   presentUsers: Array,
   alphas: Array,
-  completions: Object
+  completions: Object,
+
+  logout: () => void,
+  currentUser: Object,
+  isAuthenticated: boolean,
 }
 
 class Sidebar extends Component<Props> {
   state = {
     anchorEl: null,
   };
+
+  static contextTypes = {
+    router: PropTypes.object,
+  }
+
+  handleLogout = () => this.props.logout(this.context.router);
 
   handleClick = event => {
     this.setState({ anchorEl: event.currentTarget });
@@ -158,6 +172,9 @@ class Sidebar extends Component<Props> {
       </Menu>
       <hr />
       { this.renderRoomInfo() }
+      <Button color="inherit" onClick={this.handleLogout}>
+          Sign Out
+      </Button>
     </div>
     );
   }
@@ -169,5 +186,8 @@ export default connect(
     presentUsers: state.room.presentUsers,
     alphas: state.alphas.all,
     completions: state.alphas.stateCompletions,
+    isAuthenticated: state.session.isAuthenticated,
+    currentUser: state.session.currentUser,
   }),
+  { logout }
 )(Sidebar);

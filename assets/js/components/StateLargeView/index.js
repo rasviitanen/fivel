@@ -26,12 +26,17 @@ import {RemoveCircleOutline, ArrowDownward, ArrowUpward} from '@material-ui/icon
 
 const styles = StyleSheet.create({
   entity: {
-    background: "WhiteSmoke", 
     padding: '5px',
     overflow: 'auto',
     width: '100%',
-    height: '100%'
-  },  
+    height: '100%',
+  },
+  modal: {
+    backgroundImage: "url(images/confirmation.svg)",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: '850%'
+  }
 });
 
 type Props = {
@@ -160,8 +165,8 @@ class StateLargeView extends Component<Props, State> {
                     onClose={this.handleClose}
                     aria-labelledby="responsive-dialog-title"
                 >
-                    <DialogContent>
-                    <h6 id="responsive-dialog-title">{ this.props.state.name }</h6>                    
+                    <DialogContent className={css(styles.modal)}>
+                    <div style={{ fontWeight: '600' }} id="responsive-dialog-title">{ this.props.state.name }</div>                    
                     { this.props.state.description }
                     <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                         <div style={{ width: '55%', height: '70vh' }}>

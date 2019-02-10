@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
   },
 
   completed: {
-    color: '#333',
-    background: '#ccc',
+    color: '#fff',
+    background: "#3ACC6C",
     transition: '0.3s',
   },
 
@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
     background: '#fff',
     transition: '0.3s',
   },
+
+  completedText: {
+    color: '#fff',
+  }
 });
 
 type Props = {
@@ -61,10 +65,10 @@ class ChecklistItem extends Component<Props> {
         <Checkbox
           checked={ pattern.completed }
           tabIndex={-1}
-          className={css(pattern.completed ? styles.completed : styles.uncompleted)}
+          className={css(pattern.completed ? styles.completedText : null)}
           disableRipple
         />
-        <ListItemText classes={{ primary: css(pattern.completed ? styles.completed : styles.uncompleted)}}  primary={ pattern.name }/>
+        <ListItemText classes={{ primary: css(pattern.completed ? styles.completedText : null)}}  primary={ pattern.name }/>
         
         <HelpOutline style={{ height: '0.7em', margin: '3px' }} data-tip data-for={ pattern.name }/>
 

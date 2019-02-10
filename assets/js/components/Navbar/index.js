@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   navbar: {
     flexGrow: '1',
     margin: '0px',
+    background: '#ffc107',
   },
 
   grow: {
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
 
   link: {
     color: '#fff',
+    borderRadius: '5px',
     fontWeight: 'bold',
     fontSize: '18px',
     ':hover': {

@@ -19,7 +19,7 @@ class NewTodoForm extends Component {
 
     return (
       <form autoComplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
-          <div style={{ display: 'flex', flexDirection: 'row'}}>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <Field 
               name="name"
               type="text"
@@ -27,7 +27,7 @@ class NewTodoForm extends Component {
               component="input"
               className="form-control"
             />
-            <Button type="submit" disabled={submitting} style={{ marginBottom: '0px' }}>{submitting ? 'Adding...' : 'Add'}</Button>
+            <Button type="submit" disabled={submitting} style={{ height: '100%' }}>{submitting ? 'Adding...' : 'Add'}</Button>
           </div>
       </form>
     );
