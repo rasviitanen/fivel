@@ -6,12 +6,12 @@ import { connect } from 'react-redux';
 import Checklist from '../Checklist';
 import NewTodoForm from '../NewTodoForm';
 import Comments from '../Comments';
-import NewCommentForm from '../NewCommentForm';
 
 import { State as EssenceState } from '../../types';
 
 import { fetchTodos, addTodo, deleteTodo, changeTodo, addComment, fetchComments } from '../../actions/states';
 import { sendMessage } from '../../actions/room';
+
 import { OpenInNew } from '@material-ui/icons';
 
 import Card from '@material-ui/core/Card';
@@ -26,7 +26,6 @@ import {RemoveCircleOutline, ArrowDownward, ArrowUpward} from '@material-ui/icon
 
 const styles = StyleSheet.create({
   entity: {
-    padding: '5px',
     overflow: 'auto',
     width: '100%',
     height: '100%',
@@ -55,8 +54,6 @@ type State = {
     show: boolean,
 }
 
-
-
 class StateLargeView extends Component<Props, State> {
     constructor(props, context) {
         super(props, context);
@@ -80,12 +77,7 @@ class StateLargeView extends Component<Props, State> {
     
     handleClose = () => {
         this.setState({ open: false });
-    };    
-
-    componentDidMount() {
-        // To view the current todos and comments on the state cards
-        this.props.fetchTodos(this.props.state.id);
-    }
+    };
 
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props.state.id === nextProps.updatedStateId) {
@@ -147,7 +139,6 @@ class StateLargeView extends Component<Props, State> {
     };
 
     handleNewTodoSubmit = data => this.props.sendMessage(this.props.channel, "create_todo", {"state_id": this.props.state.id, "todo": data});
-    handleNewCommentSubmit = data => this.props.addComment(this.props.channel, {"state_id": this.props.state.id, "comment": data});
       
     scrollToBottom = () => {
         this.messagesEnd.current.scrollIntoView({ behavior: "smooth" });
@@ -180,22 +171,24 @@ class StateLargeView extends Component<Props, State> {
                             <div style={{ paddingBottom: '5px'}}>
                                 <Card style={{ marginTop: '5px'}}>
                                     <CardContent style={{padding: '2px'}}>
-                                        <p style={{ marginLeft: '5px'}}>To Do</p>                                                                                
+                                        <div style={{ marginLeft: '5px'}}>To Do</div>                                                                                
                                         { this.renderTodos() }
+                                        <div style={{ padding: '5px' }}>
+                                            <NewTodoForm onSubmit={ this.handleNewTodoSubmit }></NewTodoForm>
+                                        </div>
                                     </CardContent>
                                 </Card>
-                                <NewTodoForm onSubmit={ this.handleNewTodoSubmit }></NewTodoForm>
 
                                 <Card style={{ marginTop: '5px'}}>
                                     <CardContent style={{padding: '2px'}}>
-                                        <p style={{ marginLeft: '5px'}}>Doing</p>                                        
+                                        <div style={{ marginLeft: '5px'}}>Doing</div>                                        
                                         { this.renderDoing() }
                                     </CardContent>
                                 </Card>
                                 
                                 <Card style={{ marginTop: '5px'}}>
                                     <CardContent style={{padding: '2px'}}>
-                                        <p style={{ marginLeft: '5px'}}>Done</p>
+                                        <div style={{ marginLeft: '5px'}}>Done</div>
                                         { this.renderDone() }
                                     </CardContent>
                                 </Card>
@@ -205,7 +198,6 @@ class StateLargeView extends Component<Props, State> {
 
                         <div style={{ width: '44%', height: '70vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
                             <Comments stateId={this.props.state.id} />
-                            <NewCommentForm onSubmit={ this.handleNewCommentSubmit } style= {{ position: 'absolute', bottom: '0px' }}/>
                         </div>
                     </div>
                     </DialogContent>

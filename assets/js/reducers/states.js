@@ -11,7 +11,6 @@ const initialState = {
   
 export default function (state = initialState, action) {    
     switch (action.type) {
-
         case 'FETCH_STATES_SUCCESS':
             return {
                 ...state,
@@ -30,6 +29,9 @@ export default function (state = initialState, action) {
             var doing = 0;
             var done = 0;
 
+            console.log(action.response.data);
+            console.log(action.stateId);
+            
             action.response.data.map((todo) => {
                 if (todo.state === "todo") {
                     todos += 1;
@@ -39,6 +41,7 @@ export default function (state = initialState, action) {
                     done += 1;
                 }
             });
+            
             return {
                 ...state,
                 todos: action.response.data,

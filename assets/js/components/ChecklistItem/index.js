@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { css, StyleSheet } from 'aphrodite';
-import ReactTooltip from 'react-tooltip';
 
 import { Pattern } from '../../types';
 
@@ -13,11 +12,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import HelpOutline from '@material-ui/icons/HelpOutline';
-
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = StyleSheet.create({
   tooltip: {
-    fontSize: "14px"
+    fontSize: "1em",
   },
 
   completed: {
@@ -44,7 +43,6 @@ type Props = {
 }
 
 class ChecklistItem extends Component<Props> {
-
   shouldComponentUpdate(nextProps, nextState) {
     if (this.props.pattern.id === nextProps.pattern.id) {
         return true;
@@ -69,13 +67,9 @@ class ChecklistItem extends Component<Props> {
           disableRipple
         />
         <ListItemText classes={{ primary: css(pattern.completed ? styles.completedText : null)}}  primary={ pattern.name }/>
-        
-        <HelpOutline style={{ height: '0.7em', margin: '3px' }} data-tip data-for={ pattern.name }/>
-
-        <ReactTooltip id={ pattern.name }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-            <p style={{fontWeight: "bold"}}>{ pattern.name }</p>
-            <p>{ pattern.description }</p>
-        </ReactTooltip>
+        <Tooltip disableFocusListener title={ pattern.description }>
+          <HelpOutline style={{ height: '0.7em', margin: '3px' }}/>
+        </Tooltip>
       </ListItem>
     );
   }

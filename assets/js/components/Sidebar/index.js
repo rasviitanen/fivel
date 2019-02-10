@@ -9,9 +9,12 @@ import { logout } from '../../actions/session';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Chip from '@material-ui/core/Chip';
 
-import ReactTooltip from 'react-tooltip';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { ImportContactsTwoTone } from '@material-ui/icons';
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = StyleSheet.create({
   sidebar: {
@@ -22,7 +25,12 @@ const styles = StyleSheet.create({
     minWidth: '200px',
     maxWidth: '200px',
     minHeight: '100vh',
+    maxHeight: '100vh',
     background: '#fff',
+    position: "-webkit-sticky",
+    position: "sticky",
+    top: "0",
+    boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.3)",
   },
 
   link: {
@@ -97,8 +105,9 @@ class Sidebar extends Component<Props> {
 
     return this.props.presentUsers.map((user) =>
       <div key={user.id}>
-        <img src={"https://avatars.dicebear.com/v2/identicon/" + user.username + ".svg"} height="25px" style={{ marginRight: '5px'}} data-tip={user.username}></img>
-        <ReactTooltip/>
+        <Tooltip title={ user.username }>
+          <img src={"https://avatars.dicebear.com/v2/identicon/" + user.username + ".svg"} height="25px" style={{ marginRight: '5px'}}></img>
+        </Tooltip>
       </div>
     );
   }
@@ -147,7 +156,7 @@ class Sidebar extends Component<Props> {
           aria-haspopup="true"
           onClick={this.handleClick}
       >
-        Projects
+        Projects <ExpandMoreIcon/>
       </Button>
 
       <Menu
@@ -172,7 +181,18 @@ class Sidebar extends Component<Props> {
       </Menu>
       <hr />
       { this.renderRoomInfo() }
-      <Button color="inherit" onClick={this.handleLogout}>
+      <div style={{flex: '1'}}/>
+      <span style={{ fontSize: '0.7em', color: '#ccc'}}>We are constantly improving FIVEL Essence.
+      Help us out by voting for a feature you would love.</span>
+      <hr style={{ margin: '3px' }}/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Kanban board"/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Issue Tracker"/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Software Quality Tool"/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Team Collab Tools"/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Slack Integration"/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="History and Statistics"/>
+      <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Other Suggestion"/>      
+      <Button color="inherit" onClick={this.handleLogout} style={{}}>
           Sign Out
       </Button>
     </div>

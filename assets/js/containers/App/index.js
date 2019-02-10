@@ -10,7 +10,6 @@ import Project from '../Project'
 import MatchAuthenticated from '../../components/MatchAuthenticated';
 import RedirectAuthenticated from '../../components/RedirectAuthenticated';
 import Sidebar from '../../components/Sidebar';
-import Navbar from '../../components/Navbar';
 
 
 type Props = {

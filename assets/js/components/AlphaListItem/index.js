@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { expandAlpha } from '../../actions/alphas';
-
+import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = StyleSheet.create({
   container: {
@@ -88,8 +88,10 @@ class AlphaListItem extends Component<Props> {
       <div className={css(styles.container)}>
         <div key={alpha.id} className={css(styles.alpha)}>
               <div>
-                {alpha.name} 
-                <HelpOutline style={{height: '0.9em'}} data-tip data-for={ alpha.name }/>
+                {alpha.name}
+                <Tooltip title={ alpha.description }>
+                  <HelpOutline style={{height: '0.9em'}}/>
+                </Tooltip>
                 <IconButton
                   className={css(styles.expand, this.state.expanded ? styles.expandOpen : null)}
                   onClick={ () => this.props.expandAlpha(this.props.alpha.id, !this.state.expanded) }
@@ -99,9 +101,6 @@ class AlphaListItem extends Component<Props> {
                 <ExpandMoreIcon/>
                 </IconButton>
               </div>
-              <ReactTooltip place="bottom" id={ alpha.name } className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-                { alpha.description }
-              </ReactTooltip>
         </div>
         <div className={css(styles.alphas)}>
           { this.renderStates() }

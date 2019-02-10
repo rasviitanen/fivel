@@ -19,15 +19,16 @@ class NewTodoForm extends Component {
 
     return (
       <form autoComplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
-          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+          <div style={{ display: 'flex', flexDirection: 'row'}}>
             <Field 
               name="name"
               type="text"
               placeholder="Write a to do that helps you fulfill the checklist..."
               component="input"
               className="form-control"
+              style={{ marginBottom: '0px'}}
             />
-            <Button type="submit" disabled={submitting} style={{ height: '100%' }}>{submitting ? 'Adding...' : 'Add'}</Button>
+            <Button type="submit" disabled={submitting}>{submitting ? 'Adding...' : 'Add'}</Button>
           </div>
       </form>
     );

@@ -19,6 +19,7 @@ import {HelpOutline} from '@material-ui/icons';
 
 import IconButton from '@material-ui/core/IconButton';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { messageStateCompletionForAlpha, expandAlpha } from '../../actions/alphas';
 
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundPosition: "top center",
     backgroundRepeat: "no-repeat",
     opacity: '0.4',
-    backgroundSize: '70%'
+    backgroundSize: '60%'
   },
 
   focusedState: {
@@ -68,6 +69,7 @@ type Props = {
   expanded: boolean,
   expandAlpha: () => void,
   messageStateCompletionForAlpha: () => void,
+  updateInitTodos: () => void,
 }
 
 class StateListItem extends Component<Props> {
@@ -89,7 +91,7 @@ class StateListItem extends Component<Props> {
   }
 
   title(completed) {
-    return (<span>{ this.props.state.name }<HelpOutline style={{ height: '0.8em' }} data-tip data-for={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }/></span>);
+    return (<span>{ this.props.state.name }<Tooltip title={this.props.state.description}><HelpOutline style={{ height: '0.8em' }}/></Tooltip></span>);
   }
   
   buttons() {
@@ -123,11 +125,8 @@ class StateListItem extends Component<Props> {
             action={ this.buttons() }
           />
           <CardContent style={{padding: '2px', textAlign: 'center'}}>
-            <StateTodoCounter stateId={ this.props.state.id }/>
+            <StateTodoCounter state={this.props.state} stateId={ this.props.state.id }/>
           </CardContent>
-          <ReactTooltip id={ this.props.state.name + "-" + this.props.belongs_to_alpha_id }  className={css(styles.tooltip)} type="info" aria-haspopup='true' role='example'>
-            { this.props.state.description }
-          </ReactTooltip>
           <IconButton
             className={css(styles.expand, this.props.expanded ? styles.expandOpen : null)}
             onClick={ () => this.props.expandAlpha(this.props.belongs_to_alpha_id, !this.props.expanded) }

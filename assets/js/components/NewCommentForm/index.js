@@ -18,7 +18,7 @@ class NewCommentForm extends Component {
     const { handleSubmit, submitting } = this.props;
 
     return (
-      <form autoComplete="off" style={{ marginBottom: '0px' }} onSubmit={handleSubmit(this.handleSubmit)}>
+      <form autoComplete="off" onSubmit={handleSubmit(this.handleSubmit)} style={{ marginBottom: '0px'}}>
           <div style={{ display: 'flex', flexDirection: 'row'}}>
             <Field
               name="content"
@@ -27,6 +27,7 @@ class NewCommentForm extends Component {
               component="input"
               label="content"
               className="form-control"
+              style={{ marginBottom: '0px'}}
             />
             <Button type="submit" disabled={submitting}>{submitting ? 'Sending...' : 'Send'}</Button>
           </div>

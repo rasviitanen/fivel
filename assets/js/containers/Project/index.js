@@ -21,8 +21,6 @@ type Props = {
 }
 
 class Room extends Component {
-
-
   componentDidMount() {
     this.props.connectToChannel(this.props.socket, this.props.match.params.id);
   }

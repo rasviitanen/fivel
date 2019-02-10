@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import Chip from '@material-ui/core/Chip';
 import {Label, LabelImportant, LabelOff} from '@material-ui/icons';
 
-
 const styles = StyleSheet.create({
   chipHighlight: {
       fontSize: '0.7em',

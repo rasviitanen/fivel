@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { css, StyleSheet } from 'aphrodite';
 import { connect } from 'react-redux';
 
+import NewCommentForm from '../NewCommentForm';
+
 import { addComment, fetchComments } from '../../actions/states';
 import Card from '@material-ui/core/Card';
 
@@ -31,6 +33,8 @@ class Comments extends Component<Props> {
         this.scrollToBottom = this.scrollToBottom.bind(this);
         this.messagesEnd = React.createRef();
     }
+
+    handleNewCommentSubmit = data => this.props.addComment(this.props.channel, {"state_id": this.props.stateId, "comment": data});
 
     componentDidMount() {
         this.props.fetchComments(this.props.stateId);
@@ -68,9 +72,14 @@ class Comments extends Component<Props> {
 
     render() {
         return (
-            <Card className={css(styles.entity)}>
-                { this.renderComments() } 
-                <div ref={this.messagesEnd}/>
+            <Card style={{ height: '100%', display: 'flex', justifyContent: 'flex-end', flexDirection: 'column'}}>
+                <div className={css(styles.entity)}>
+                    { this.renderComments() } 
+                    <div ref={this.messagesEnd}/>
+                </div>
+                <div style={{ padding: '6px', background: '#eee' }}>
+                    <NewCommentForm onSubmit={ this.handleNewCommentSubmit }/>
+                </div>
             </Card>
         );
     }

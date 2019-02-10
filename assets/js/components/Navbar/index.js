@@ -21,7 +21,6 @@ type Props = {
 
 const styles = StyleSheet.create({
   navbar: {
-    flexGrow: '1',
     margin: '0px',
     background: '#ffc107',
   },
@@ -55,7 +54,7 @@ class NavBar extends Component<Props> {
     const { currentUser, isAuthenticated } = this.props;
 
       return (
-        <AppBar position="static" className={css(styles.navbar)}>
+        <AppBar position="sticky" className={css(styles.navbar)}>
           <Toolbar>
             <Link to="/" className={css(styles.link)}>FIVEL Essence</Link>
             <div className={css(styles.grow)} />

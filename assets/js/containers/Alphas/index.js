@@ -6,6 +6,9 @@ import { css, StyleSheet } from 'aphrodite';
 import { fetchAlphas } from '../../actions/alphas';
 import AlphaListItem from '../../components/AlphaListItem'
 
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
+
 import { Alpha } from '../../types';
 
 type Props = {
@@ -29,7 +32,7 @@ class Alphas extends Component<Props, State> {
 
   componentDidMount() {
     this.props.fetchAlphas(this.props.room_id);
-    setTimeout(() => this.setState({ isLoading: false }), 200);
+    setTimeout(() => this.setState({ isLoading: false }), 300);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -39,16 +42,16 @@ class Alphas extends Component<Props, State> {
     if (currentId !== nextId) {
       this.setState({ isLoading: true });
       this.props.fetchAlphas(nextId);
-      setTimeout(() => this.setState({ isLoading: false }), 200);
+      setTimeout(() => this.setState({ isLoading: false }), 300);
     }
   }
 
   renderAlphas() {
     return this.props.alphas.map((alpha) =>
-      <div key={ alpha.id } style={{ flex: '1' }}>
-        <AlphaListItem
-          alpha={alpha}
-        />
+      <div key={ alpha.id } style={{ flex: '1', display: (this.state.isLoading ? "none" : null) }}>
+          <AlphaListItem
+            alpha={alpha}
+          />
       </div>
       
     );
@@ -57,7 +60,8 @@ class Alphas extends Component<Props, State> {
   render() {
     return (
       <div style={{ flex: '1' }}>
-          { this.state.isLoading ? "Loading..." : this.renderAlphas() }
+          { this.state.isLoading ? <CircularProgress /> : null }
+          { this.renderAlphas() }
       </div>
     );
   }

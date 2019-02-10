@@ -25,3 +25,9 @@ export function expandAlpha(alphaId, expand) {
       dispatch({ type: 'TOGGLE_ALPHA_EXPANDED', alphaId: alphaId, expand: expand});
   };
 }
+
+export function updateInitTodos(stateId, todos) {
+  return (dispatch) => {
+    dispatch({ type: 'FETCH_TODOS_SUCCESS', response: {data: state.todos}, stateId: stateId });
+  };
+}
