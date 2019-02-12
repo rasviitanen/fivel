@@ -48,7 +48,7 @@ class Alphas extends Component<Props, State> {
 
   renderAlphas() {
     return this.props.alphas.map((alpha) =>
-      <div key={ alpha.id } style={{ flex: '1', display: (this.state.isLoading ? "none" : null) }}>
+        <div key={ alpha.id } style={{ flex: '1', display: (this.state.isLoading ? "none" : null) }}>
           <AlphaListItem
             alpha={alpha}
           />
@@ -60,7 +60,7 @@ class Alphas extends Component<Props, State> {
   render() {
     return (
       <div style={{ flex: '1' }}>
-          { this.state.isLoading ? <CircularProgress /> : null }
+          { this.state.isLoading ? <CircularProgress /> : <div style={{ margin: '10px', textAlign: 'center', fontSize: '0.7em', opacity: '0.4'}}>This project builds upon the SEMAT Essence standard, credit goes to SEMAT Inc. and others for the original creation. <a href="http://semat.org/">Visit the SEMAT Inc. website.</a></div> }
           { this.renderAlphas() }
       </div>
     );

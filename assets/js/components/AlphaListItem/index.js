@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import { Alpha } from '../../types';
 import { css, StyleSheet } from 'aphrodite';
-import ReactTooltip from 'react-tooltip';
 import StateListItem from '../StateListItem';
 import HelpOutline from '@material-ui/icons/HelpOutline';
 
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     color: 'grey',
     background: '#eee',
-    margin: '10px'
+    margin: '10px',
   },
 
   alphas: {

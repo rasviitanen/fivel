@@ -182,8 +182,7 @@ class Sidebar extends Component<Props> {
       <hr />
       { this.renderRoomInfo() }
       <div style={{flex: '1'}}/>
-      <span style={{ fontSize: '0.7em', color: '#ccc'}}>We are constantly improving FIVEL Essence.
-      Help us out by voting for a feature you would love.</span>
+      <span style={{ fontSize: '0.7em', color: '#ccc'}}>We are constantly improving Fivel. Help us out by voting for a feature you would love.</span>
       <hr style={{ margin: '3px' }}/>
       <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Kanban board"/>
       <Chip style={{ fontSize: '0.6em', margin: '3px', opacity: '0.4'}} label="Issue Tracker"/>
